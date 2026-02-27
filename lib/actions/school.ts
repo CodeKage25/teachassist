@@ -15,23 +15,26 @@ export async function createSchool(formData: FormData) {
   const location = formData.get('location') as string
   const contactEmail = formData.get('contact_email') as string
 
-  const { data: school, error } = await supabase
+  // Generate ID upfront so we don't need .select() on insert
+  // (avoids RLS race condition where school_id is still null during select)
+  const schoolId = crypto.randomUUID()
+
+  const { error } = await supabase
     .from('schools')
     .insert({
+      id: schoolId,
       name,
       location: location || null,
       contact_email: contactEmail || null,
       admin_id: user.id,
     })
-    .select()
-    .single()
 
   if (error) return { error: error.message }
 
   // Update user's school_id
   await supabase
     .from('users')
-    .update({ school_id: school.id })
+    .update({ school_id: schoolId })
     .eq('id', user.id)
 
   redirect('/admin')
