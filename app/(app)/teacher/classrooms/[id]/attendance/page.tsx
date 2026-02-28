@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { todayISO } from '@/lib/utils'
 import type { AttendanceStatus } from '@/types/database'
+import { AttendanceDatePicker } from '@/components/attendance/AttendanceDatePicker'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -58,23 +59,7 @@ export default async function AttendancePage({ params, searchParams }: Props) {
       <PageHeader
         title="Attendance"
         description={`${classroom.name} — ${date === today ? 'Today' : date}`}
-        action={
-          <form className="flex items-center gap-2">
-            <label className="text-sm text-muted-foreground">Date:</label>
-            <input
-              type="date"
-              name="date"
-              defaultValue={date}
-              max={today}
-              className="h-9 rounded-lg border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => {
-                const url = new URL(window.location.href)
-                url.searchParams.set('date', e.target.value)
-                window.location.href = url.toString()
-              }}
-            />
-          </form>
-        }
+        action={<AttendanceDatePicker date={date} today={today} />}
       />
 
       {students.length === 0 ? (
