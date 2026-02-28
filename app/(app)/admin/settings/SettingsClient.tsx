@@ -95,7 +95,7 @@ export function SettingsClient({ school }: Props) {
 
           <Button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700"
+            className="bg-blue-700 hover:bg-blue-800 cursor-pointer"
             disabled={loading}
           >
             {loading ? (

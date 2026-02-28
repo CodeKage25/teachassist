@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { getMessages } from '@/lib/queries/messages'
+import { getSchoolStaff } from '@/lib/queries/direct-messages'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { redirect } from 'next/navigation'
-import { MessagesClient } from '@/components/messages/MessagesClient'
+import { MessagesTabsClient } from '@/components/messages/MessagesTabsClient'
 
 export default async function AdminMessagesPage() {
   const supabase = await createClient()
@@ -13,20 +14,24 @@ export default async function AdminMessagesPage() {
     .from('users').select('school_id, full_name, role').eq('id', user.id).single()
   if (!profile?.school_id) redirect('/setup')
 
-  const messages = await getMessages(profile.school_id)
+  const [messages, staff] = await Promise.all([
+    getMessages(profile.school_id),
+    getSchoolStaff(profile.school_id),
+  ])
 
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)]">
       <PageHeader
         title="Staff Messages"
-        description="Communicate with teachers and staff in real-time"
+        description="Group channel and direct messages with your team"
       />
-      <MessagesClient
-        initialMessages={messages as any[]}
+      <MessagesTabsClient
+        initialMessages={messages}
         currentUserId={user.id}
         currentUserName={profile.full_name}
         currentUserRole={profile.role}
         schoolId={profile.school_id}
+        staff={staff}
       />
     </div>
   )

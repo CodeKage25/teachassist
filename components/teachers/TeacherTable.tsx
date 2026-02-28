@@ -78,7 +78,7 @@ export function TeacherTable({ teachers }: TeacherTableProps) {
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                      <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-semibold">
                         {getInitials(teacher.full_name)}
                       </AvatarFallback>
                     </Avatar>

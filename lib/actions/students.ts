@@ -26,16 +26,59 @@ export async function addStudent(formData: FormData) {
 
     const fullName = formData.get('full_name') as string
     const classroomId = formData.get('classroom_id') as string
+    const age = formData.get('age') ? Number(formData.get('age')) : null
+    const parentName = formData.get('parent_name') as string | null
+    const parentPhone = formData.get('parent_phone') as string | null
+    const bio = formData.get('bio') as string | null
 
     const { error } = await supabase.from('students').insert({
       full_name: fullName,
       school_id: schoolId,
       classroom_id: classroomId || null,
+      age: age || null,
+      parent_name: parentName || null,
+      parent_phone: parentPhone || null,
+      bio: bio || null,
     })
 
     if (error) return { error: error.message }
 
     revalidatePath('/admin/students')
+    return { success: true }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Unknown error' }
+  }
+}
+
+export async function addStudentAsTeacher(formData: FormData) {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error('Not authenticated')
+
+    const { data: profile } = await supabase
+      .from('users')
+      .select('school_id, role')
+      .eq('id', user.id)
+      .single()
+
+    if (profile?.role !== 'teacher') throw new Error('Unauthorized')
+    if (!profile.school_id) throw new Error('No school assigned')
+
+    const classroomId = formData.get('classroom_id') as string
+    const fullName = formData.get('full_name') as string
+    const age = formData.get('age') ? Number(formData.get('age')) : null
+
+    const { error } = await supabase.from('students').insert({
+      full_name: fullName,
+      school_id: profile.school_id,
+      classroom_id: classroomId,
+      age: age || null,
+    })
+
+    if (error) return { error: error.message }
+
+    revalidatePath(`/teacher/classrooms/${classroomId}`)
     return { success: true }
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Unknown error' }
@@ -58,6 +101,41 @@ export async function updateStudent(
 
     revalidatePath('/admin/students')
     return { success: true }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Unknown error' }
+  }
+}
+
+export async function uploadStudentPhoto(formData: FormData) {
+  try {
+    const { supabase, schoolId } = await getAdminContext()
+
+    const studentId = formData.get('student_id') as string
+    const file = formData.get('photo') as File
+    if (!file || file.size === 0) return { error: 'No file provided' }
+
+    const fileExt = file.name.split('.').pop()
+    const filePath = `${schoolId}/${studentId}.${fileExt}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('student-photos')
+      .upload(filePath, file, { upsert: true })
+
+    if (uploadError) return { error: uploadError.message }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('student-photos')
+      .getPublicUrl(filePath)
+
+    const { error } = await supabase
+      .from('students')
+      .update({ photo_url: publicUrl })
+      .eq('id', studentId)
+
+    if (error) return { error: error.message }
+
+    revalidatePath(`/admin/students/${studentId}`)
+    return { success: true, url: publicUrl }
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Unknown error' }
   }

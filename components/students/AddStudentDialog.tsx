@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectContent,
@@ -52,10 +53,10 @@ export function AddStudentDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-purple-600" />
+            <GraduationCap className="h-5 w-5 text-blue-700" />
             Add Student
           </DialogTitle>
           <DialogDescription>
@@ -65,7 +66,7 @@ export function AddStudentDialog({
 
         <form action={handleSubmit} className="space-y-4 pt-2">
           <div className="space-y-2">
-            <Label htmlFor="full_name">Full name</Label>
+            <Label htmlFor="full_name">Full name *</Label>
             <Input
               id="full_name"
               name="full_name"
@@ -75,28 +76,77 @@ export function AddStudentDialog({
             />
           </div>
 
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label htmlFor="age">Age <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+              <Input
+                id="age"
+                name="age"
+                type="number"
+                min={3}
+                max={25}
+                placeholder="e.g. 12"
+                className="h-10"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Classroom <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+              <Select value={classroomId} onValueChange={setClassroomId}>
+                <SelectTrigger className="h-10 cursor-pointer">
+                  <SelectValue placeholder="Select a classroom" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">No classroom</SelectItem>
+                  {classrooms.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-100 pt-3">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Parent / Guardian</p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="parent_name">Parent name <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+                <Input
+                  id="parent_name"
+                  name="parent_name"
+                  placeholder="Jane Doe"
+                  className="h-10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="parent_phone">Phone <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+                <Input
+                  id="parent_phone"
+                  name="parent_phone"
+                  type="tel"
+                  placeholder="+1 234 567 8900"
+                  className="h-10"
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-2">
-            <Label>Classroom (optional)</Label>
-            <Select value={classroomId} onValueChange={setClassroomId}>
-              <SelectTrigger className="h-10">
-                <SelectValue placeholder="Select a classroom" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">No classroom</SelectItem>
-                {classrooms.map((c) => (
-                  <SelectItem key={c.id} value={c.id}>
-                    {c.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label htmlFor="bio">Notes <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+            <Textarea
+              id="bio"
+              name="bio"
+              placeholder="Any additional notes about the student..."
+              className="resize-none h-16"
+            />
           </div>
 
           <div className="flex gap-3 pt-2">
             <Button
               type="button"
               variant="outline"
-              className="flex-1"
+              className="flex-1 cursor-pointer"
               onClick={() => onOpenChange(false)}
               disabled={loading}
             >
@@ -104,7 +154,7 @@ export function AddStudentDialog({
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-indigo-600 hover:bg-indigo-700"
+              className="flex-1 bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
               disabled={loading}
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Add Student'}

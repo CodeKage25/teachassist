@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
+import { generatePassword } from '@/lib/utils'
 
 async function getAdminContext() {
   const supabase = await createClient()
@@ -28,20 +29,23 @@ export async function inviteTeacher(formData: FormData) {
 
     const email = formData.get('email') as string
     const fullName = formData.get('full_name') as string
+    const password = generatePassword(12)
 
-    const { error } = await adminClient.auth.admin.inviteUserByEmail(email, {
-      data: {
+    const { error } = await adminClient.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
         full_name: fullName,
         role: 'teacher',
         school_id: schoolId,
       },
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=/teacher`,
     })
 
     if (error) return { error: error.message }
 
     revalidatePath('/admin/teachers')
-    return { success: true }
+    return { success: true, email, password }
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Unknown error' }
   }

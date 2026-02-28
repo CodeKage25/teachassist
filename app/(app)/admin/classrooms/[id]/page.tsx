@@ -55,7 +55,7 @@ export default async function ClassroomDetailPage({ params }: Props) {
             : 'No teacher assigned'
         }
         action={
-          <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 border-0">
+          <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-0">
             {students.length} student{students.length !== 1 ? 's' : ''}
           </Badge>
         }

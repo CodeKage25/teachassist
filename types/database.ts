@@ -96,6 +96,11 @@ export interface Database {
           full_name: string
           school_id: string
           classroom_id: string | null
+          age: number | null
+          photo_url: string | null
+          parent_name: string | null
+          parent_phone: string | null
+          bio: string | null
           created_at: string
         }
         Insert: {
@@ -103,6 +108,11 @@ export interface Database {
           full_name: string
           school_id: string
           classroom_id?: string | null
+          age?: number | null
+          photo_url?: string | null
+          parent_name?: string | null
+          parent_phone?: string | null
+          bio?: string | null
           created_at?: string
         }
         Update: {
@@ -110,6 +120,37 @@ export interface Database {
           full_name?: string
           school_id?: string
           classroom_id?: string | null
+          age?: number | null
+          photo_url?: string | null
+          parent_name?: string | null
+          parent_phone?: string | null
+          bio?: string | null
+          created_at?: string
+        }
+      }
+      direct_messages: {
+        Row: {
+          id: string
+          school_id: string
+          sender_id: string
+          recipient_id: string
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          school_id: string
+          sender_id: string
+          recipient_id: string
+          content: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          school_id?: string
+          sender_id?: string
+          recipient_id?: string
+          content?: string
           created_at?: string
         }
       }
@@ -190,6 +231,7 @@ export type Classroom = Database['public']['Tables']['classrooms']['Row']
 export type Student = Database['public']['Tables']['students']['Row']
 export type Attendance = Database['public']['Tables']['attendance']['Row']
 export type Message = Database['public']['Tables']['messages']['Row']
+export type DirectMessage = Database['public']['Tables']['direct_messages']['Row']
 
 // Extended types with joins
 export type ClassroomWithTeacher = Classroom & {
@@ -203,4 +245,8 @@ export type MessageWithSender = Message & {
 
 export type TeacherWithClassroom = UserProfile & {
   classroom: Pick<Classroom, 'id' | 'name'> | null
+}
+
+export type DirectMessageWithSender = DirectMessage & {
+  sender: Pick<UserProfile, 'id' | 'full_name' | 'role'>
 }

@@ -5,7 +5,6 @@ import { EmptyState } from '@/components/shared/EmptyState'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -15,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { ClipboardCheck, GraduationCap, ArrowLeft } from 'lucide-react'
+import { TeacherClassroomActions } from '@/components/teacher/TeacherClassroomActions'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -49,15 +49,18 @@ export default async function TeacherClassroomPage({ params }: Props) {
         title={classroom.name}
         description={`${students.length} student${students.length !== 1 ? 's' : ''} enrolled`}
         action={
-          <Button
-            className="bg-purple-600 hover:bg-purple-700"
-            asChild
-          >
-            <Link href={`/teacher/classrooms/${id}/attendance`}>
-              <ClipboardCheck className="h-4 w-4 mr-2" />
-              Take Attendance
-            </Link>
-          </Button>
+          <div className="flex items-center gap-3">
+            <TeacherClassroomActions classroomId={id} />
+            <Button
+              className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+              asChild
+            >
+              <Link href={`/teacher/classrooms/${id}/attendance`}>
+                <ClipboardCheck className="h-4 w-4 mr-2" />
+                Take Attendance
+              </Link>
+            </Button>
+          </div>
         }
       />
 
@@ -65,7 +68,7 @@ export default async function TeacherClassroomPage({ params }: Props) {
         <EmptyState
           icon={GraduationCap}
           title="No students yet"
-          description="Your administrator hasn't enrolled any students in this classroom yet."
+          description="Add students to this classroom or ask your administrator to enroll them."
         />
       ) : (
         <div className="bg-white rounded-2xl border border-border overflow-hidden">

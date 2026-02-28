@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { EmptyState } from '@/components/shared/EmptyState'
 import { AddStudentDialog } from '@/components/students/AddStudentDialog'
-import { deleteStudent, updateStudent } from '@/lib/actions/students'
+import { deleteStudent } from '@/lib/actions/students'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -24,8 +24,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
-import { GraduationCap, UserPlus, MoreHorizontal, Trash2 } from 'lucide-react'
+import { GraduationCap, UserPlus, MoreHorizontal, Trash2, Loader2, ExternalLink } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
+import Link from 'next/link'
 
 export default function StudentsPage() {
   const [students, setStudents] = useState<any[]>([])
@@ -86,7 +87,7 @@ export default function StudentsPage() {
         title="Students"
         description="Manage all enrolled students"
         action={
-          <Button className="bg-indigo-600 hover:bg-indigo-700" onClick={() => setDialogOpen(true)}>
+          <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
             <UserPlus className="h-4 w-4 mr-2" />
             Add Student
           </Button>
@@ -95,7 +96,7 @@ export default function StudentsPage() {
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+          <Loader2 className="w-8 h-8 text-blue-700 animate-spin" />
         </div>
       ) : students.length === 0 ? (
         <EmptyState
@@ -103,7 +104,7 @@ export default function StudentsPage() {
           title="No students yet"
           description="Add your first student and assign them to a classroom."
           action={
-            <Button className="bg-indigo-600 hover:bg-indigo-700" onClick={() => setDialogOpen(true)}>
+            <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
               <UserPlus className="h-4 w-4 mr-2" />
               Add First Student
             </Button>
@@ -123,10 +124,18 @@ export default function StudentsPage() {
             <TableBody>
               {students.map((student) => (
                 <TableRow key={student.id} className="hover:bg-slate-50/50">
-                  <TableCell className="font-medium text-sm">{student.full_name}</TableCell>
+                  <TableCell>
+                    <Link
+                      href={`/admin/students/${student.id}`}
+                      className="font-medium text-sm hover:text-blue-700 transition-colors flex items-center gap-1.5"
+                    >
+                      {student.full_name}
+                      <ExternalLink className="h-3 w-3 text-slate-400" />
+                    </Link>
+                  </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {student.classroom ? (
-                      <Badge variant="secondary" className="bg-purple-50 text-purple-700 border-0">
+                      <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-0">
                         {student.classroom.name}
                       </Badge>
                     ) : (
@@ -139,13 +148,19 @@ export default function StudentsPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
+                        <DropdownMenuItem asChild>
+                          <Link href={`/admin/students/${student.id}`} className="cursor-pointer">
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            View profile
+                          </Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem
-                          className="text-destructive focus:text-destructive"
+                          className="text-destructive focus:text-destructive cursor-pointer"
                           onClick={() => { setSelected(student); setConfirmOpen(true) }}
                         >
                           <Trash2 className="mr-2 h-4 w-4" />

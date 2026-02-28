@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/shared/EmptyState'
 import { TeacherTable } from '@/components/teachers/TeacherTable'
 import { AddTeacherDialog } from '@/components/teachers/AddTeacherDialog'
 import { Button } from '@/components/ui/button'
-import { Users, UserPlus } from 'lucide-react'
+import { Users, UserPlus, Loader2 } from 'lucide-react'
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState<any[]>([])
@@ -41,14 +41,8 @@ export default function TeachersPage() {
     setLoading(false)
   }
 
-  useEffect(() => {
-    loadTeachers()
-  }, [])
-
-  // Reload after dialog closes
-  useEffect(() => {
-    if (!dialogOpen) loadTeachers()
-  }, [dialogOpen])
+  useEffect(() => { loadTeachers() }, [])
+  useEffect(() => { if (!dialogOpen) loadTeachers() }, [dialogOpen])
 
   return (
     <div>
@@ -57,31 +51,31 @@ export default function TeachersPage() {
         description="Manage your school's teaching staff"
         action={
           <Button
-            className="bg-indigo-600 hover:bg-indigo-700"
+            className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
             onClick={() => setDialogOpen(true)}
           >
             <UserPlus className="h-4 w-4 mr-2" />
-            Invite Teacher
+            Add Teacher
           </Button>
         }
       />
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+          <Loader2 className="w-8 h-8 text-blue-700 animate-spin" />
         </div>
       ) : teachers.length === 0 ? (
         <EmptyState
           icon={Users}
           title="No teachers yet"
-          description="Invite your first teacher. They'll receive an email to set up their account."
+          description="Add your first teacher. Their login credentials will be created instantly."
           action={
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700"
+              className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
               onClick={() => setDialogOpen(true)}
             >
               <UserPlus className="h-4 w-4 mr-2" />
-              Invite First Teacher
+              Add First Teacher
             </Button>
           }
         />

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { recordAttendance } from '@/lib/actions/attendance'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { cn, todayISO } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Save, Loader2, CheckCircle2, XCircle, Clock } from 'lucide-react'
 import type { AttendanceStatus } from '@/types/database'
 
@@ -150,7 +150,7 @@ export function AttendanceSheet({
             >
               {/* Student info */}
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="w-7 h-7 rounded-full bg-purple-50 flex items-center justify-center text-xs font-bold text-purple-700 flex-shrink-0">
+                <div className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-xs font-bold text-blue-700 flex-shrink-0">
                   {String(i + 1).padStart(2, '0')}
                 </div>
                 <p className="font-medium text-sm truncate">{student.full_name}</p>
@@ -187,7 +187,7 @@ export function AttendanceSheet({
         <Button
           onClick={handleSave}
           disabled={saving || Object.keys(attendance).length === 0}
-          className="bg-purple-600 hover:bg-purple-700 px-6"
+          className="bg-blue-700 hover:bg-blue-800 px-6 cursor-pointer"
         >
           {saving ? (
             <Loader2 className="h-4 w-4 animate-spin" />

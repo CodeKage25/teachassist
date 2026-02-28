@@ -75,6 +75,44 @@ export async function getClassroomStudents(classroomId: string): Promise<Student
   return data ?? []
 }
 
+export async function getClassroomsWithCount(schoolId: string): Promise<(ClassroomWithTeacher & { studentCount: number })[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('classrooms')
+    .select('*')
+    .eq('school_id', schoolId)
+    .order('created_at', { ascending: false })
+
+  if (error || !data) return []
+
+  const teacherIds = data.map((c) => c.teacher_id).filter(Boolean) as string[]
+  const teacherMap: Record<string, { id: string; full_name: string }> = {}
+  if (teacherIds.length > 0) {
+    const { data: teachers } = await supabase
+      .from('users').select('id, full_name').in('id', teacherIds)
+    teachers?.forEach((t) => { teacherMap[t.id] = t })
+  }
+
+  const counts = await Promise.all(
+    data.map((c) =>
+      supabase
+        .from('students')
+        .select('*', { count: 'exact', head: true })
+        .eq('classroom_id', c.id)
+        .then(({ count }) => ({ id: c.id, count: count ?? 0 }))
+    )
+  )
+  const countMap: Record<string, number> = {}
+  counts.forEach((c) => { countMap[c.id] = c.count })
+
+  return data.map((c) => ({
+    ...c,
+    teacher: c.teacher_id ? (teacherMap[c.teacher_id] ?? null) : null,
+    studentCount: countMap[c.id] ?? 0,
+  }))
+}
+
 export async function getTeacherClassrooms(teacherId: string): Promise<ClassroomWithCount[]> {
   const supabase = await createClient()
 

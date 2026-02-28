@@ -29,7 +29,7 @@ type ClassroomRow = {
   name: string
   created_at: string
   teacher: { id: string; full_name: string } | null
-  student_count?: number
+  studentCount?: number
 }
 
 interface ClassroomTableProps {
@@ -70,6 +70,7 @@ export function ClassroomTable({ classrooms }: ClassroomTableProps) {
             <TableRow className="bg-slate-50/50">
               <TableHead className="font-semibold">Classroom</TableHead>
               <TableHead className="font-semibold hidden sm:table-cell">Teacher</TableHead>
+              <TableHead className="font-semibold hidden sm:table-cell">Students</TableHead>
               <TableHead className="font-semibold hidden md:table-cell">Created</TableHead>
               <TableHead className="w-10" />
             </TableRow>
@@ -80,19 +81,25 @@ export function ClassroomTable({ classrooms }: ClassroomTableProps) {
                 <TableCell>
                   <Link
                     href={`/admin/classrooms/${room.id}`}
-                    className="font-medium text-sm hover:text-indigo-600 transition-colors"
+                    className="font-medium text-sm hover:text-blue-700 transition-colors"
                   >
                     {room.name}
                   </Link>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">
                   {room.teacher ? (
-                    <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 border-0">
+                    <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-0">
                       {room.teacher.full_name}
                     </Badge>
                   ) : (
                     <span className="text-sm text-muted-foreground">No teacher</span>
                   )}
+                </TableCell>
+                <TableCell className="hidden sm:table-cell">
+                  <span className="inline-flex items-center gap-1 text-sm text-slate-700">
+                    <Users className="h-3.5 w-3.5 text-slate-400" />
+                    {room.studentCount ?? 0}
+                  </span>
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground hidden md:table-cell">
                   {formatDate(room.created_at)}
@@ -100,19 +107,19 @@ export function ClassroomTable({ classrooms }: ClassroomTableProps) {
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer">
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild>
-                        <Link href={`/admin/classrooms/${room.id}`}>
+                        <Link href={`/admin/classrooms/${room.id}`} className="cursor-pointer">
                           <Users className="mr-2 h-4 w-4" />
                           View details
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        className="text-destructive focus:text-destructive"
+                        className="text-destructive focus:text-destructive cursor-pointer"
                         onClick={() => {
                           setSelected(room)
                           setConfirmOpen(true)

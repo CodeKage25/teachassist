@@ -66,7 +66,7 @@ export default async function AttendancePage({ params, searchParams }: Props) {
               name="date"
               defaultValue={date}
               max={today}
-              className="h-9 rounded-lg border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="h-9 rounded-lg border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               onChange={(e) => {
                 const url = new URL(window.location.href)
                 url.searchParams.set('date', e.target.value)

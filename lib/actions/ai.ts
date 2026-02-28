@@ -12,12 +12,6 @@ const openai = new OpenAI({
 // Attendance Insights
 // ─────────────────────────────────────────────────────────────
 
-interface AttendanceRecord {
-  student_name: string
-  date: string
-  status: AttendanceStatus
-}
-
 export async function getAttendanceInsights(
   schoolId: string,
   classroomName?: string
@@ -140,18 +134,23 @@ interface LessonPlanInput {
   gradeLevel: string
   duration: string
   objectives?: string
+  schemeContent?: string
 }
 
 export async function generateLessonPlan(
   input: LessonPlanInput
 ): Promise<{ plan: string; error?: string }> {
+  const schemeSection = input.schemeContent
+    ? `\n\nSCHEME OF WORK (use this for curriculum alignment):\n${input.schemeContent.slice(0, 3000)}`
+    : ''
+
   const prompt = `You are an expert curriculum designer and educator. Create a detailed, practical lesson plan based on the following:
 
 Subject: ${input.subject}
 Topic: ${input.topic}
 Grade Level: ${input.gradeLevel}
 Duration: ${input.duration}
-${input.objectives ? `Learning Objectives: ${input.objectives}` : ''}
+${input.objectives ? `Learning Objectives: ${input.objectives}` : ''}${schemeSection}
 
 Generate a complete lesson plan with these sections:
 1. **Learning Objectives** (3-4 clear, measurable goals)

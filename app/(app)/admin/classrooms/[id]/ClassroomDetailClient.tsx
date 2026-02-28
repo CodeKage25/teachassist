@@ -74,7 +74,7 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
       {/* Assign Teacher */}
       <div className="bg-white rounded-2xl border border-border p-6">
         <h2 className="font-bold mb-4 flex items-center gap-2">
-          <Users className="h-4 w-4 text-indigo-600" />
+          <Users className="h-4 w-4 text-blue-700" />
           Assign Teacher
         </h2>
         <div className="flex gap-3 flex-wrap">
@@ -94,7 +94,7 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
           <Button
             onClick={handleAssignTeacher}
             disabled={savingTeacher}
-            className="bg-indigo-600 hover:bg-indigo-700 h-10"
+            className="bg-blue-700 hover:bg-blue-800 cursor-pointer h-10"
           >
             {savingTeacher ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Save'}
           </Button>
@@ -105,12 +105,12 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
       <div className="bg-white rounded-2xl border border-border overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <h2 className="font-bold flex items-center gap-2">
-            <GraduationCap className="h-4 w-4 text-purple-600" />
+            <GraduationCap className="h-4 w-4 text-blue-700" />
             Students ({students.length})
           </h2>
           <Button
             size="sm"
-            className="bg-indigo-600 hover:bg-indigo-700"
+            className="bg-blue-700 hover:bg-blue-800 cursor-pointer"
             onClick={() => setAddStudentOpen(true)}
           >
             <UserPlus className="h-3.5 w-3.5 mr-1.5" />
@@ -173,7 +173,7 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700"
+                className="flex-1 bg-blue-700 hover:bg-blue-800 cursor-pointer"
                 disabled={addingStudent}
               >
                 {addingStudent ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Add Student'}

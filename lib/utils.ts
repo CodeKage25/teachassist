@@ -43,3 +43,10 @@ export function getInitials(name: string): string {
 export function todayISO(): string {
   return new Date().toISOString().split('T')[0]
 }
+
+export function generatePassword(length = 12): string {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$'
+  return Array.from(crypto.getRandomValues(new Uint8Array(length)))
+    .map((b) => chars[b % chars.length])
+    .join('')
+}
