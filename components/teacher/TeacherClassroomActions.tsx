@@ -2,14 +2,15 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { AddStudentAsTeacherDialog } from '@/components/students/AddStudentAsTeacherDialog'
+import { EnrollStudentDialog } from '@/components/teacher/EnrollStudentDialog'
 import { UserPlus } from 'lucide-react'
 
 interface TeacherClassroomActionsProps {
   classroomId: string
+  classroomName: string
 }
 
-export function TeacherClassroomActions({ classroomId }: TeacherClassroomActionsProps) {
+export function TeacherClassroomActions({ classroomId, classroomName }: TeacherClassroomActionsProps) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -22,10 +23,11 @@ export function TeacherClassroomActions({ classroomId }: TeacherClassroomActions
         <UserPlus className="h-4 w-4 mr-2" />
         Add Student
       </Button>
-      <AddStudentAsTeacherDialog
+      <EnrollStudentDialog
         open={open}
         onOpenChange={setOpen}
-        classroomId={classroomId}
+        classrooms={[{ id: classroomId, name: classroomName }]}
+        defaultClassroomId={classroomId}
       />
     </>
   )

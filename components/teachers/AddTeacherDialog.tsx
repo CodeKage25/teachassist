@@ -67,7 +67,7 @@ export function AddTeacherDialog({ open, onOpenChange }: AddTeacherDialogProps) 
               Teacher account created
             </DialogTitle>
             <DialogDescription>
-              Share these login credentials with the teacher. The password cannot be retrieved later.
+              Login credentials have been sent to the teacher&apos;s email. You can also share them manually below — the password cannot be retrieved later.
             </DialogDescription>
           </DialogHeader>
 

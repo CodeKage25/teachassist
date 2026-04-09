@@ -68,12 +68,18 @@ export async function addStudentAsTeacher(formData: FormData) {
     const classroomId = formData.get('classroom_id') as string
     const fullName = formData.get('full_name') as string
     const age = formData.get('age') ? Number(formData.get('age')) : null
+    const parentName = formData.get('parent_name') as string | null
+    const parentPhone = formData.get('parent_phone') as string | null
+    const bio = formData.get('bio') as string | null
 
     const { error } = await supabase.from('students').insert({
       full_name: fullName,
       school_id: profile.school_id,
       classroom_id: classroomId,
       age: age || null,
+      parent_name: parentName || null,
+      parent_phone: parentPhone || null,
+      bio: bio || null,
     })
 
     if (error) return { error: error.message }

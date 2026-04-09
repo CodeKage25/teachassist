@@ -12,6 +12,9 @@ import {
   School,
   LogOut,
   MessageSquare,
+  GraduationCap,
+  Sparkles,
+  ClipboardCheck,
 } from 'lucide-react'
 import type { UserProfile, School as SchoolType } from '@/types/database'
 
@@ -23,6 +26,9 @@ interface TeacherSidebarProps {
 const navItems = [
   { label: 'My Classes', href: '/teacher', icon: LayoutDashboard, exact: true },
   { label: 'Classrooms', href: '/teacher/classrooms', icon: School, exact: false },
+  { label: 'My Students', href: '/teacher/students', icon: GraduationCap, exact: false },
+  { label: 'Attendance', href: '/teacher/attendance', icon: ClipboardCheck, exact: false },
+  { label: 'Lesson Plans', href: '/teacher/lesson-plan', icon: Sparkles, exact: false },
   { label: 'Messages', href: '/teacher/messages', icon: MessageSquare, exact: false },
 ]
 

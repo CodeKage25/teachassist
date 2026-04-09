@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { generatePassword } from '@/lib/utils'
+import { sendTeacherWelcomeEmail } from '@/lib/email'
 
 async function getAdminContext() {
   const supabase = await createClient()
@@ -24,7 +25,7 @@ async function getAdminContext() {
 
 export async function inviteTeacher(formData: FormData) {
   try {
-    const { schoolId } = await getAdminContext()
+    const { supabase, schoolId } = await getAdminContext()
     const adminClient = createAdminClient()
 
     const email = formData.get('email') as string
@@ -43,6 +44,24 @@ export async function inviteTeacher(formData: FormData) {
     })
 
     if (error) return { error: error.message }
+
+    // Fetch school name for the email
+    const { data: school } = await supabase
+      .from('schools')
+      .select('name')
+      .eq('id', schoolId)
+      .single()
+
+    const loginUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'}/login`
+
+    await sendTeacherWelcomeEmail({
+      to: email,
+      teacherName: fullName,
+      schoolName: school?.name ?? 'Your School',
+      email,
+      password,
+      loginUrl,
+    })
 
     revalidatePath('/admin/teachers')
     return { success: true, email, password }

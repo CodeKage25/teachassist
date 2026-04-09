@@ -23,6 +23,7 @@ export default async function AdminLayout({
     .single()
 
   if (!profile) redirect('/login')
+  if (profile.role !== 'admin') redirect('/teacher')
 
   const school = await getSchool()
   const sidebar = <AdminSidebar user={profile} school={school} />

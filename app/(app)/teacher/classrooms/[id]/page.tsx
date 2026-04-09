@@ -50,7 +50,7 @@ export default async function TeacherClassroomPage({ params }: Props) {
         description={`${students.length} student${students.length !== 1 ? 's' : ''} enrolled`}
         action={
           <div className="flex items-center gap-3">
-            <TeacherClassroomActions classroomId={id} />
+            <TeacherClassroomActions classroomId={id} classroomName={classroom.name} />
             <Button
               className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
               asChild
