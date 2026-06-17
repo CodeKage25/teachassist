@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { sendDirectMessage } from '@/lib/actions/direct-messages'
 import { getInitials, formatTime } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Send, Loader2, MessageSquare } from 'lucide-react'
 import { toast } from 'sonner'
-import type { DirectMessageWithSender, UserProfile } from '@/types/database'
+import type { DirectMessageWithSender } from '@/types/database'
 
 interface StaffMember {
   id: string
@@ -24,8 +24,6 @@ interface DirectMessagesClientProps {
 
 export function DirectMessagesClient({
   currentUserId,
-  currentUserName,
-  schoolId,
   staff,
 }: DirectMessagesClientProps) {
   const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null)
@@ -34,11 +32,11 @@ export function DirectMessagesClient({
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   const otherStaff = staff.filter((s) => s.id !== currentUserId)
 
-  async function loadMessages(recipientId: string) {
+  const loadMessages = useCallback(async (recipientId: string) => {
     setLoading(true)
     const { data } = await supabase
       .from('direct_messages')
@@ -49,11 +47,15 @@ export function DirectMessagesClient({
       .order('created_at', { ascending: true })
     setMessages((data ?? []) as DirectMessageWithSender[])
     setLoading(false)
+  }, [currentUserId, supabase])
+
+  async function handleSelectStaff(member: StaffMember) {
+    setSelectedStaff(member)
+    await loadMessages(member.id)
   }
 
   useEffect(() => {
     if (!selectedStaff) return
-    loadMessages(selectedStaff.id)
 
     const channel = supabase
       .channel(`dm_${[currentUserId, selectedStaff.id].sort().join('_')}`)
@@ -64,7 +66,7 @@ export function DirectMessagesClient({
           schema: 'public',
           table: 'direct_messages',
         },
-        (payload: any) => {
+        (payload) => {
           const msg = payload.new as DirectMessageWithSender
           const isRelevant =
             (msg.sender_id === currentUserId && msg.recipient_id === selectedStaff.id) ||
@@ -79,7 +81,7 @@ export function DirectMessagesClient({
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [selectedStaff?.id])
+  }, [currentUserId, selectedStaff, supabase])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -114,7 +116,7 @@ export function DirectMessagesClient({
             otherStaff.map((member) => (
               <button
                 key={member.id}
-                onClick={() => setSelectedStaff(member)}
+                onClick={() => void handleSelectStaff(member)}
                 className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors cursor-pointer ${
                   selectedStaff?.id === member.id ? 'bg-blue-50 border-r-2 border-blue-700' : ''
                 }`}

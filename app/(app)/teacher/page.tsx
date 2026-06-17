@@ -36,9 +36,7 @@ export default async function TeacherOverviewPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {classrooms.map((room) => {
-            const studentCount = Array.isArray((room as any).students)
-              ? (room as any).students[0]?.count ?? 0
-              : 0
+            const studentCount = room.students[0]?.count ?? 0
 
             return (
               <Link

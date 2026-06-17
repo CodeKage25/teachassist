@@ -45,7 +45,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Public routes
-  const publicPaths = ['/', '/login', '/signup']
+  const publicPaths = ['/', '/login', '/signup', '/forgot-password']
   const isPublic = publicPaths.includes(path)
 
   if (!user) {

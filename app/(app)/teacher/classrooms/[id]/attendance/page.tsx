@@ -29,6 +29,7 @@ export default async function AttendancePage({ params, searchParams }: Props) {
   ])
 
   if (!classroom) notFound()
+  if (classroom.teacher_id !== user.id) notFound()
 
   // Fetch existing attendance for selected date
   const { data: existingAttendance } = await supabase

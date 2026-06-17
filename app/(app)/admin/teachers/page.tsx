@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { EmptyState } from '@/components/shared/EmptyState'
@@ -8,16 +8,20 @@ import { TeacherTable } from '@/components/teachers/TeacherTable'
 import { AddTeacherDialog } from '@/components/teachers/AddTeacherDialog'
 import { Button } from '@/components/ui/button'
 import { Users, UserPlus, Loader2 } from 'lucide-react'
+import type { TeacherWithClassroom } from '@/types/database'
 
 export default function TeachersPage() {
-  const [teachers, setTeachers] = useState<any[]>([])
+  const [teachers, setTeachers] = useState<TeacherWithClassroom[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  async function loadTeachers() {
+  const loadTeachers = useCallback(async () => {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
 
     const { data: profile } = await supabase
       .from('users')
@@ -25,7 +29,11 @@ export default function TeachersPage() {
       .eq('id', user.id)
       .single()
 
-    if (!profile?.school_id) return
+    if (!profile?.school_id) {
+      setTeachers([])
+      setLoading(false)
+      return
+    }
 
     const { data } = await supabase
       .from('users')
@@ -37,12 +45,20 @@ export default function TeachersPage() {
       .eq('role', 'teacher')
       .order('created_at', { ascending: false })
 
-    setTeachers(data ?? [])
+    setTeachers((data ?? []) as unknown as TeacherWithClassroom[])
     setLoading(false)
-  }
+  }, [])
 
-  useEffect(() => { loadTeachers() }, [])
-  useEffect(() => { if (!dialogOpen) loadTeachers() }, [dialogOpen])
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadTeachers()
+    })
+  }, [loadTeachers])
+
+  function handleDialogOpenChange(open: boolean) {
+    setDialogOpen(open)
+    if (!open) void loadTeachers()
+  }
 
   return (
     <div>
@@ -83,7 +99,7 @@ export default function TeachersPage() {
         <TeacherTable teachers={teachers} />
       )}
 
-      <AddTeacherDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      <AddTeacherDialog open={dialogOpen} onOpenChange={handleDialogOpenChange} />
     </div>
   )
 }

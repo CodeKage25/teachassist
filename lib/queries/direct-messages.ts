@@ -28,8 +28,8 @@ export async function getDirectMessages(
     .order('created_at', { ascending: true })
 
   // Filter to only the conversation between current user and recipient
-  const messages = (data ?? []).filter(
-    (m: any) =>
+  const messages = ((data ?? []) as DirectMessageWithSender[]).filter(
+    (m) =>
       (m.sender_id === user.id && m.recipient_id === recipientId) ||
       (m.sender_id === recipientId && m.recipient_id === user.id)
   )

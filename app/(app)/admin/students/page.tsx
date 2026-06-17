@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { EmptyState } from '@/components/shared/EmptyState'
@@ -27,24 +27,37 @@ import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
 import { GraduationCap, UserPlus, MoreHorizontal, Trash2, Loader2, ExternalLink } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import Link from 'next/link'
+import type { Classroom, Student } from '@/types/database'
+
+type StudentListRow = Student & {
+  classroom: Pick<Classroom, 'id' | 'name'> | null
+}
 
 export default function StudentsPage() {
-  const [students, setStudents] = useState<any[]>([])
-  const [classrooms, setClassrooms] = useState<any[]>([])
+  const [students, setStudents] = useState<StudentListRow[]>([])
+  const [classrooms, setClassrooms] = useState<Pick<Classroom, 'id' | 'name'>[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
-  const [selected, setSelected] = useState<any | null>(null)
+  const [selected, setSelected] = useState<StudentListRow | null>(null)
   const [deleting, setDeleting] = useState(false)
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
 
     const { data: profile } = await supabase
       .from('users').select('school_id').eq('id', user.id).single()
-    if (!profile?.school_id) return
+    if (!profile?.school_id) {
+      setStudents([])
+      setClassrooms([])
+      setLoading(false)
+      return
+    }
 
     const [studentsRes, classroomsRes] = await Promise.all([
       supabase
@@ -59,13 +72,21 @@ export default function StudentsPage() {
         .order('name'),
     ])
 
-    setStudents(studentsRes.data ?? [])
-    setClassrooms(classroomsRes.data ?? [])
+    setStudents((studentsRes.data ?? []) as unknown as StudentListRow[])
+    setClassrooms((classroomsRes.data ?? []) as Pick<Classroom, 'id' | 'name'>[])
     setLoading(false)
-  }
+  }, [])
 
-  useEffect(() => { loadData() }, [])
-  useEffect(() => { if (!dialogOpen) loadData() }, [dialogOpen])
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadData()
+    })
+  }, [loadData])
+
+  function handleDialogOpenChange(open: boolean) {
+    setDialogOpen(open)
+    if (!open) void loadData()
+  }
 
   async function handleDelete() {
     if (!selected) return
@@ -178,7 +199,7 @@ export default function StudentsPage() {
 
       <AddStudentDialog
         open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        onOpenChange={handleDialogOpenChange}
         classrooms={classrooms}
       />
 

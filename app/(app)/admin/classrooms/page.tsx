@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { EmptyState } from '@/components/shared/EmptyState'
@@ -8,16 +8,29 @@ import { ClassroomTable } from '@/components/classrooms/ClassroomTable'
 import { CreateClassroomDialog } from '@/components/classrooms/CreateClassroomDialog'
 import { Button } from '@/components/ui/button'
 import { School, Plus, Loader2 } from 'lucide-react'
+import type { Classroom, UserProfile } from '@/types/database'
+
+type ClassroomQueryRow = Classroom & {
+  teacher: Pick<UserProfile, 'id' | 'full_name'> | null
+  students?: { count: number }[] | null
+}
+
+type ClassroomListRow = ClassroomQueryRow & {
+  studentCount: number
+}
 
 export default function ClassroomsPage() {
-  const [classrooms, setClassrooms] = useState<any[]>([])
+  const [classrooms, setClassrooms] = useState<ClassroomListRow[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  async function loadClassrooms() {
+  const loadClassrooms = useCallback(async () => {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
 
     const { data: profile } = await supabase
       .from('users')
@@ -25,7 +38,11 @@ export default function ClassroomsPage() {
       .eq('id', user.id)
       .single()
 
-    if (!profile?.school_id) return
+    if (!profile?.school_id) {
+      setClassrooms([])
+      setLoading(false)
+      return
+    }
 
     const { data } = await supabase
       .from('classrooms')
@@ -37,17 +54,26 @@ export default function ClassroomsPage() {
       .eq('school_id', profile.school_id)
       .order('created_at', { ascending: false })
 
-    const mapped = (data ?? []).map((c: any) => ({
+    const rows = (data ?? []) as unknown as ClassroomQueryRow[]
+    const mapped = rows.map((c) => ({
       ...c,
       studentCount: c.students?.[0]?.count ?? 0,
     }))
 
     setClassrooms(mapped)
     setLoading(false)
-  }
+  }, [])
 
-  useEffect(() => { loadClassrooms() }, [])
-  useEffect(() => { if (!dialogOpen) loadClassrooms() }, [dialogOpen])
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadClassrooms()
+    })
+  }, [loadClassrooms])
+
+  function handleDialogOpenChange(open: boolean) {
+    setDialogOpen(open)
+    if (!open) void loadClassrooms()
+  }
 
   return (
     <div>
@@ -85,7 +111,7 @@ export default function ClassroomsPage() {
         <ClassroomTable classrooms={classrooms} />
       )}
 
-      <CreateClassroomDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      <CreateClassroomDialog open={dialogOpen} onOpenChange={handleDialogOpenChange} />
     </div>
   )
 }

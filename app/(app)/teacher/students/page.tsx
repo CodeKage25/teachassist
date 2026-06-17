@@ -7,6 +7,11 @@ import Link from 'next/link'
 import { GraduationCap, User, Phone, School } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { TeacherEnrollStudentButton } from '@/components/teacher/TeacherEnrollStudentButton'
+import type { Classroom, Student } from '@/types/database'
+
+type StudentWithClassroom = Student & {
+  classroom: Pick<Classroom, 'id' | 'name'> | null
+}
 
 export default async function TeacherStudentsPage() {
   const supabase = await createClient()
@@ -39,7 +44,7 @@ export default async function TeacherStudentsPage() {
     .in('classroom_id', classroomIds)
     .order('full_name', { ascending: true })
 
-  const allStudents = students ?? []
+  const allStudents = (students ?? []) as unknown as StudentWithClassroom[]
 
   return (
     <div className="space-y-6">
@@ -57,7 +62,7 @@ export default async function TeacherStudentsPage() {
         />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {allStudents.map((student: any) => (
+          {allStudents.map((student) => (
             <div
               key={student.id}
               className="bg-white rounded-2xl border border-border p-5 space-y-3"

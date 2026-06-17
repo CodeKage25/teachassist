@@ -4,7 +4,7 @@ import { PageHeader } from '@/components/shared/PageHeader'
 import { EmptyState } from '@/components/shared/EmptyState'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ClipboardCheck, School, Users, ArrowRight } from 'lucide-react'
+import { ClipboardCheck, Users, ArrowRight } from 'lucide-react'
 
 export default async function TeacherAttendancePage() {
   const supabase = await createClient()

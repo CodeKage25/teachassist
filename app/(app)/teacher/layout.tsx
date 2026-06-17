@@ -23,6 +23,9 @@ export default async function TeacherLayout({
     .single()
 
   if (!profile) redirect('/login')
+  if (profile.role !== 'teacher') {
+    redirect(profile.school_id ? '/admin' : '/setup')
+  }
 
   const school = await getSchool()
   const sidebar = <TeacherSidebar user={profile} school={school} />

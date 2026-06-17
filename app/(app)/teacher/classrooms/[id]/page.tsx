@@ -32,16 +32,17 @@ export default async function TeacherClassroomPage({ params }: Props) {
   ])
 
   if (!classroom) notFound()
+  if (classroom.teacher_id !== user.id) notFound()
 
   return (
     <div>
       <div className="mb-6">
         <Link
-          href="/teacher"
+          href="/teacher/classrooms"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to my classes
+          Back to classrooms
         </Link>
       </div>
 

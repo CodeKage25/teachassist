@@ -24,8 +24,8 @@ interface TeacherSidebarProps {
 }
 
 const navItems = [
-  { label: 'My Classes', href: '/teacher', icon: LayoutDashboard, exact: true },
-  { label: 'Classrooms', href: '/teacher/classrooms', icon: School, exact: false },
+  { label: 'Overview', href: '/teacher', icon: LayoutDashboard, exact: true },
+  { label: 'My Classrooms', href: '/teacher/classrooms', icon: School, exact: false },
   { label: 'My Students', href: '/teacher/students', icon: GraduationCap, exact: false },
   { label: 'Attendance', href: '/teacher/attendance', icon: ClipboardCheck, exact: false },
   { label: 'Lesson Plans', href: '/teacher/lesson-plan', icon: Sparkles, exact: false },

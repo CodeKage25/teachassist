@@ -3,6 +3,11 @@ import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Phone, User, BookOpen } from 'lucide-react'
 import { StudentPhotoUpload } from '@/components/students/StudentPhotoUpload'
+import type { Classroom, Student } from '@/types/database'
+
+type StudentDetailRow = Student & {
+  classrooms: Pick<Classroom, 'name'> | null
+}
 
 interface Props {
   params: Promise<{ id: string }>
@@ -14,15 +19,16 @@ export default async function StudentDetailPage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: student } = await supabase
+  const { data } = await supabase
     .from('students')
     .select('*, classrooms(name)')
     .eq('id', id)
     .single()
 
-  if (!student) notFound()
+  if (!data) notFound()
 
-  const classroom = (student as any).classrooms as { name: string } | null
+  const student = data as unknown as StudentDetailRow
+  const classroom = student.classrooms
 
   return (
     <div className="max-w-2xl">

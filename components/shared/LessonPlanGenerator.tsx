@@ -48,7 +48,7 @@ export function LessonPlanGenerator() {
         for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) {
           const page = await pdf.getPage(i)
           const content = await page.getTextContent()
-          texts.push(content.items.map((item: any) => item.str).join(' '))
+          texts.push(content.items.map((item) => item.str).join(' '))
         }
         return texts.join('\n')
       } catch {

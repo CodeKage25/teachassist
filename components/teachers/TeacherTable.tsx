@@ -16,7 +16,7 @@ import {
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
 import { getInitials, formatDate } from '@/lib/utils'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { MoreHorizontal, Power, School } from 'lucide-react'
+import { MoreHorizontal, Power } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
