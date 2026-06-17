@@ -125,6 +125,78 @@ Use plain text. Be direct and specific. Do not use markdown headers.`
 }
 
 // ─────────────────────────────────────────────────────────────
+// Quiz Generator
+// ─────────────────────────────────────────────────────────────
+
+export interface QuizQuestion {
+  question: string
+  options: string[] // 4 options
+  correctIndex: number // 0-3
+  explanation: string
+}
+
+export interface QuizData {
+  title: string
+  questions: QuizQuestion[]
+}
+
+export async function generateQuiz(input: {
+  topic: string
+  subject: string
+  gradeLevel: string
+  questionCount: number // 5-10
+}): Promise<{ quiz?: QuizData; error?: string }> {
+  const systemPrompt = `You are an expert educator who creates engaging quiz questions for students. Always respond with valid JSON matching exactly this structure:
+{
+  "title": "string (descriptive quiz title)",
+  "questions": [
+    {
+      "question": "string (clear question text)",
+      "options": ["string", "string", "string", "string"],
+      "correctIndex": 0,
+      "explanation": "string (brief explanation of the correct answer)"
+    }
+  ]
+}
+Ensure correctIndex is 0-3 corresponding to the correct option. Make questions appropriate for the grade level, engaging, and educationally sound.`
+
+  const userPrompt = `Create a ${input.questionCount}-question multiple choice quiz on the following:
+Subject: ${input.subject}
+Topic: ${input.topic}
+Grade Level: ${input.gradeLevel}
+
+Requirements:
+- Each question should have exactly 4 answer options
+- Questions should progress from foundational to more challenging
+- Include a mix of recall, comprehension, and application questions
+- Explanations should be concise (1-2 sentences) and educational
+- Make options plausible to avoid obvious guessing`
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      response_format: { type: 'json_object' },
+      max_tokens: 2000,
+      temperature: 0.8,
+    })
+
+    const content = response.choices[0]?.message?.content
+    if (!content) return { error: 'No response from AI service.' }
+
+    const quiz = JSON.parse(content) as QuizData
+    return { quiz }
+  } catch (err) {
+    return {
+      error: err instanceof Error ? err.message : 'AI service unavailable',
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
 // Lesson Plan Generator
 // ─────────────────────────────────────────────────────────────
 

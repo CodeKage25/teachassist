@@ -1,20 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { getClassroom, getClassroomStudents } from '@/lib/queries/classrooms'
 import { PageHeader } from '@/components/shared/PageHeader'
-import { EmptyState } from '@/components/shared/EmptyState'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { ClipboardCheck, GraduationCap, ArrowLeft } from 'lucide-react'
+import { ClipboardCheck, ArrowLeft } from 'lucide-react'
 import { TeacherClassroomActions } from '@/components/teacher/TeacherClassroomActions'
+import { ClassroomLMS } from '@/components/teacher/ClassroomLMS'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -33,6 +25,11 @@ export default async function TeacherClassroomPage({ params }: Props) {
 
   if (!classroom) notFound()
   if (classroom.teacher_id !== user.id) notFound()
+
+  const studentList = students.map((s) => ({
+    id: s.id,
+    name: s.full_name,
+  }))
 
   return (
     <div>
@@ -65,34 +62,11 @@ export default async function TeacherClassroomPage({ params }: Props) {
         }
       />
 
-      {students.length === 0 ? (
-        <EmptyState
-          icon={GraduationCap}
-          title="No students yet"
-          description="Add students to this classroom or ask your administrator to enroll them."
-        />
-      ) : (
-        <div className="bg-white rounded-2xl border border-border overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-slate-50/50">
-                <TableHead className="font-semibold">#</TableHead>
-                <TableHead className="font-semibold">Student Name</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {students.map((student, i) => (
-                <TableRow key={student.id} className="hover:bg-slate-50/50">
-                  <TableCell className="text-muted-foreground text-sm font-mono w-12">
-                    {String(i + 1).padStart(2, '0')}
-                  </TableCell>
-                  <TableCell className="font-medium">{student.full_name}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+      <ClassroomLMS
+        classroomId={id}
+        classroomName={classroom.name}
+        students={studentList}
+      />
     </div>
   )
 }
