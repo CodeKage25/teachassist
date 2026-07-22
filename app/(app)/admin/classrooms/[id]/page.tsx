@@ -38,6 +38,7 @@ export default async function ClassroomDetailPage({ params }: Props) {
     id: s.id,
     full_name: s.full_name,
     created_at: s.created_at,
+    photo_url: s.photo_url,
   }))
 
   const teachersProp = teachers.map((t) => ({

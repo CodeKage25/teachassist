@@ -8,6 +8,11 @@ import { ArrowLeft } from 'lucide-react'
 import { todayISO } from '@/lib/utils'
 import type { AttendanceStatus } from '@/types/database'
 import { AttendanceDatePicker } from '@/components/attendance/AttendanceDatePicker'
+import {
+  AttendanceHistory,
+  type AttendanceDaySummary,
+} from '@/components/attendance/AttendanceHistory'
+import { CalendarDays } from 'lucide-react'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -31,17 +36,35 @@ export default async function AttendancePage({ params, searchParams }: Props) {
   if (!classroom) notFound()
   if (classroom.teacher_id !== user.id) notFound()
 
-  // Fetch existing attendance for selected date
-  const { data: existingAttendance } = await supabase
-    .from('attendance')
-    .select('student_id, status')
-    .eq('classroom_id', id)
-    .eq('date', date)
+  // Fetch attendance for the selected date + full history for this classroom
+  const [{ data: existingAttendance }, { data: allAttendance }] = await Promise.all([
+    supabase
+      .from('attendance')
+      .select('student_id, status')
+      .eq('classroom_id', id)
+      .eq('date', date),
+    supabase
+      .from('attendance')
+      .select('date, status')
+      .eq('classroom_id', id)
+      .order('date', { ascending: false }),
+  ])
 
   const existingRecords: Record<string, AttendanceStatus> = {}
   existingAttendance?.forEach((r) => {
     existingRecords[r.student_id] = r.status as AttendanceStatus
   })
+
+  // Group history into per-day summaries
+  const dayMap = new Map<string, AttendanceDaySummary>()
+  allAttendance?.forEach((r) => {
+    const entry = dayMap.get(r.date) ?? { date: r.date, present: 0, absent: 0, late: 0 }
+    if (r.status === 'present') entry.present++
+    else if (r.status === 'absent') entry.absent++
+    else if (r.status === 'late') entry.late++
+    dayMap.set(r.date, entry)
+  })
+  const markedDays = Array.from(dayMap.values())
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -75,6 +98,23 @@ export default async function AttendancePage({ params, searchParams }: Props) {
           existingRecords={existingRecords}
         />
       )}
+
+      {/* Marked days history */}
+      <section className="mt-12">
+        <div className="flex items-center gap-2 mb-4">
+          <CalendarDays className="h-4 w-4 text-primary" />
+          <h2 className="font-display font-semibold text-xl">Marked days</h2>
+          <span className="text-sm text-muted-foreground">
+            — every date with attendance on record
+          </span>
+        </div>
+        <AttendanceHistory
+          classroomId={id}
+          days={markedDays}
+          selectedDate={date}
+          today={today}
+        />
+      </section>
     </div>
   )
 }

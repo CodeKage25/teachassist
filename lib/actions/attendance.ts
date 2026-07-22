@@ -32,3 +32,33 @@ export async function recordAttendance(
   revalidatePath(`/teacher/classrooms/${classroomId}/attendance`)
   return { success: true }
 }
+
+export async function deleteAttendanceForDate(classroomId: string, date: string) {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  // Only the classroom's assigned teacher may erase a day's records
+  const { data: classroom } = await supabase
+    .from('classrooms')
+    .select('teacher_id')
+    .eq('id', classroomId)
+    .single()
+
+  if (!classroom || classroom.teacher_id !== user.id) {
+    return { error: 'You are not assigned to this classroom' }
+  }
+
+  const { error } = await supabase
+    .from('attendance')
+    .delete()
+    .eq('classroom_id', classroomId)
+    .eq('date', date)
+
+  if (error) return { error: error.message }
+
+  revalidatePath(`/teacher/classrooms/${classroomId}/attendance`)
+  return { success: true }
+}

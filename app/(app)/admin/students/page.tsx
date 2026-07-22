@@ -27,7 +27,7 @@ import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
 import { GraduationCap, UserPlus, MoreHorizontal, Trash2, Loader2, ExternalLink, School } from 'lucide-react'
 import { formatDate, getInitials } from '@/lib/utils'
 import { StatChip } from '@/components/shared/StatChip'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Link from 'next/link'
 import type { Classroom, Student } from '@/types/database'
 
@@ -169,6 +169,9 @@ export default function StudentsPage() {
                       className="flex items-center gap-3"
                     >
                       <Avatar className="h-9 w-9 transition-transform duration-200 group-hover:scale-105">
+                        {student.photo_url && (
+                          <AvatarImage src={student.photo_url} alt={student.full_name} className="object-cover" />
+                        )}
                         <AvatarFallback className="bg-gradient-to-br from-chart-4 to-primary text-primary-foreground text-xs font-bold">
                           {getInitials(student.full_name)}
                         </AvatarFallback>

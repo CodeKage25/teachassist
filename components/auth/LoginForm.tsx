@@ -86,7 +86,14 @@ export function LoginForm() {
           className="w-full h-11 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground mt-2"
           disabled={loading}
         >
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Sign in'}
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              Signing you in…
+            </>
+          ) : (
+            'Sign in'
+          )}
         </Button>
       </form>
 
