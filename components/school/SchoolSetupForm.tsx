@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Building2, Loader2, MapPin, Mail, ArrowRight } from 'lucide-react'
+import { LogoMark } from '@/components/brand/Logo'
 
 export function SchoolSetupForm() {
   const [loading, setLoading] = useState(false)
@@ -26,9 +27,7 @@ export function SchoolSetupForm() {
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20">
-            <Building2 className="w-8 h-8 text-primary-foreground" />
-          </div>
+          <LogoMark className="w-16 h-16 mx-auto mb-6 shadow-lg shadow-primary/25 rounded-2xl" />
           <h1 className="text-3xl font-black tracking-tight mb-2">
             Set up your school
           </h1>

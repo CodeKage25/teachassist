@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 import { getTeacherClassrooms } from '@/lib/queries/classrooms'
-import { PageHeader } from '@/components/shared/PageHeader'
 import { EmptyState } from '@/components/shared/EmptyState'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -19,23 +18,32 @@ export default async function TeacherOverviewPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start justify-between flex-wrap gap-4">
-        <div>
-          <p className="text-sm text-muted-foreground mb-1">
-            {new Date().toLocaleDateString('en-GB', {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-            })}
-          </p>
-          <PageHeader
-            title={`Hello, ${profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋`}
-            description="Here are your assigned classrooms"
-          />
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-chart-4 text-primary-foreground p-8 sm:p-10 shadow-lg shadow-primary/20">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-grid opacity-[0.06]" />
+          <div className="absolute -top-24 -right-16 w-80 h-80 rounded-full bg-white/10 blur-3xl animate-float-slow" />
+          <div className="absolute inset-0 bg-noise opacity-[0.05]" />
         </div>
-        <LessonPlanGenerator />
-      </div>
+        <div className="relative flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <p className="text-sm font-medium text-primary-foreground/70">
+              {new Date().toLocaleDateString('en-GB', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </p>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
+              Hello, {profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋
+            </h1>
+            <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
+              Here are your assigned classrooms.
+            </p>
+          </div>
+          <LessonPlanGenerator />
+        </div>
+      </section>
 
       {classrooms.length === 0 ? (
         <EmptyState

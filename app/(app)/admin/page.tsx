@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { getSchool, getSchoolMetrics } from '@/lib/queries/school'
 import { MetricCard } from '@/components/shared/MetricCard'
-import { PageHeader } from '@/components/shared/PageHeader'
 import { redirect } from 'next/navigation'
 import { Users, GraduationCap, School, MessageSquare } from 'lucide-react'
 import { getMessages } from '@/lib/queries/messages'
@@ -44,13 +43,22 @@ export default async function AdminOverviewPage() {
 
   return (
     <div className="space-y-8">
-      <div className="mb-8">
-        <p className="text-sm text-muted-foreground mb-1">{today}</p>
-        <PageHeader
-          title="Welcome back 👋"
-          description={school ? `${school.name} — Admin Dashboard` : 'Admin Dashboard'}
-        />
-      </div>
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-chart-4 text-primary-foreground p-8 sm:p-10 shadow-lg shadow-primary/20">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-grid opacity-[0.06]" />
+          <div className="absolute -top-24 -right-16 w-80 h-80 rounded-full bg-white/10 blur-3xl animate-float-slow" />
+          <div className="absolute inset-0 bg-noise opacity-[0.05]" />
+        </div>
+        <div className="relative">
+          <p className="text-sm font-medium text-primary-foreground/70">{today}</p>
+          <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
+            Welcome back 👋
+          </h1>
+          <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
+            {school ? `${school.name} — here's what's happening at your school today.` : 'Admin Dashboard'}
+          </p>
+        </div>
+      </section>
 
       {/* Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">

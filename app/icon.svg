@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="tile" x1="4" y1="2" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#17A673"/>
+      <stop offset="0.55" stop-color="#0E7A57"/>
+      <stop offset="1" stop-color="#0A5A66"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx="0.28" cy="0.12" r="0.9">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.32"/>
+      <stop offset="0.5" stop-color="#fff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="48" height="48" rx="13" fill="url(#tile)"/>
+  <rect width="48" height="48" rx="13" fill="url(#sheen)"/>
+  <g fill="#fff">
+    <path d="M9 18C14.6 15.4 20.3 16.6 23 19.6V39C20.3 36.2 14.6 35.2 9 37.4Z"/>
+    <path d="M39 18C33.4 15.4 27.7 16.6 25 19.6V39C27.7 36.2 33.4 35.2 39 37.4Z"/>
+  </g>
+  <g fill="#FFD166">
+    <path d="M24 6L25.5 9.5 29 11 25.5 12.5 24 16 22.5 12.5 19 11 22.5 9.5Z"/>
+    <circle cx="31.5" cy="6.5" r="1.5"/>
+  </g>
+</svg>

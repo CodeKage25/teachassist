@@ -37,13 +37,13 @@ export function MetricCard({
       <div className="relative">
         <div
           className={cn(
-            'w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110',
+            'w-10 h-10 rounded-xl flex items-center justify-center mb-4 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3',
             colors.chip
           )}
         >
           <Icon className="h-5 w-5" />
         </div>
-        <p className="text-3xl font-bold tracking-tight text-foreground tabular mb-1">
+        <p className="text-4xl font-black tracking-tight text-foreground tabular mb-1">
           {value}
         </p>
         <p className="text-sm font-medium text-foreground/80 mb-0.5">{title}</p>

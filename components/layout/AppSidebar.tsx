@@ -8,7 +8,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { OPEN_COMMAND_PALETTE_EVENT } from '@/components/layout/CommandPalette'
-import { BookOpen, LogOut, Search, type LucideIcon } from 'lucide-react'
+import { LogOut, Search, type LucideIcon } from 'lucide-react'
+import { LogoMark } from '@/components/brand/Logo'
 import type { UserProfile, School as SchoolType } from '@/types/database'
 
 export interface SidebarNavItem {
@@ -37,9 +38,7 @@ export function AppSidebar({ user, school, navItems, roleLabel }: AppSidebarProp
     <aside className="flex flex-col h-full w-64 bg-sidebar border-r border-sidebar-border">
       {/* Brand */}
       <div className="flex items-center gap-3 px-5 py-5 border-b border-sidebar-border">
-        <div className="w-9 h-9 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm shadow-primary/20">
-          <BookOpen className="w-4.5 h-4.5 text-primary-foreground" />
-        </div>
+        <LogoMark className="w-9 h-9 shadow-sm shadow-primary/20 rounded-xl" />
         <div className="min-w-0">
           <p className="font-semibold text-sm truncate">{school?.name ?? 'TeachAssist'}</p>
           <p className="text-xs text-muted-foreground">{roleLabel}</p>
