@@ -206,11 +206,26 @@ export default function LandingPage() {
           {/* Headline */}
           <div className="text-center max-w-4xl mx-auto mb-10">
             <Reveal delay={80}>
-              <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-black tracking-[-0.03em] text-foreground leading-[1.02] text-balance">
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-[5.5rem] font-semibold tracking-[-0.02em] text-foreground leading-[1.04] text-balance">
                 Run your school
                 <br />
-                <span className="bg-gradient-to-r from-primary via-chart-4 to-primary bg-clip-text text-transparent animate-gradient-x">
+                <span className="relative inline-block italic text-primary">
                   with confidence.
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 300 24"
+                    preserveAspectRatio="none"
+                    className="absolute left-0 -bottom-2 lg:-bottom-3 w-full h-[0.28em] text-warning"
+                  >
+                    <path
+                      d="M5 17C63 8 152 5 295 11"
+                      stroke="currentColor"
+                      strokeWidth="7"
+                      strokeLinecap="round"
+                      fill="none"
+                      opacity="0.9"
+                    />
+                  </svg>
                 </span>
               </h1>
             </Reveal>
@@ -378,7 +393,7 @@ export default function LandingPage() {
               { value: '99.9%', label: 'Uptime' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-3xl sm:text-4xl font-black tracking-tight tabular bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
+                <p className="font-display text-3xl sm:text-4xl font-semibold tracking-tight tabular bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
                   {stat.value}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
@@ -393,7 +408,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <p className="text-primary text-sm font-bold uppercase tracking-widest mb-3">Features</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-4 text-balance">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
               Everything a school needs. Nothing it doesn&apos;t.
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
@@ -429,7 +444,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <p className="text-primary text-sm font-bold uppercase tracking-widest mb-3">How it works</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-4 text-balance">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
               From sign-up to running in minutes.
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
@@ -537,7 +552,7 @@ export default function LandingPage() {
               ))}
               <span className="ml-3 text-muted-foreground text-sm">4.9 from 500+ schools</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground text-balance">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground text-balance">
               Used by educators everywhere
             </h2>
           </Reveal>
@@ -578,7 +593,7 @@ export default function LandingPage() {
           <div className="absolute bottom-[-14rem] left-1/2 -translate-x-1/2 w-[60rem] h-[28rem] rounded-full bg-primary/10 blur-3xl" />
         </div>
         <Reveal className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-4 text-balance">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
             Ready to get organised?
           </h2>
           <p className="text-muted-foreground text-lg mb-10 leading-relaxed">

@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'An all-in-one digital teaching and school management platform',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#4f46e5',
+    background_color: '#f8f6f1',
+    theme_color: '#0e6b52',
     orientation: 'portrait-primary',
     categories: ['education', 'productivity'],
     icons: [

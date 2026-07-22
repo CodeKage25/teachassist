@@ -15,7 +15,7 @@ export default function NotFound() {
           <LogoMark className="w-16 h-16 shadow-lg shadow-primary/25 rounded-2xl" />
         </div>
         <div>
-          <h1 className="text-8xl font-black tracking-tight bg-gradient-to-b from-primary to-chart-4 bg-clip-text text-transparent">
+          <h1 className="font-display text-8xl font-semibold tracking-tight bg-gradient-to-b from-primary to-chart-4 bg-clip-text text-transparent">
             404
           </h1>
           <h2 className="text-2xl font-bold mt-2 mb-2">Page not found</h2>

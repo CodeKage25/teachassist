@@ -39,9 +39,9 @@ export function LogoMark({ className }: { className?: string }) {
     <svg viewBox="0 0 48 48" aria-hidden className={cn('shrink-0', className)}>
       <defs>
         <linearGradient id={tileId} x1="4" y1="2" x2="46" y2="46" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#6366F1" />
-          <stop offset="0.55" stopColor="#4F46E5" />
-          <stop offset="1" stopColor="#9333EA" />
+          <stop offset="0" stopColor="#17A673" />
+          <stop offset="0.55" stopColor="#0E7A57" />
+          <stop offset="1" stopColor="#0A5A66" />
         </linearGradient>
         <radialGradient id={sheenId} cx="0.28" cy="0.12" r="0.9">
           <stop offset="0" stopColor="#fff" stopOpacity="0.32" />
@@ -54,6 +54,8 @@ export function LogoMark({ className }: { className?: string }) {
       <g fill="#fff">
         <path d={GLYPH_PATHS.leftPage} />
         <path d={GLYPH_PATHS.rightPage} />
+      </g>
+      <g fill="#FFD166">
         <path d={GLYPH_PATHS.spark} />
         <circle cx="31.5" cy="6.5" r="1.5" />
       </g>
@@ -85,7 +87,7 @@ export function Logo({ className, markClassName, wordmarkClassName, onDark }: Lo
         <span
           className={
             onDark
-              ? 'bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent'
+              ? 'bg-gradient-to-r from-emerald-300 to-teal-300 bg-clip-text text-transparent'
               : 'bg-gradient-to-r from-primary to-chart-4 bg-clip-text text-transparent'
           }
         >

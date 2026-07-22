@@ -51,7 +51,7 @@ export default async function AdminOverviewPage() {
         </div>
         <div className="relative">
           <p className="text-sm font-medium text-primary-foreground/70">{today}</p>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight mt-1.5">
+          <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
             Welcome back 👋
           </h1>
           <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">

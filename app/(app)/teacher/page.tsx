@@ -34,7 +34,7 @@ export default async function TeacherOverviewPage() {
                 year: 'numeric',
               })}
             </p>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mt-1.5">
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
               Hello, {profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋
             </h1>
             <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
