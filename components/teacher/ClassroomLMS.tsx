@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useLocalStorageState } from '@/lib/useLocalStorage'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -308,36 +309,19 @@ function AddAssignmentDialog({ onAdd }: AddAssignmentDialogProps) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function ClassroomLMS({ classroomId, classroomName: _classroomName, students }: ClassroomLMSProps) {
+const NO_MATERIALS: Material[] = []
+const NO_ASSIGNMENTS: Assignment[] = []
+
+export function ClassroomLMS({ classroomId, students }: ClassroomLMSProps) {
   const [activeTab, setActiveTab] = useState<Tab>('students')
-  const [materials, setMaterials] = useState<Material[]>([])
-  const [assignments, setAssignments] = useState<Assignment[]>([])
-
-  // Hydrate from localStorage after mount
-  useEffect(() => {
-    try {
-      const rawMaterials = localStorage.getItem(`materials_${classroomId}`)
-      if (rawMaterials) setMaterials(JSON.parse(rawMaterials) as Material[])
-    } catch {
-      // ignore parse errors
-    }
-    try {
-      const rawAssignments = localStorage.getItem(`assignments_${classroomId}`)
-      if (rawAssignments) setAssignments(JSON.parse(rawAssignments) as Assignment[])
-    } catch {
-      // ignore parse errors
-    }
-  }, [classroomId])
-
-  function saveMaterials(next: Material[]) {
-    setMaterials(next)
-    localStorage.setItem(`materials_${classroomId}`, JSON.stringify(next))
-  }
-
-  function saveAssignments(next: Assignment[]) {
-    setAssignments(next)
-    localStorage.setItem(`assignments_${classroomId}`, JSON.stringify(next))
-  }
+  const [materials, saveMaterials] = useLocalStorageState(
+    `materials_${classroomId}`,
+    NO_MATERIALS
+  )
+  const [assignments, saveAssignments] = useLocalStorageState(
+    `assignments_${classroomId}`,
+    NO_ASSIGNMENTS
+  )
 
   function addMaterial(data: Omit<Material, 'id' | 'createdAt'>) {
     const next: Material = { ...data, id: crypto.randomUUID(), createdAt: new Date().toISOString() }

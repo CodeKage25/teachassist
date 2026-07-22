@@ -44,7 +44,7 @@ export default async function TeacherOverviewPage() {
           description="Your school administrator hasn't assigned you to any classroom yet. Please check back later."
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
           {classrooms.map((room) => {
             const studentCount = room.students[0]?.count ?? 0
 

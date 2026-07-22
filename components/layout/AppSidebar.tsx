@@ -7,7 +7,8 @@ import { cn, getInitials } from '@/lib/utils'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
-import { BookOpen, LogOut, type LucideIcon } from 'lucide-react'
+import { OPEN_COMMAND_PALETTE_EVENT } from '@/components/layout/CommandPalette'
+import { BookOpen, LogOut, Search, type LucideIcon } from 'lucide-react'
 import type { UserProfile, School as SchoolType } from '@/types/database'
 
 export interface SidebarNavItem {
@@ -43,6 +44,21 @@ export function AppSidebar({ user, school, navItems, roleLabel }: AppSidebarProp
           <p className="font-semibold text-sm truncate">{school?.name ?? 'TeachAssist'}</p>
           <p className="text-xs text-muted-foreground">{roleLabel}</p>
         </div>
+      </div>
+
+      {/* Search */}
+      <div className="px-3 pt-4">
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT))}
+          className="flex w-full items-center gap-2.5 rounded-xl border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground shadow-xs transition-all duration-200 hover:border-primary/30 hover:bg-muted/70 hover:text-foreground"
+        >
+          <Search className="h-3.5 w-3.5" />
+          <span className="flex-1 text-left">Search…</span>
+          <kbd className="rounded-md border border-border bg-background px-1.5 py-0.5 text-[10px] font-medium">
+            ⌘K
+          </kbd>
+        </button>
       </div>
 
       {/* Navigation */}

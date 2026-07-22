@@ -185,6 +185,7 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-grid mask-fade-b" />
           <div className="absolute -top-48 left-1/2 -translate-x-1/2 w-[70rem] h-[38rem] rounded-full bg-primary/10 blur-3xl animate-float-slow" />
           <div className="absolute top-24 right-[8%] w-80 h-80 rounded-full bg-chart-4/10 blur-3xl animate-float-slow [animation-delay:-7s]" />
+          <div className="absolute inset-0 bg-noise opacity-[0.04] dark:opacity-[0.06]" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-0 lg:pt-28">
@@ -207,7 +208,7 @@ export default function LandingPage() {
               <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-black tracking-[-0.03em] text-foreground leading-[1.02] text-balance">
                 Run your school
                 <br />
-                <span className="bg-gradient-to-r from-primary via-chart-4 to-primary bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-chart-4 to-primary bg-clip-text text-transparent animate-gradient-x">
                   with confidence.
                 </span>
               </h1>
@@ -260,7 +261,7 @@ export default function LandingPage() {
                 aria-hidden
                 className="absolute -inset-x-8 top-8 bottom-0 bg-gradient-to-r from-primary/20 via-chart-4/20 to-primary/20 blur-2xl"
               />
-              <div className="relative rounded-t-3xl p-[1px] bg-gradient-to-b from-border via-primary/25 to-transparent">
+              <div className="relative rounded-t-3xl p-[1px] bg-gradient-to-b from-border via-primary/25 to-transparent transition-transform duration-700 ease-out [transform:perspective(1400px)_rotateX(3deg)] hover:[transform:perspective(1400px)_rotateX(0deg)]">
                 <div className="rounded-t-[calc(1.5rem-1px)] overflow-hidden bg-card shadow-2xl shadow-primary/10">
                   {/* Browser bar */}
                   <div className="bg-muted/70 backdrop-blur px-4 py-3 flex items-center gap-3 border-b border-border">
