@@ -81,9 +81,9 @@ interface ClassroomLMSProps {
 function materialIcon(type: MaterialType) {
   switch (type) {
     case 'document':
-      return <FileText className="h-5 w-5 text-blue-600" />
+      return <FileText className="h-5 w-5 text-primary" />
     case 'video':
-      return <Video className="h-5 w-5 text-purple-600" />
+      return <Video className="h-5 w-5 text-chart-4" />
     case 'link':
       return <LinkIcon className="h-5 w-5 text-emerald-600" />
   }
@@ -92,9 +92,9 @@ function materialIcon(type: MaterialType) {
 function materialBg(type: MaterialType): string {
   switch (type) {
     case 'document':
-      return 'bg-blue-50'
+      return 'bg-primary/10'
     case 'video':
-      return 'bg-purple-50'
+      return 'bg-chart-4/10'
     case 'link':
       return 'bg-emerald-50'
   }
@@ -139,7 +139,7 @@ function AddMaterialDialog({ onAdd }: AddMaterialDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer">
           <Plus className="h-4 w-4 mr-2" />
           Add Material
         </Button>
@@ -197,7 +197,7 @@ function AddMaterialDialog({ onAdd }: AddMaterialDialogProps) {
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-blue-700 hover:bg-blue-800 text-white">
+            <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               Add Material
             </Button>
           </div>
@@ -239,7 +239,7 @@ function AddAssignmentDialog({ onAdd }: AddAssignmentDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer">
           <Plus className="h-4 w-4 mr-2" />
           Add Assignment
         </Button>
@@ -296,7 +296,7 @@ function AddAssignmentDialog({ onAdd }: AddAssignmentDialogProps) {
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-blue-700 hover:bg-blue-800 text-white">
+            <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               Create Assignment
             </Button>
           </div>
@@ -393,8 +393,8 @@ export function ClassroomLMS({ classroomId, classroomName: _classroomName, stude
             className={[
               'flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-lg transition-colors -mb-px border-b-2',
               activeTab === tab.key
-                ? 'border-blue-700 text-blue-700 bg-blue-50/50'
-                : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-slate-50',
+                ? 'border-primary text-primary bg-primary/5'
+                : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50',
             ].join(' ')}
           >
             {tab.icon}
@@ -404,7 +404,7 @@ export function ClassroomLMS({ classroomId, classroomName: _classroomName, stude
                 variant={activeTab === tab.key ? 'default' : 'secondary'}
                 className={[
                   'text-xs px-1.5 py-0',
-                  activeTab === tab.key ? 'bg-blue-700 hover:bg-blue-700' : '',
+                  activeTab === tab.key ? 'bg-primary hover:bg-primary' : '',
                 ].join(' ')}
               >
                 {tab.count}
@@ -434,7 +434,7 @@ export function ClassroomLMS({ classroomId, classroomName: _classroomName, stude
             ) : (
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-slate-50/50">
+                  <TableRow className="bg-muted/30">
                     <TableHead className="font-semibold w-12">#</TableHead>
                     <TableHead className="font-semibold">Name</TableHead>
                     <TableHead className="font-semibold">Email</TableHead>
@@ -442,7 +442,7 @@ export function ClassroomLMS({ classroomId, classroomName: _classroomName, stude
                 </TableHeader>
                 <TableBody>
                   {students.map((student, i) => (
-                    <TableRow key={student.id} className="hover:bg-slate-50/50">
+                    <TableRow key={student.id} className="hover:bg-muted/30">
                       <TableCell className="text-muted-foreground text-sm font-mono">
                         {String(i + 1).padStart(2, '0')}
                       </TableCell>
@@ -536,8 +536,8 @@ export function ClassroomLMS({ classroomId, classroomName: _classroomName, stude
                 return (
                   <Card key={asgn.id}>
                     <CardContent className="flex items-start gap-4 py-4 px-5">
-                      <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                        <BookOpen className="h-5 w-5 text-amber-600" />
+                      <div className="w-10 h-10 rounded-xl bg-warning/10 flex items-center justify-center shrink-0">
+                        <BookOpen className="h-5 w-5 text-warning" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">

@@ -50,7 +50,7 @@ export default async function TeacherClassroomPage({ params }: Props) {
           <div className="flex items-center gap-3">
             <TeacherClassroomActions classroomId={id} classroomName={classroom.name} />
             <Button
-              className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
               asChild
             >
               <Link href={`/teacher/classrooms/${id}/attendance`}>

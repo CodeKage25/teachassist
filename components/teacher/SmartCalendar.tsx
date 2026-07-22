@@ -67,10 +67,10 @@ const EVENT_COLORS: Record<EventType, {
   label: string
   icon: React.ElementType
 }> = {
-  class:   { badge: 'bg-blue-100 text-blue-700 border-blue-200',       dot: 'bg-blue-500',   label: 'Class',   icon: BookOpen       },
-  exam:    { badge: 'bg-red-100 text-red-700 border-red-200',          dot: 'bg-red-500',    label: 'Exam',    icon: FileText       },
-  meeting: { badge: 'bg-purple-100 text-purple-700 border-purple-200', dot: 'bg-purple-500', label: 'Meeting', icon: Users          },
-  other:   { badge: 'bg-slate-100 text-slate-700 border-slate-200',    dot: 'bg-slate-400',  label: 'Other',   icon: MoreHorizontal },
+  class:   { badge: 'bg-primary/15 text-primary border-primary/30',       dot: 'bg-primary',   label: 'Class',   icon: BookOpen       },
+  exam:    { badge: 'bg-destructive/15 text-destructive border-destructive/30',          dot: 'bg-destructive',    label: 'Exam',    icon: FileText       },
+  meeting: { badge: 'bg-chart-4/10 text-chart-4 border-chart-4/25', dot: 'bg-chart-4', label: 'Meeting', icon: Users          },
+  other:   { badge: 'bg-muted text-foreground/80 border-border',    dot: 'bg-muted-foreground',  label: 'Other',   icon: MoreHorizontal },
 }
 
 const EMPTY_FORM: EventFormData = {
@@ -296,7 +296,7 @@ export function SmartCalendar() {
               <Button
                 onClick={() => openAddDialog()}
                 size="sm"
-                className="bg-blue-700 hover:bg-blue-800 text-white gap-1.5"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5"
               >
                 <Plus className="h-4 w-4" />
                 Add Event
@@ -324,7 +324,7 @@ export function SmartCalendar() {
                   return (
                     <div
                       key={`empty-${idx}`}
-                      className="min-h-[90px] border-b border-r border-border bg-slate-50/50"
+                      className="min-h-[90px] border-b border-r border-border bg-muted/30"
                     />
                   )
                 }
@@ -340,7 +340,7 @@ export function SmartCalendar() {
                     key={dateKey}
                     onClick={() => openAddDialog(dateKey)}
                     className={[
-                      'min-h-[90px] border-b border-border p-1.5 cursor-pointer transition-colors hover:bg-blue-50/40',
+                      'min-h-[90px] border-b border-border p-1.5 cursor-pointer transition-colors hover:bg-primary/5',
                       isLastCol ? '' : 'border-r',
                     ].join(' ')}
                   >
@@ -350,8 +350,8 @@ export function SmartCalendar() {
                         className={[
                           'inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-medium transition-colors',
                           isToday
-                            ? 'bg-blue-700 text-white font-bold'
-                            : 'text-slate-700',
+                            ? 'bg-primary text-primary-foreground font-bold'
+                            : 'text-foreground/80',
                         ].join(' ')}
                       >
                         {day}
@@ -398,7 +398,7 @@ export function SmartCalendar() {
         <Card className="w-full xl:w-72 flex-shrink-0 self-start">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-blue-700" />
+              <Calendar className="h-4 w-4 text-primary" />
               Upcoming Events
             </CardTitle>
           </CardHeader>
@@ -420,12 +420,12 @@ export function SmartCalendar() {
                       <button
                         key={evt.id}
                         onClick={() => { setSelectedEvent(evt); setDetailOpen(true) }}
-                        className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors group"
+                        className="w-full text-left px-4 py-3 hover:bg-muted/50 transition-colors group"
                       >
                         <div className="flex items-start gap-3">
                           <div className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${config.dot}`} />
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-slate-800 truncate group-hover:text-blue-700 transition-colors">
+                            <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                               {evt.title}
                             </p>
                             <div className="flex items-center gap-1.5 mt-0.5">
@@ -462,7 +462,7 @@ export function SmartCalendar() {
         <DialogContent className="sm:max-w-[480px]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Plus className="h-5 w-5 text-blue-700" />
+              <Plus className="h-5 w-5 text-primary" />
               Add New Event
             </DialogTitle>
           </DialogHeader>
@@ -471,17 +471,17 @@ export function SmartCalendar() {
             {/* Title */}
             <div className="space-y-1.5">
               <Label htmlFor="evt-title">
-                Title <span className="text-red-500">*</span>
+                Title <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="evt-title"
                 placeholder="e.g. Math Class, Biology Exam…"
                 value={form.title}
                 onChange={(e) => updateField('title', e.target.value)}
-                className={formErrors.title ? 'border-red-400' : ''}
+                className={formErrors.title ? 'border-destructive' : ''}
               />
               {formErrors.title && (
-                <p className="text-xs text-red-500">{formErrors.title}</p>
+                <p className="text-xs text-destructive">{formErrors.title}</p>
               )}
             </div>
 
@@ -489,32 +489,32 @@ export function SmartCalendar() {
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="evt-date">
-                  Date <span className="text-red-500">*</span>
+                  Date <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="evt-date"
                   type="date"
                   value={form.date}
                   onChange={(e) => updateField('date', e.target.value)}
-                  className={formErrors.date ? 'border-red-400' : ''}
+                  className={formErrors.date ? 'border-destructive' : ''}
                 />
                 {formErrors.date && (
-                  <p className="text-xs text-red-500">{formErrors.date}</p>
+                  <p className="text-xs text-destructive">{formErrors.date}</p>
                 )}
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="evt-time">
-                  Time <span className="text-red-500">*</span>
+                  Time <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="evt-time"
                   type="time"
                   value={form.time}
                   onChange={(e) => updateField('time', e.target.value)}
-                  className={formErrors.time ? 'border-red-400' : ''}
+                  className={formErrors.time ? 'border-destructive' : ''}
                 />
                 {formErrors.time && (
-                  <p className="text-xs text-red-500">{formErrors.time}</p>
+                  <p className="text-xs text-destructive">{formErrors.time}</p>
                 )}
               </div>
             </div>
@@ -575,7 +575,7 @@ export function SmartCalendar() {
             </Button>
             <Button
               onClick={handleAddEvent}
-              className="bg-blue-700 hover:bg-blue-800 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               Add Event
             </Button>
@@ -641,7 +641,7 @@ export function SmartCalendar() {
                       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-0.5">
                         Description
                       </p>
-                      <p className="text-sm text-slate-700 leading-relaxed">
+                      <p className="text-sm text-foreground/80 leading-relaxed">
                         {selectedEvent.description}
                       </p>
                     </div>

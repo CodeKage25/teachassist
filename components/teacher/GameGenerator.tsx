@@ -51,16 +51,16 @@ function getOptionStyle(
     'w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-200 '
 
   if (!answer.revealed) {
-    return base + 'border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50 cursor-pointer'
+    return base + 'border-border bg-card hover:border-primary/50 hover:bg-primary/10 cursor-pointer'
   }
 
   if (idx === correctIndex) {
     return base + 'border-emerald-500 bg-emerald-50 text-emerald-800 cursor-default'
   }
   if (idx === answer.selected) {
-    return base + 'border-red-400 bg-red-50 text-red-800 cursor-default'
+    return base + 'border-destructive bg-destructive/10 text-destructive cursor-default'
   }
-  return base + 'border-slate-100 bg-slate-50 text-slate-400 cursor-default'
+  return base + 'border-border/60 bg-muted/50 text-muted-foreground cursor-default'
 }
 
 // ─── Sub-components ───────────────────────────────────────────
@@ -101,15 +101,15 @@ function SetupForm({
   }
 
   return (
-    <Card className="max-w-xl mx-auto shadow-lg border-0 bg-white">
+    <Card className="max-w-xl mx-auto shadow-lg border-0 bg-card">
       <CardHeader className="pb-4">
         <div className="flex items-center gap-3 mb-1">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-md">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <CardTitle className="text-xl text-slate-800">Create a Quiz</CardTitle>
-            <p className="text-sm text-slate-500 mt-0.5">Fill in the details and let AI do the work</p>
+            <CardTitle className="text-xl text-foreground">Create a Quiz</CardTitle>
+            <p className="text-sm text-muted-foreground mt-0.5">Fill in the details and let AI do the work</p>
           </div>
         </div>
       </CardHeader>
@@ -117,34 +117,34 @@ function SetupForm({
       <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5">
-            <Label htmlFor="subject" className="text-slate-700 font-medium">Subject</Label>
+            <Label htmlFor="subject" className="text-foreground/80 font-medium">Subject</Label>
             <Input
               id="subject"
               placeholder="e.g. Mathematics, Biology, History"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               disabled={loading}
-              className="border-slate-200 focus:border-blue-400"
+              className="border-border focus:border-primary"
             />
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="topic" className="text-slate-700 font-medium">Topic</Label>
+            <Label htmlFor="topic" className="text-foreground/80 font-medium">Topic</Label>
             <Input
               id="topic"
               placeholder="e.g. Photosynthesis, World War II, Fractions"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               disabled={loading}
-              className="border-slate-200 focus:border-blue-400"
+              className="border-border focus:border-primary"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label className="text-slate-700 font-medium">Grade Level</Label>
+              <Label className="text-foreground/80 font-medium">Grade Level</Label>
               <Select value={gradeLevel} onValueChange={setGradeLevel} disabled={loading}>
-                <SelectTrigger className="border-slate-200">
+                <SelectTrigger className="border-border">
                   <SelectValue placeholder="Select grade" />
                 </SelectTrigger>
                 <SelectContent>
@@ -157,9 +157,9 @@ function SetupForm({
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-slate-700 font-medium">Questions</Label>
+              <Label className="text-foreground/80 font-medium">Questions</Label>
               <Select value={questionCount} onValueChange={setQuestionCount} disabled={loading}>
-                <SelectTrigger className="border-slate-200">
+                <SelectTrigger className="border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -174,7 +174,7 @@ function SetupForm({
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2.5 rounded-xl shadow-md"
+            className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold py-2.5 rounded-xl shadow-md"
           >
             {loading ? (
               <>
@@ -207,12 +207,12 @@ function ReadyScreen({
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Hero card */}
       <Card className="border-0 shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 text-white text-center">
+        <div className="bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-700 p-8 text-white text-center">
           <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center mx-auto mb-4 shadow-lg">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl font-bold mb-2">{quiz.title}</h2>
-          <p className="text-blue-100 text-sm mb-5">Your quiz is ready to play!</p>
+          <p className="text-primary-foreground/80 text-sm mb-5">Your quiz is ready to play!</p>
           <div className="flex items-center justify-center gap-2 mb-6">
             <Badge className="bg-white/20 text-white border-white/30 hover:bg-white/30 text-sm px-3 py-1">
               {quiz.questions.length} Questions
@@ -222,9 +222,9 @@ function ReadyScreen({
             <Button
               onClick={onStart}
               size="lg"
-              className="bg-white text-blue-700 hover:bg-blue-50 font-bold px-8 shadow-md"
+              className="bg-card text-primary hover:bg-primary/10 font-bold px-8 shadow-md"
             >
-              <Play className="w-4 h-4 mr-2 fill-blue-700" />
+              <Play className="w-4 h-4 mr-2 fill-indigo-600" />
               Start Quiz
             </Button>
             <Button
@@ -243,8 +243,8 @@ function ReadyScreen({
       {/* Question preview */}
       <Card className="border-0 shadow-md">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-slate-700 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-slate-500" />
+          <CardTitle className="text-base text-foreground/80 flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-muted-foreground" />
             Question Preview
           </CardTitle>
         </CardHeader>
@@ -253,15 +253,15 @@ function ReadyScreen({
           {quiz.questions.map((q, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-muted/50 transition-colors"
             >
               <Badge
                 variant="outline"
-                className="text-xs min-w-[2rem] justify-center text-slate-500 border-slate-200 shrink-0 mt-0.5"
+                className="text-xs min-w-[2rem] justify-center text-muted-foreground border-border shrink-0 mt-0.5"
               >
                 {i + 1}
               </Badge>
-              <p className="text-sm text-slate-700 leading-snug">{q.question}</p>
+              <p className="text-sm text-foreground/80 leading-snug">{q.question}</p>
             </div>
           ))}
         </CardContent>
@@ -301,13 +301,13 @@ function QuestionCard({
   return (
     <div className="max-w-2xl mx-auto space-y-5">
       {/* Progress header */}
-      <div className="flex items-center justify-between text-sm text-slate-500 mb-1">
-        <span className="font-medium text-slate-700">Question {questionNumber} of {totalQuestions}</span>
-        <span className="font-semibold text-blue-600">{score} correct</span>
+      <div className="flex items-center justify-between text-sm text-muted-foreground mb-1">
+        <span className="font-medium text-foreground/80">Question {questionNumber} of {totalQuestions}</span>
+        <span className="font-semibold text-primary">{score} correct</span>
       </div>
-      <div className="w-full bg-slate-100 rounded-full h-2">
+      <div className="w-full bg-muted rounded-full h-2">
         <div
-          className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500"
+          className="bg-gradient-to-r from-indigo-500 to-violet-500 h-2 rounded-full transition-all duration-500"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -317,7 +317,7 @@ function QuestionCard({
         <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-7 text-white">
           <p className="text-lg font-semibold leading-relaxed">{question.question}</p>
         </div>
-        <CardContent className="p-5 space-y-3 bg-slate-50">
+        <CardContent className="p-5 space-y-3 bg-muted/50">
           {question.options.map((option, idx) => (
             <button
               key={idx}
@@ -325,7 +325,7 @@ function QuestionCard({
               className={getOptionStyle(idx, answer, question.correctIndex)}
               disabled={answer.revealed}
             >
-              <span className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600 shrink-0">
+              <span className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground shrink-0">
                 {OPTION_LABELS[idx]}
               </span>
               <span className="flex-1 text-left">{option}</span>
@@ -333,7 +333,7 @@ function QuestionCard({
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
               )}
               {answer.revealed && idx === answer.selected && idx !== question.correctIndex && (
-                <XCircle className="w-5 h-5 text-red-500 shrink-0" />
+                <XCircle className="w-5 h-5 text-destructive shrink-0" />
               )}
             </button>
           ))}
@@ -342,10 +342,10 @@ function QuestionCard({
 
       {/* Explanation */}
       {answer.revealed && (
-        <Card className="border-0 bg-amber-50 shadow-sm">
+        <Card className="border-0 bg-warning/10 shadow-sm">
           <CardContent className="py-4 px-5 flex gap-3">
-            <Sparkles className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-            <p className="text-sm text-amber-900 leading-relaxed">
+            <Sparkles className="w-4 h-4 text-warning mt-0.5 shrink-0" />
+            <p className="text-sm text-foreground/80 leading-relaxed">
               <span className="font-semibold">Explanation: </span>
               {question.explanation}
             </p>
@@ -357,7 +357,7 @@ function QuestionCard({
         <div className="flex justify-end">
           <Button
             onClick={onNext}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-6 shadow-md"
+            className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold px-6 shadow-md"
           >
             {isLast ? 'See Results' : 'Next Question'}
             <ChevronRight className="w-4 h-4 ml-1" />
@@ -387,7 +387,7 @@ function ResultsScreen({
       : pct >= 70
       ? { emoji: '🌟', label: 'Great job!', colorClass: 'from-emerald-400 to-teal-500' }
       : pct >= 50
-      ? { emoji: '👍', label: 'Good effort!', colorClass: 'from-blue-400 to-indigo-500' }
+      ? { emoji: '👍', label: 'Good effort!', colorClass: 'from-indigo-400 to-violet-500' }
       : { emoji: '💪', label: 'Keep practicing!', colorClass: 'from-slate-400 to-slate-500' }
 
   return (
@@ -404,7 +404,7 @@ function ResultsScreen({
             </p>
           </div>
         </div>
-        <CardContent className="p-6 bg-white space-y-4">
+        <CardContent className="p-6 bg-card space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-emerald-50 rounded-xl p-4 text-center">
               <div className="flex items-center justify-center gap-1.5 mb-1">
@@ -413,12 +413,12 @@ function ResultsScreen({
               </div>
               <p className="text-3xl font-bold text-emerald-700">{score}</p>
             </div>
-            <div className="bg-red-50 rounded-xl p-4 text-center">
+            <div className="bg-destructive/10 rounded-xl p-4 text-center">
               <div className="flex items-center justify-center gap-1.5 mb-1">
-                <XCircle className="w-4 h-4 text-red-500" />
-                <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">Wrong</span>
+                <XCircle className="w-4 h-4 text-destructive" />
+                <span className="text-xs font-semibold text-destructive uppercase tracking-wide">Wrong</span>
               </div>
-              <p className="text-3xl font-bold text-red-600">{total - score}</p>
+              <p className="text-3xl font-bold text-destructive">{total - score}</p>
             </div>
           </div>
 
@@ -426,14 +426,14 @@ function ResultsScreen({
             <Button
               onClick={onPlayAgain}
               variant="outline"
-              className="flex-1 border-blue-200 text-blue-700 hover:bg-blue-50"
+              className="flex-1 border-primary/30 text-primary hover:bg-primary/10"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Play Again
             </Button>
             <Button
               onClick={onNewQuiz}
-              className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+              className="flex-1 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white"
             >
               <PlusCircle className="w-4 h-4 mr-2" />
               New Quiz
@@ -442,8 +442,8 @@ function ResultsScreen({
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-center gap-2 text-sm text-slate-500">
-        <Trophy className="w-4 h-4 text-amber-500" />
+      <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+        <Trophy className="w-4 h-4 text-warning" />
         <span>Share this quiz with your class!</span>
       </div>
     </div>
