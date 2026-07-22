@@ -61,22 +61,24 @@ export default async function TeacherStudentsPage() {
           description="Enroll students into your classrooms using the button above."
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
           {allStudents.map((student) => (
             <div
               key={student.id}
-              className="bg-card rounded-2xl border border-border p-5 space-y-3"
+              className="group bg-card rounded-2xl border border-border p-5 space-y-3 shadow-xs transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-primary/25"
             >
               <div className="flex items-start gap-3">
                 {student.photo_url ? (
                   <img
                     src={student.photo_url}
                     alt={student.full_name}
-                    className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
+                    className="w-12 h-12 rounded-xl object-cover flex-shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <GraduationCap className="h-5 w-5 text-primary" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-chart-4 flex items-center justify-center flex-shrink-0 shadow-sm shadow-primary/20 transition-transform duration-300 group-hover:scale-105">
+                    <span className="text-primary-foreground font-bold text-sm">
+                      {student.full_name.split(' ').map((n) => n.charAt(0)).slice(0, 2).join('').toUpperCase()}
+                    </span>
                   </div>
                 )}
                 <div className="min-w-0">

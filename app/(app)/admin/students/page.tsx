@@ -24,8 +24,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
-import { GraduationCap, UserPlus, MoreHorizontal, Trash2, Loader2, ExternalLink } from 'lucide-react'
-import { formatDate } from '@/lib/utils'
+import { GraduationCap, UserPlus, MoreHorizontal, Trash2, Loader2, ExternalLink, School } from 'lucide-react'
+import { formatDate, getInitials } from '@/lib/utils'
+import { StatChip } from '@/components/shared/StatChip'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import Link from 'next/link'
 import type { Classroom, Student } from '@/types/database'
 
@@ -132,38 +134,61 @@ export default function StudentsPage() {
           }
         />
       ) : (
-        <div className="rounded-xl border border-border overflow-hidden bg-card">
+        <div className="space-y-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 stagger-children">
+            <StatChip icon={GraduationCap} label="Total students" value={students.length} />
+            <StatChip
+              icon={School}
+              label="In a classroom"
+              value={students.filter((s) => s.classroom).length}
+              tone="success"
+            />
+            <StatChip
+              icon={UserPlus}
+              label="Unassigned"
+              value={students.filter((s) => !s.classroom).length}
+              tone={students.some((s) => !s.classroom) ? 'warning' : 'muted'}
+            />
+          </div>
+        <div className="rounded-2xl border border-border overflow-hidden bg-card shadow-xs">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/30">
-                <TableHead className="font-semibold">Name</TableHead>
-                <TableHead className="font-semibold hidden sm:table-cell">Classroom</TableHead>
-                <TableHead className="font-semibold hidden md:table-cell">Added</TableHead>
+              <TableRow className="bg-muted/40 hover:bg-muted/40">
+                <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Name</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hidden sm:table-cell">Classroom</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hidden md:table-cell">Added</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
               {students.map((student) => (
-                <TableRow key={student.id} className="hover:bg-muted/30">
+                <TableRow key={student.id} className="group transition-colors duration-200 hover:bg-muted/40">
                   <TableCell>
                     <Link
                       href={`/admin/students/${student.id}`}
-                      className="font-medium text-sm hover:text-primary transition-colors flex items-center gap-1.5"
+                      className="flex items-center gap-3"
                     >
-                      {student.full_name}
-                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                      <Avatar className="h-9 w-9 transition-transform duration-200 group-hover:scale-105">
+                        <AvatarFallback className="bg-gradient-to-br from-chart-4 to-primary text-primary-foreground text-xs font-bold">
+                          {getInitials(student.full_name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="font-semibold text-sm group-hover:text-primary transition-colors flex items-center gap-1.5">
+                        {student.full_name}
+                        <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </span>
                     </Link>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {student.classroom ? (
-                      <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
+                      <Badge variant="secondary" className="bg-accent text-accent-foreground border-0 font-medium">
                         {student.classroom.name}
                       </Badge>
                     ) : (
                       <span className="text-sm text-muted-foreground">Unassigned</span>
                     )}
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground hidden md:table-cell">
+                  <TableCell className="text-sm text-muted-foreground hidden md:table-cell tabular">
                     {formatDate(student.created_at)}
                   </TableCell>
                   <TableCell>
@@ -194,6 +219,7 @@ export default function StudentsPage() {
               ))}
             </TableBody>
           </Table>
+        </div>
         </div>
       )}
 

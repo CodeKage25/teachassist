@@ -72,8 +72,8 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
   return (
     <div className="space-y-6">
       {/* Assign Teacher */}
-      <div className="bg-card rounded-2xl border border-border p-6">
-        <h2 className="font-bold mb-4 flex items-center gap-2">
+      <div className="bg-card rounded-2xl border border-border p-6 shadow-xs">
+        <h2 className="font-display font-semibold text-lg mb-4 flex items-center gap-2">
           <Users className="h-4 w-4 text-primary" />
           Assign Teacher
         </h2>
@@ -102,9 +102,9 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
       </div>
 
       {/* Students */}
-      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-xs">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <h2 className="font-bold flex items-center gap-2">
+          <h2 className="font-display font-semibold text-lg flex items-center gap-2">
             <GraduationCap className="h-4 w-4 text-primary" />
             Students ({students.length})
           </h2>

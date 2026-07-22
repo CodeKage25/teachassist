@@ -7,7 +7,8 @@ import { EmptyState } from '@/components/shared/EmptyState'
 import { TeacherTable } from '@/components/teachers/TeacherTable'
 import { AddTeacherDialog } from '@/components/teachers/AddTeacherDialog'
 import { Button } from '@/components/ui/button'
-import { Users, UserPlus, Loader2 } from 'lucide-react'
+import { Users, UserPlus, Loader2, UserCheck, School } from 'lucide-react'
+import { StatChip } from '@/components/shared/StatChip'
 import type { TeacherWithClassroom } from '@/types/database'
 
 export default function TeachersPage() {
@@ -96,7 +97,24 @@ export default function TeachersPage() {
           }
         />
       ) : (
-        <TeacherTable teachers={teachers} />
+        <div className="space-y-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 stagger-children">
+            <StatChip icon={Users} label="Total teachers" value={teachers.length} />
+            <StatChip
+              icon={UserCheck}
+              label="Active"
+              value={teachers.filter((t) => t.is_active).length}
+              tone="success"
+            />
+            <StatChip
+              icon={School}
+              label="With a classroom"
+              value={teachers.filter((t) => t.classroom).length}
+              tone="muted"
+            />
+          </div>
+          <TeacherTable teachers={teachers} />
+        </div>
       )}
 
       <AddTeacherDialog open={dialogOpen} onOpenChange={handleDialogOpenChange} />

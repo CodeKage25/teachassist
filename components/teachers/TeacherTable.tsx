@@ -61,50 +61,58 @@ export function TeacherTable({ teachers }: TeacherTableProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-border overflow-hidden bg-card">
+      <div className="rounded-2xl border border-border overflow-hidden bg-card shadow-xs">
         <Table>
           <TableHeader>
-            <TableRow className="bg-muted/30">
-              <TableHead className="font-semibold">Teacher</TableHead>
-              <TableHead className="font-semibold hidden sm:table-cell">Classroom</TableHead>
-              <TableHead className="font-semibold hidden md:table-cell">Joined</TableHead>
-              <TableHead className="font-semibold">Status</TableHead>
+            <TableRow className="bg-muted/40 hover:bg-muted/40">
+              <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Teacher</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hidden sm:table-cell">Classroom</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hidden md:table-cell">Joined</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status</TableHead>
               <TableHead className="w-10" />
             </TableRow>
           </TableHeader>
           <TableBody>
             {teachers.map((teacher) => (
-              <TableRow key={teacher.id} className="hover:bg-muted/30">
+              <TableRow key={teacher.id} className="group transition-colors duration-200 hover:bg-muted/40">
                 <TableCell>
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary/15 text-primary text-xs font-semibold">
+                    <Avatar className="h-9 w-9 transition-transform duration-200 group-hover:scale-105">
+                      <AvatarFallback className="bg-gradient-to-br from-primary to-chart-4 text-primary-foreground text-xs font-bold">
                         {getInitials(teacher.full_name)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-medium text-sm">{teacher.full_name}</p>
+                      <p className="font-semibold text-sm">{teacher.full_name}</p>
+                      <p className="text-xs text-muted-foreground capitalize">{teacher.role}</p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">
                   {teacher.classroom ? (
-                    <span className="text-sm text-foreground">{teacher.classroom.name}</span>
+                    <Badge variant="secondary" className="bg-accent text-accent-foreground border-0 font-medium">
+                      {teacher.classroom.name}
+                    </Badge>
                   ) : (
                     <span className="text-sm text-muted-foreground">Unassigned</span>
                   )}
                 </TableCell>
-                <TableCell className="text-sm text-muted-foreground hidden md:table-cell">
+                <TableCell className="text-sm text-muted-foreground hidden md:table-cell tabular">
                   {formatDate(teacher.created_at)}
                 </TableCell>
                 <TableCell>
                   <Badge
                     variant={teacher.is_active ? 'default' : 'secondary'}
                     className={teacher.is_active
-                      ? 'bg-success/15 text-success hover:bg-success/15 border-0'
-                      : 'bg-muted text-muted-foreground border-0'
+                      ? 'bg-success/15 text-success hover:bg-success/15 border-0 gap-1.5'
+                      : 'bg-muted text-muted-foreground border-0 gap-1.5'
                     }
                   >
+                    <span
+                      className={`inline-block w-1.5 h-1.5 rounded-full ${
+                        teacher.is_active ? 'bg-success animate-pulse-dot' : 'bg-muted-foreground/50'
+                      }`}
+                    />
                     {teacher.is_active ? 'Active' : 'Inactive'}
                   </Badge>
                 </TableCell>
