@@ -21,14 +21,17 @@ export const metadata: Metadata = {
   },
   description:
     'An all-in-one digital teaching and school management platform. Manage teachers, classrooms, students, and attendance from one place.',
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'TeachAssist',
   },
   icons: {
-    icon: '/icons/icon-192x192.png',
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+    ],
     apple: '/icons/apple-touch-icon.png',
   },
 }

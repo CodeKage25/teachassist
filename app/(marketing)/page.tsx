@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/marketing/Reveal'
+import { LogoMark } from '@/components/brand/Logo'
 import {
   Users,
   BookOpen,
@@ -282,9 +283,7 @@ export default function LandingPage() {
                     {/* Sidebar */}
                     <div className="hidden sm:flex flex-col w-52 bg-card border-r border-border p-4 gap-1 flex-shrink-0">
                       <div className="flex items-center gap-2 px-2 py-2 mb-2">
-                        <div className="w-6 h-6 bg-gradient-to-br from-primary to-chart-4 rounded-md flex items-center justify-center flex-shrink-0">
-                          <BookOpen className="w-3 h-3 text-primary-foreground" />
-                        </div>
+                        <LogoMark className="w-6 h-6 rounded-md" />
                         <span className="text-xs font-bold text-foreground/80 truncate">Greenfield High</span>
                       </div>
                       {[
@@ -499,9 +498,7 @@ export default function LandingPage() {
                 <div className="hidden md:flex flex-shrink-0 w-80 items-end justify-center bg-black/10 self-stretch px-8 pt-10">
                   <div className="w-full bg-card text-card-foreground rounded-t-3xl p-4 shadow-2xl border border-white/20 border-b-0">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-6 h-6 bg-gradient-to-br from-primary to-chart-4 rounded-md flex items-center justify-center">
-                        <BookOpen className="w-3 h-3 text-primary-foreground" />
-                      </div>
+                      <LogoMark className="w-6 h-6 rounded-md" />
                       <span className="text-xs font-bold text-foreground/80">Attendance</span>
                       <span className="ml-auto text-xs text-muted-foreground flex items-center gap-1">
                         <Calendar className="w-3 h-3" /> Feb 27

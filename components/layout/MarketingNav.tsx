@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { BookOpen, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/brand/Logo'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -14,11 +15,8 @@ export function MarketingNav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-chart-4 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm shadow-primary/20">
-              <BookOpen className="w-4 h-4 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold tracking-tight">TeachAssist</span>
+          <Link href="/" className="group">
+            <Logo markClassName="transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3 drop-shadow-sm" />
           </Link>
 
           {/* Desktop nav */}

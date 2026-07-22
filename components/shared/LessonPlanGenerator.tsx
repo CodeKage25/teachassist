@@ -102,9 +102,9 @@ export function LessonPlanGenerator() {
         onClick={() => setOpen(true)}
         variant="outline"
         size="sm"
-        className="border-border text-foreground/80 hover:bg-muted/50 flex-shrink-0 cursor-pointer"
+        className="bg-white/15 backdrop-blur border-white/25 text-white hover:bg-white/25 hover:text-white hover:-translate-y-0.5 shadow-sm flex-shrink-0 cursor-pointer transition-all duration-300"
       >
-        <Sparkles className="h-4 w-4 mr-2 text-primary" />
+        <Sparkles className="h-4 w-4 mr-2" />
         AI Lesson Planner
       </Button>
 

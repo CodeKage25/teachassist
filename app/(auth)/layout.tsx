@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { BookOpen } from 'lucide-react'
+import { Logo } from '@/components/brand/Logo'
 
 export const metadata: Metadata = {
   title: {
@@ -25,11 +25,8 @@ export default function AuthLayout({
         </div>
 
         <div className="relative">
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
-              <BookOpen className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">TeachAssist</span>
+          <Link href="/" className="inline-block">
+            <Logo onDark markClassName="w-9 h-9 shadow-lg shadow-indigo-500/30 rounded-xl" wordmarkClassName="text-xl" />
           </Link>
         </div>
 
@@ -70,13 +67,8 @@ export default function AuthLayout({
       <div className="flex-1 flex flex-col">
         {/* Mobile logo */}
         <div className="lg:hidden flex items-center justify-center pt-8 pb-6">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary to-chart-4 rounded-xl flex items-center justify-center shadow-sm shadow-primary/20">
-              <BookOpen className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-foreground">
-              TeachAssist
-            </span>
+          <Link href="/" className="inline-block">
+            <Logo markClassName="w-9 h-9" wordmarkClassName="text-xl" />
           </Link>
         </div>
 
