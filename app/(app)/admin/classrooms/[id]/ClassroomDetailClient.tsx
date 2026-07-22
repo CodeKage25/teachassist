@@ -72,9 +72,9 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
   return (
     <div className="space-y-6">
       {/* Assign Teacher */}
-      <div className="bg-white rounded-2xl border border-border p-6">
+      <div className="bg-card rounded-2xl border border-border p-6">
         <h2 className="font-bold mb-4 flex items-center gap-2">
-          <Users className="h-4 w-4 text-blue-700" />
+          <Users className="h-4 w-4 text-primary" />
           Assign Teacher
         </h2>
         <div className="flex gap-3 flex-wrap">
@@ -94,7 +94,7 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
           <Button
             onClick={handleAssignTeacher}
             disabled={savingTeacher}
-            className="bg-blue-700 hover:bg-blue-800 cursor-pointer h-10"
+            className="bg-primary hover:bg-primary/90 cursor-pointer h-10"
           >
             {savingTeacher ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Save'}
           </Button>
@@ -102,15 +102,15 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
       </div>
 
       {/* Students */}
-      <div className="bg-white rounded-2xl border border-border overflow-hidden">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <h2 className="font-bold flex items-center gap-2">
-            <GraduationCap className="h-4 w-4 text-blue-700" />
+            <GraduationCap className="h-4 w-4 text-primary" />
             Students ({students.length})
           </h2>
           <Button
             size="sm"
-            className="bg-blue-700 hover:bg-blue-800 cursor-pointer"
+            className="bg-primary hover:bg-primary/90 cursor-pointer"
             onClick={() => setAddStudentOpen(true)}
           >
             <UserPlus className="h-3.5 w-3.5 mr-1.5" />
@@ -125,14 +125,14 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
         ) : (
           <Table>
             <TableHeader>
-              <TableRow className="bg-slate-50/50">
+              <TableRow className="bg-muted/30">
                 <TableHead className="font-semibold">Name</TableHead>
                 <TableHead className="font-semibold hidden sm:table-cell">Enrolled</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {students.map((s) => (
-                <TableRow key={s.id} className="hover:bg-slate-50/50">
+                <TableRow key={s.id} className="hover:bg-muted/30">
                   <TableCell className="font-medium text-sm">{s.full_name}</TableCell>
                   <TableCell className="text-sm text-muted-foreground hidden sm:table-cell">
                     {formatDate(s.created_at)}
@@ -173,7 +173,7 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-blue-700 hover:bg-blue-800 cursor-pointer"
+                className="flex-1 bg-primary hover:bg-primary/90 cursor-pointer"
                 disabled={addingStudent}
               >
                 {addingStudent ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Add Student'}

@@ -20,10 +20,20 @@ export default async function TeacherOverviewPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-start justify-between flex-wrap gap-4">
-        <PageHeader
-          title={`Hello, ${profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋`}
-          description="Here are your assigned classrooms"
-        />
+        <div>
+          <p className="text-sm text-muted-foreground mb-1">
+            {new Date().toLocaleDateString('en-GB', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </p>
+          <PageHeader
+            title={`Hello, ${profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋`}
+            description="Here are your assigned classrooms"
+          />
+        </div>
         <LessonPlanGenerator />
       </div>
 
@@ -42,13 +52,13 @@ export default async function TeacherOverviewPage() {
               <Link
                 key={room.id}
                 href={`/teacher/classrooms/${room.id}`}
-                className="group bg-white rounded-2xl border border-border p-6 hover:border-blue-200 hover:shadow-md hover:shadow-blue-50 transition-all duration-200"
+                className="group bg-card rounded-2xl border border-border p-6 shadow-xs hover:border-primary/30 hover:shadow-md hover:shadow-primary/10 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                    <School className="h-5 w-5 text-blue-700" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
+                    <School className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
                   </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
                 <h3 className="font-bold text-lg mb-1">{room.name}</h3>
                 <div className="flex items-center gap-1.5 text-muted-foreground">

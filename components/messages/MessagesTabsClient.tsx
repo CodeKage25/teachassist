@@ -34,14 +34,14 @@ export function MessagesTabsClient({
   return (
     <div className="flex-1 flex flex-col min-h-0 gap-0">
       {/* Tab bar */}
-      <div className="flex border-b border-border bg-white rounded-t-2xl overflow-hidden">
+      <div className="flex border-b border-border bg-card rounded-t-2xl overflow-hidden">
         <button
           onClick={() => setTab('group')}
           className={cn(
             'flex-1 py-3 text-sm font-medium transition-colors cursor-pointer',
             tab === 'group'
-              ? 'text-blue-700 border-b-2 border-blue-700 bg-blue-50/50'
-              : 'text-slate-500 hover:text-slate-700'
+              ? 'text-primary border-b-2 border-primary bg-primary/5'
+              : 'text-muted-foreground hover:text-foreground'
           )}
         >
           Group Channel
@@ -51,8 +51,8 @@ export function MessagesTabsClient({
           className={cn(
             'flex-1 py-3 text-sm font-medium transition-colors cursor-pointer',
             tab === 'direct'
-              ? 'text-blue-700 border-b-2 border-blue-700 bg-blue-50/50'
-              : 'text-slate-500 hover:text-slate-700'
+              ? 'text-primary border-b-2 border-primary bg-primary/5'
+              : 'text-muted-foreground hover:text-foreground'
           )}
         >
           Direct Messages

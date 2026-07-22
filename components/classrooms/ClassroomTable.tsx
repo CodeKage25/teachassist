@@ -64,10 +64,10 @@ export function ClassroomTable({ classrooms }: ClassroomTableProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-border overflow-hidden bg-white">
+      <div className="rounded-xl border border-border overflow-hidden bg-card">
         <Table>
           <TableHeader>
-            <TableRow className="bg-slate-50/50">
+            <TableRow className="bg-muted/30">
               <TableHead className="font-semibold">Classroom</TableHead>
               <TableHead className="font-semibold hidden sm:table-cell">Teacher</TableHead>
               <TableHead className="font-semibold hidden sm:table-cell">Students</TableHead>
@@ -77,18 +77,18 @@ export function ClassroomTable({ classrooms }: ClassroomTableProps) {
           </TableHeader>
           <TableBody>
             {classrooms.map((room) => (
-              <TableRow key={room.id} className="hover:bg-slate-50/50">
+              <TableRow key={room.id} className="hover:bg-muted/30">
                 <TableCell>
                   <Link
                     href={`/admin/classrooms/${room.id}`}
-                    className="font-medium text-sm hover:text-blue-700 transition-colors"
+                    className="font-medium text-sm hover:text-primary transition-colors"
                   >
                     {room.name}
                   </Link>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">
                   {room.teacher ? (
-                    <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-0">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
                       {room.teacher.full_name}
                     </Badge>
                   ) : (
@@ -96,8 +96,8 @@ export function ClassroomTable({ classrooms }: ClassroomTableProps) {
                   )}
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">
-                  <span className="inline-flex items-center gap-1 text-sm text-slate-700">
-                    <Users className="h-3.5 w-3.5 text-slate-400" />
+                  <span className="inline-flex items-center gap-1 text-sm text-foreground/80">
+                    <Users className="h-3.5 w-3.5 text-muted-foreground" />
                     {room.studentCount ?? 0}
                   </span>
                 </TableCell>

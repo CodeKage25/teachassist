@@ -32,7 +32,7 @@ export function SettingsClient({ school }: Props) {
     <div className="max-w-2xl space-y-6">
       {/* School Logo */}
       {school.logo_url && (
-        <div className="bg-white rounded-2xl border border-border p-6">
+        <div className="bg-card rounded-2xl border border-border p-6">
           <h2 className="font-bold mb-4">School Logo</h2>
           <div className="w-24 h-24 rounded-xl overflow-hidden border border-border">
             <Image
@@ -47,7 +47,7 @@ export function SettingsClient({ school }: Props) {
       )}
 
       {/* School Info */}
-      <div className="bg-white rounded-2xl border border-border p-6">
+      <div className="bg-card rounded-2xl border border-border p-6">
         <h2 className="font-bold mb-6">School Information</h2>
         <form action={handleSubmit} className="space-y-5">
           <div className="space-y-2">
@@ -95,7 +95,7 @@ export function SettingsClient({ school }: Props) {
 
           <Button
             type="submit"
-            className="bg-blue-700 hover:bg-blue-800 cursor-pointer"
+            className="bg-primary hover:bg-primary/90 cursor-pointer"
             disabled={loading}
           >
             {loading ? (

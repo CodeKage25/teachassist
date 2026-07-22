@@ -17,7 +17,7 @@ export function TeacherClassroomActions({ classroomId, classroomName }: TeacherC
     <>
       <Button
         variant="outline"
-        className="border-slate-300 text-slate-700 hover:bg-slate-50 cursor-pointer"
+        className="border-border text-foreground/80 hover:bg-muted/50 cursor-pointer"
         onClick={() => setOpen(true)}
       >
         <UserPlus className="h-4 w-4 mr-2" />

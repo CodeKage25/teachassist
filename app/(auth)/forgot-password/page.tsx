@@ -29,19 +29,19 @@ export default function ForgotPasswordPage() {
     return (
       <div className="space-y-6">
         <div>
-          <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-12 h-12 bg-success/15 rounded-full flex items-center justify-center mb-4">
+            <svg className="w-6 h-6 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900">Check your email</h1>
-          <p className="text-slate-500 text-sm mt-1">
+          <h1 className="text-2xl font-black tracking-tight text-foreground">Check your email</h1>
+          <p className="text-muted-foreground text-sm mt-1">
             We sent a password reset link to your email address. Click the link to set a new password.
           </p>
         </div>
         <Link
           href="/login"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 hover:text-blue-800 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to sign in
@@ -53,21 +53,21 @@ export default function ForgotPasswordPage() {
   return (
     <div className="space-y-7">
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-slate-900">Reset password</h1>
-        <p className="text-slate-500 text-sm mt-1">
+        <h1 className="text-2xl font-black tracking-tight text-foreground">Reset password</h1>
+        <p className="text-muted-foreground text-sm mt-1">
           Enter your email and we&apos;ll send you a reset link.
         </p>
       </div>
 
       <form action={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-lg bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+          <div className="rounded-lg bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 text-sm">
             {error}
           </div>
         )}
 
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-sm font-medium text-slate-700">
+          <Label htmlFor="email" className="text-sm font-medium text-foreground/80">
             Email address
           </Label>
           <Input
@@ -83,16 +83,16 @@ export default function ForgotPasswordPage() {
 
         <Button
           type="submit"
-          className="w-full h-11 font-semibold bg-blue-700 hover:bg-blue-800 text-white"
+          className="w-full h-11 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
           disabled={loading}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Send reset link'}
         </Button>
       </form>
 
-      <p className="text-center text-sm text-slate-500">
+      <p className="text-center text-sm text-muted-foreground">
         Remember your password?{' '}
-        <Link href="/login" className="font-semibold text-blue-700 hover:text-blue-800 transition-colors">
+        <Link href="/login" className="font-semibold text-primary hover:text-primary/80 transition-colors">
           Sign in
         </Link>
       </p>

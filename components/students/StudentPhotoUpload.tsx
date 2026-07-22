@@ -49,8 +49,8 @@ export function StudentPhotoUpload({
       {photoUrl ? (
         <img src={photoUrl} alt={studentName} className="w-full h-full object-cover" />
       ) : (
-        <div className="w-full h-full bg-blue-100 flex items-center justify-center">
-          <span className="text-blue-700 font-bold text-xl">{getInitials(studentName)}</span>
+        <div className="w-full h-full bg-primary/15 flex items-center justify-center">
+          <span className="text-primary font-bold text-xl">{getInitials(studentName)}</span>
         </div>
       )}
 

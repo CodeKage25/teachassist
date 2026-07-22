@@ -15,7 +15,7 @@ export function TeacherEnrollStudentButton({ classrooms }: TeacherEnrollStudentB
   return (
     <>
       <Button
-        className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+        className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
         onClick={() => setOpen(true)}
       >
         <UserPlus className="h-4 w-4 mr-2" />

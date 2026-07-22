@@ -22,12 +22,12 @@ export function SchoolSetupForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-slate-50 px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-muted/50 px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-200">
-            <Building2 className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20">
+            <Building2 className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-3xl font-black tracking-tight mb-2">
             Set up your school
@@ -38,7 +38,7 @@ export function SchoolSetupForm() {
         </div>
 
         {/* Form card */}
-        <div className="bg-white rounded-2xl border border-border shadow-xl shadow-slate-100 p-8">
+        <div className="bg-card rounded-2xl border border-border shadow-xl shadow-foreground/5 p-8">
           <form action={handleSubmit} className="space-y-6">
             {error && (
               <div className="rounded-lg bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 text-sm font-medium">
@@ -91,7 +91,7 @@ export function SchoolSetupForm() {
 
             <Button
               type="submit"
-              className="w-full h-12 text-base font-semibold bg-blue-700 hover:bg-blue-800 cursor-pointer"
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 cursor-pointer"
               disabled={loading}
             >
               {loading ? (

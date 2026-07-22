@@ -33,8 +33,8 @@ interface Props {
 }
 
 const roleColors: Record<string, string> = {
-  admin: 'bg-blue-50 text-blue-700 border-0',
-  teacher: 'bg-slate-100 text-slate-700 border-0',
+  admin: 'bg-primary/10 text-primary border-0',
+  teacher: 'bg-muted text-foreground/80 border-0',
 }
 
 export function MessagesClient({
@@ -139,13 +139,13 @@ export function MessagesClient({
 
   return (
     <>
-      <div className="flex-1 flex flex-col bg-white rounded-2xl border border-border overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col bg-card rounded-2xl border border-border overflow-hidden min-h-0">
         {/* Messages */}
         <ScrollArea className="flex-1 p-4">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-center">
-              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-3">
-                <MessageSquare className="h-6 w-6 text-blue-400" />
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-3">
+                <MessageSquare className="h-6 w-6 text-primary" />
               </div>
               <p className="font-medium text-sm">No messages yet</p>
               <p className="text-xs text-muted-foreground mt-1">
@@ -171,8 +171,8 @@ export function MessagesClient({
                       className={cn(
                         'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0',
                         isOwn
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'bg-slate-100 text-slate-700'
+                          ? 'bg-primary/15 text-primary'
+                          : 'bg-muted text-foreground/80'
                       )}
                     >
                       {getInitials(sender?.full_name ?? 'U')}
@@ -219,8 +219,8 @@ export function MessagesClient({
                           className={cn(
                             'rounded-2xl px-4 py-2.5 text-sm leading-relaxed',
                             isOwn
-                              ? 'bg-blue-700 text-white rounded-tr-sm'
-                              : 'bg-slate-100 text-foreground rounded-tl-sm'
+                              ? 'bg-primary text-primary-foreground rounded-tr-sm'
+                              : 'bg-muted text-foreground rounded-tl-sm'
                           )}
                         >
                           {msg.content}
@@ -263,7 +263,7 @@ export function MessagesClient({
             <Button
               onClick={handleSend}
               disabled={sending || !content.trim()}
-              className="bg-blue-700 hover:bg-blue-800 h-[44px] px-4 flex-shrink-0 cursor-pointer"
+              className="bg-primary hover:bg-primary/90 h-[44px] px-4 flex-shrink-0 cursor-pointer"
             >
               <Send className="h-4 w-4" />
             </Button>

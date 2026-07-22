@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Reveal } from '@/components/marketing/Reveal'
 import {
   Users,
   BookOpen,
@@ -11,7 +12,6 @@ import {
   ArrowRight,
   Star,
   CheckCircle,
-  Zap,
   Calendar,
   TrendingUp,
 } from 'lucide-react'
@@ -22,36 +22,48 @@ const features = [
     title: 'Teacher Management',
     description:
       'Invite teachers by email, assign classrooms, and manage access — all from one place.',
+    span: 'lg:col-span-2',
+    visual: 'roster',
   },
   {
     icon: BookOpen,
     title: 'Classroom Management',
     description:
       'Create classrooms, enroll students, and assign teachers in a few straightforward steps.',
+    span: '',
+    visual: null,
   },
   {
     icon: ClipboardCheck,
     title: 'Attendance Tracking',
     description:
       'Teachers record daily attendance from any device. Fast, accurate, and always accessible.',
+    span: '',
+    visual: null,
   },
   {
     icon: MessageSquare,
     title: 'Staff Communication',
     description:
       'A built-in channel for teachers and administrators to share updates in real-time.',
+    span: 'lg:col-span-2',
+    visual: 'chat',
   },
   {
     icon: BarChart3,
     title: 'School Overview',
     description:
       'Monitor teacher count, student enrollment, and classroom activity from your dashboard.',
+    span: 'lg:col-span-2',
+    visual: 'chart',
   },
   {
     icon: Shield,
     title: 'Role-Based Access',
     description:
       'Admins and teachers see only what they need. Secure and well-structured by design.',
+    span: '',
+    visual: null,
   },
 ]
 
@@ -99,39 +111,120 @@ const testimonials = [
   },
 ]
 
+function FeatureVisual({ kind }: { kind: string | null }) {
+  if (kind === 'roster') {
+    return (
+      <div className="mt-6 space-y-2" aria-hidden>
+        {[
+          { name: 'Ade Okafor', cls: 'JSS 1A · Mathematics', on: true },
+          { name: 'Fatima Bello', cls: 'JSS 2B · English', on: true },
+          { name: 'Chidi Nweze', cls: 'SSS 1C · Physics', on: false },
+        ].map((t) => (
+          <div
+            key={t.name}
+            className="flex items-center gap-3 rounded-xl border border-border/60 bg-background/60 px-3 py-2"
+          >
+            <div className="w-6 h-6 rounded-full bg-primary/15 text-primary text-[10px] font-bold flex items-center justify-center">
+              {t.name.charAt(0)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold truncate">{t.name}</p>
+              <p className="text-[10px] text-muted-foreground truncate">{t.cls}</p>
+            </div>
+            <span
+              className={
+                t.on
+                  ? 'text-[10px] font-semibold text-success bg-success/10 border border-success/25 rounded-full px-2 py-0.5'
+                  : 'text-[10px] font-semibold text-muted-foreground bg-muted rounded-full px-2 py-0.5'
+              }
+            >
+              {t.on ? 'Active' : 'Invited'}
+            </span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+  if (kind === 'chat') {
+    return (
+      <div className="mt-6 space-y-2" aria-hidden>
+        <div className="max-w-[75%] rounded-2xl rounded-bl-md border border-border/60 bg-background/60 px-3 py-2">
+          <p className="text-[10px] font-semibold text-primary mb-0.5">Mrs. Bello</p>
+          <p className="text-xs text-foreground/80">Staff meeting moved to 2pm today.</p>
+        </div>
+        <div className="ml-auto max-w-[75%] rounded-2xl rounded-br-md bg-primary px-3 py-2">
+          <p className="text-xs text-primary-foreground">Noted — I&apos;ll update the notice board.</p>
+        </div>
+      </div>
+    )
+  }
+  if (kind === 'chart') {
+    return (
+      <div className="mt-6 flex items-end gap-2 h-20" aria-hidden>
+        {[42, 68, 55, 80, 64, 92, 74].map((h, i) => (
+          <div
+            key={i}
+            className="flex-1 rounded-t-md bg-gradient-to-t from-primary/25 to-primary/70"
+            style={{ height: `${h}%` }}
+          />
+        ))}
+      </div>
+    )
+  }
+  return null
+}
+
 export default function LandingPage() {
   return (
     <div className="flex flex-col">
 
       {/* ─── Hero ─── */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-0 lg:pt-24">
+      <section className="relative bg-background overflow-hidden">
+        {/* Atmosphere: blueprint grid + drifting orbs */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-grid mask-fade-b" />
+          <div className="absolute -top-48 left-1/2 -translate-x-1/2 w-[70rem] h-[38rem] rounded-full bg-primary/10 blur-3xl animate-float-slow" />
+          <div className="absolute top-24 right-[8%] w-80 h-80 rounded-full bg-chart-4/10 blur-3xl animate-float-slow [animation-delay:-7s]" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-0 lg:pt-28">
           {/* Badge */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-sm font-semibold px-4 py-1.5 rounded-full border border-blue-100">
-              <Zap className="w-3.5 h-3.5" />
-              Purpose-built for schools
+          <Reveal className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-2.5 bg-card/70 backdrop-blur text-sm font-medium px-4 py-1.5 rounded-full border border-border shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-pulse-dot inline-flex h-2 w-2 rounded-full bg-success" />
+              </span>
+              <span className="text-muted-foreground">
+                Purpose-built for schools —{' '}
+                <span className="text-foreground font-semibold">free to start</span>
+              </span>
             </div>
-          </div>
+          </Reveal>
 
           {/* Headline */}
-          <div className="text-center max-w-4xl mx-auto mb-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.06]">
-              Run your school
-              <br />
-              <span className="text-blue-700">with confidence.</span>
-            </h1>
-            <p className="mt-6 text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-              TeachAssist gives school administrators and teachers one clean platform to manage
-              classrooms, track attendance, and stay in sync.
-            </p>
+          <div className="text-center max-w-4xl mx-auto mb-10">
+            <Reveal delay={80}>
+              <h1 className="text-5xl sm:text-6xl lg:text-[5.25rem] font-black tracking-[-0.03em] text-foreground leading-[1.02] text-balance">
+                Run your school
+                <br />
+                <span className="bg-gradient-to-r from-primary via-chart-4 to-primary bg-clip-text text-transparent">
+                  with confidence.
+                </span>
+              </h1>
+            </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-7 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-pretty">
+                TeachAssist gives school administrators and teachers one clean platform to manage
+                classrooms, track attendance, and stay in sync.
+              </p>
+            </Reveal>
           </div>
 
           {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
+          <Reveal delay={240} className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
             <Button
               size="lg"
-              className="w-full sm:w-auto px-8 h-12 text-base font-semibold bg-blue-700 hover:bg-blue-800 text-white shadow-sm"
+              className="w-full sm:w-auto px-8 h-12 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
               asChild
             >
               <Link href="/signup">
@@ -142,131 +235,142 @@ export default function LandingPage() {
             <Button
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto px-8 h-12 text-base font-semibold text-slate-700 border-slate-300 hover:bg-slate-50"
+              className="w-full sm:w-auto px-8 h-12 text-base font-semibold bg-card/60 backdrop-blur border-border hover:bg-muted/50 hover:-translate-y-0.5 transition-all duration-300"
               asChild
             >
               <Link href="/login">Sign in to your school</Link>
             </Button>
-          </div>
+          </Reveal>
 
           {/* Trust line */}
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 pb-14">
+          <Reveal delay={320} className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground pb-16">
             {['Free to start', 'No credit card required', 'Works on mobile', 'PWA — works offline'].map((item) => (
               <span key={item} className="flex items-center gap-1.5">
-                <CheckCircle className="h-3.5 w-3.5 text-teal-500 flex-shrink-0" />
+                <CheckCircle className="h-3.5 w-3.5 text-success flex-shrink-0" />
                 {item}
               </span>
             ))}
-          </div>
+          </Reveal>
 
           {/* ─── Dashboard Preview ─── */}
-          <div className="rounded-t-2xl border border-b-0 border-slate-200 shadow-2xl shadow-slate-100 overflow-hidden">
-            {/* Browser bar */}
-            <div className="bg-slate-100 px-4 py-3 flex items-center gap-3 border-b border-slate-200">
-              <div className="flex gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-300 block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-300 block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-300 block" />
-              </div>
-              <div className="flex-1 flex justify-center">
-                <span className="bg-white rounded border border-slate-200 px-4 py-1 text-xs text-slate-400 font-mono">
-                  app.teachassist.school/admin
-                </span>
-              </div>
-            </div>
-
-            {/* App shell */}
-            <div className="flex bg-slate-50" style={{ minHeight: 380 }}>
-              {/* Sidebar */}
-              <div className="hidden sm:flex flex-col w-52 bg-white border-r border-slate-200 p-4 gap-1 flex-shrink-0">
-                <div className="flex items-center gap-2 px-2 py-2 mb-2">
-                  <div className="w-6 h-6 bg-blue-700 rounded-md flex items-center justify-center flex-shrink-0">
-                    <BookOpen className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 truncate">Greenfield High</span>
-                </div>
-                {[
-                  { label: 'Overview', active: true },
-                  { label: 'Teachers', active: false },
-                  { label: 'Classrooms', active: false },
-                  { label: 'Students', active: false },
-                  { label: 'Messages', active: false },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium ${
-                      item.active
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-slate-400'
-                    }`}
-                  >
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-
-              {/* Main content */}
-              <div className="flex-1 p-5 overflow-hidden">
-                {/* Greeting */}
-                <div className="mb-5">
-                  <p className="text-xs text-slate-400">Thursday, 27 Feb 2025</p>
-                  <p className="text-base font-bold text-slate-800">Welcome back, Mr. Adeyemi 👋</p>
-                </div>
-
-                {/* Stats row */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-                  {[
-                    { label: 'Teachers', value: '24', icon: Users, color: 'blue' },
-                    { label: 'Students', value: '487', icon: GraduationCap, color: 'teal' },
-                    { label: 'Classrooms', value: '18', icon: BookOpen, color: 'slate' },
-                    { label: 'Messages', value: '12', icon: MessageSquare, color: 'blue' },
-                  ].map((stat) => (
-                    <div key={stat.label} className="bg-white rounded-xl p-3 border border-slate-200">
-                      <p className="text-xs text-slate-400 mb-1">{stat.label}</p>
-                      <p className="text-xl font-black text-slate-800">{stat.value}</p>
+          <Reveal delay={200}>
+            <div className="relative">
+              {/* Glow under the frame */}
+              <div
+                aria-hidden
+                className="absolute -inset-x-8 top-8 bottom-0 bg-gradient-to-r from-primary/20 via-chart-4/20 to-primary/20 blur-2xl"
+              />
+              <div className="relative rounded-t-3xl p-[1px] bg-gradient-to-b from-border via-primary/25 to-transparent">
+                <div className="rounded-t-[calc(1.5rem-1px)] overflow-hidden bg-card shadow-2xl shadow-primary/10">
+                  {/* Browser bar */}
+                  <div className="bg-muted/70 backdrop-blur px-4 py-3 flex items-center gap-3 border-b border-border">
+                    <div className="flex gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-red-300 block" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-yellow-300 block" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-green-300 block" />
                     </div>
-                  ))}
-                </div>
-
-                {/* Table preview */}
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-700">Recent Classrooms</span>
-                    <span className="text-xs text-blue-600">View all</span>
-                  </div>
-                  {[
-                    { name: 'JSS 1A', teacher: 'Mr. Ade Okafor', students: 32, status: 'Active' },
-                    { name: 'JSS 2B', teacher: 'Mrs. Fatima Bello', students: 28, status: 'Active' },
-                    { name: 'SSS 1C', teacher: 'Mr. Chidi Nweze', students: 35, status: 'Active' },
-                  ].map((row) => (
-                    <div key={row.name} className="px-4 py-2.5 flex items-center gap-3 border-b border-slate-50 last:border-0">
-                      <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-                        <BookOpen className="w-3 h-3 text-blue-600" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-slate-700">{row.name}</p>
-                        <p className="text-xs text-slate-400 truncate">{row.teacher}</p>
-                      </div>
-                      <div className="hidden sm:flex items-center gap-1 text-xs text-slate-400">
-                        <Users className="w-3 h-3" />
-                        {row.students}
-                      </div>
-                      <span className="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded-full font-medium">
-                        {row.status}
+                    <div className="flex-1 flex justify-center">
+                      <span className="bg-card rounded-md border border-border px-4 py-1 text-xs text-muted-foreground font-mono">
+                        app.teachassist.school/admin
                       </span>
                     </div>
-                  ))}
+                  </div>
+
+                  {/* App shell */}
+                  <div className="flex bg-muted/40" style={{ minHeight: 380 }}>
+                    {/* Sidebar */}
+                    <div className="hidden sm:flex flex-col w-52 bg-card border-r border-border p-4 gap-1 flex-shrink-0">
+                      <div className="flex items-center gap-2 px-2 py-2 mb-2">
+                        <div className="w-6 h-6 bg-gradient-to-br from-primary to-chart-4 rounded-md flex items-center justify-center flex-shrink-0">
+                          <BookOpen className="w-3 h-3 text-primary-foreground" />
+                        </div>
+                        <span className="text-xs font-bold text-foreground/80 truncate">Greenfield High</span>
+                      </div>
+                      {[
+                        { label: 'Overview', active: true },
+                        { label: 'Teachers', active: false },
+                        { label: 'Classrooms', active: false },
+                        { label: 'Students', active: false },
+                        { label: 'Messages', active: false },
+                      ].map((item) => (
+                        <div
+                          key={item.label}
+                          className={`px-3 py-2 rounded-lg text-xs font-medium ${
+                            item.active
+                              ? 'bg-primary/10 text-primary'
+                              : 'text-muted-foreground'
+                          }`}
+                        >
+                          {item.label}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Main content */}
+                    <div className="flex-1 p-5 overflow-hidden">
+                      {/* Greeting */}
+                      <div className="mb-5">
+                        <p className="text-xs text-muted-foreground">Thursday, 27 Feb 2025</p>
+                        <p className="text-base font-bold text-foreground">Welcome back, Mr. Adeyemi 👋</p>
+                      </div>
+
+                      {/* Stats row */}
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+                        {[
+                          { label: 'Teachers', value: '24' },
+                          { label: 'Students', value: '487' },
+                          { label: 'Classrooms', value: '18' },
+                          { label: 'Messages', value: '12' },
+                        ].map((stat) => (
+                          <div key={stat.label} className="bg-card rounded-xl p-3 border border-border shadow-xs">
+                            <p className="text-xs text-muted-foreground mb-1">{stat.label}</p>
+                            <p className="text-xl font-black text-foreground tabular">{stat.value}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Table preview */}
+                      <div className="bg-card rounded-xl border border-border shadow-xs overflow-hidden">
+                        <div className="px-4 py-3 border-b border-border/60 flex items-center justify-between">
+                          <span className="text-xs font-semibold text-foreground/80">Recent Classrooms</span>
+                          <span className="text-xs text-primary">View all</span>
+                        </div>
+                        {[
+                          { name: 'JSS 1A', teacher: 'Mr. Ade Okafor', students: 32, status: 'Active' },
+                          { name: 'JSS 2B', teacher: 'Mrs. Fatima Bello', students: 28, status: 'Active' },
+                          { name: 'SSS 1C', teacher: 'Mr. Chidi Nweze', students: 35, status: 'Active' },
+                        ].map((row) => (
+                          <div key={row.name} className="px-4 py-2.5 flex items-center gap-3 border-b border-border/40 last:border-0">
+                            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <BookOpen className="w-3 h-3 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-semibold text-foreground/80">{row.name}</p>
+                              <p className="text-xs text-muted-foreground truncate">{row.teacher}</p>
+                            </div>
+                            <div className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground">
+                              <Users className="w-3 h-3" />
+                              {row.students}
+                            </div>
+                            <span className="text-xs bg-success/10 text-success border border-success/25 px-2 py-0.5 rounded-full font-medium">
+                              {row.status}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ─── Social proof strip ─── */}
-      <section className="bg-slate-900 py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-10 text-center">
+      {/* ─── Stats band ─── */}
+      <section className="border-y border-border bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <Reveal className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {[
               { value: '500+', label: 'Schools' },
               { value: '10,000+', label: 'Teachers' },
@@ -274,198 +378,217 @@ export default function LandingPage() {
               { value: '99.9%', label: 'Uptime' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="text-2xl font-black text-white">{stat.value}</p>
-                <p className="text-sm text-slate-400 mt-0.5">{stat.label}</p>
+                <p className="text-3xl sm:text-4xl font-black tracking-tight tabular bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
+                  {stat.value}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ─── Features ─── */}
-      <section id="features" className="py-24 lg:py-32 bg-white">
+      {/* ─── Features (bento) ─── */}
+      <section id="features" className="py-24 lg:py-32 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-blue-700 text-sm font-bold uppercase tracking-widest mb-3">Features</p>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mb-4">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
+            <p className="text-primary text-sm font-bold uppercase tracking-widest mb-3">Features</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-4 text-balance">
               Everything a school needs. Nothing it doesn&apos;t.
             </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed">
               Purpose-built tools for administrators and teachers — no bloat, no unnecessary complexity.
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="group p-6 rounded-2xl border border-slate-200 hover:border-blue-200 hover:shadow-sm transition-all duration-200 bg-white"
-              >
-                <div className="w-10 h-10 rounded-xl bg-blue-700 flex items-center justify-center mb-4">
-                  <feature.icon className="h-5 w-5 text-white" />
+            {features.map((feature, i) => (
+              <Reveal key={feature.title} delay={(i % 3) * 90} className={feature.span}>
+                <div className="group relative h-full p-7 rounded-3xl border border-border bg-card overflow-hidden hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300">
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -top-24 -right-24 w-56 h-56 rounded-full bg-primary/6 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  />
+                  <div className="relative">
+                    <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-5 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3">
+                      <feature.icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
+                    <FeatureVisual kind={feature.visual} />
+                  </div>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 mb-2">{feature.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{feature.description}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ─── How it works ─── */}
-      <section id="how-it-works" className="py-24 lg:py-32 bg-slate-50 border-y border-slate-200">
+      <section id="how-it-works" className="py-24 lg:py-32 bg-muted/30 border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-blue-700 text-sm font-bold uppercase tracking-widest mb-3">How it works</p>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mb-4">
+          <Reveal className="text-center max-w-2xl mx-auto mb-16">
+            <p className="text-primary text-sm font-bold uppercase tracking-widest mb-3">How it works</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-4 text-balance">
               From sign-up to running in minutes.
             </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed">
               No technical knowledge required. If you can send an email, you can set up TeachAssist.
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, i) => (
-              <div key={step.number} className="relative">
+              <Reveal key={step.number} delay={i * 110} className="relative">
                 {i < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-5 left-full w-full h-px bg-slate-300 -translate-x-4" />
+                  <div
+                    aria-hidden
+                    className="hidden lg:block absolute top-6 left-full w-full h-px bg-gradient-to-r from-primary/40 to-transparent -translate-x-6"
+                  />
                 )}
-                <div className="w-10 h-10 rounded-xl bg-blue-700 flex items-center justify-center text-white text-sm font-black mb-4">
+                <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-chart-4 flex items-center justify-center text-primary-foreground text-sm font-black mb-5 shadow-lg shadow-primary/25">
                   {step.number}
                 </div>
-                <h3 className="text-base font-bold text-slate-900 mb-2">{step.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
-              </div>
+                <h3 className="text-base font-bold text-foreground mb-2">{step.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ─── Mobile / PWA ─── */}
-      <section className="py-20 bg-white">
+      <section className="py-20 lg:py-28 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-blue-700 rounded-2xl overflow-hidden">
-            <div className="flex flex-col md:flex-row items-center gap-0">
-              {/* Text side */}
-              <div className="flex-1 p-8 md:p-12 text-white space-y-4">
-                <div className="inline-flex items-center gap-2 bg-blue-600 px-3 py-1 rounded-full text-xs font-semibold">
-                  <TrendingUp className="h-3 w-3" />
-                  Mobile · PWA · Offline
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-black leading-tight">
-                  Works on any device.
-                  <br />
-                  Even without internet.
-                </h2>
-                <p className="text-blue-100 leading-relaxed max-w-md text-sm">
-                  Install TeachAssist on any phone or tablet as a Progressive Web App.
-                  Teachers can take attendance offline — it syncs automatically when back online.
-                </p>
-                <Button
-                  size="default"
-                  className="bg-white text-blue-700 hover:bg-blue-50 font-semibold mt-2"
-                  asChild
-                >
-                  <Link href="/signup">
-                    Try it free
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-
-              {/* Visual side */}
-              <div className="hidden md:flex flex-shrink-0 w-72 items-end justify-center bg-blue-800 self-stretch px-8 pt-8">
-                <div className="w-full bg-white rounded-t-2xl p-4 shadow-xl">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-6 h-6 bg-blue-700 rounded-md flex items-center justify-center">
-                      <BookOpen className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-xs font-bold text-slate-700">Attendance</span>
-                    <span className="ml-auto text-xs text-slate-400 flex items-center gap-1">
-                      <Calendar className="w-3 h-3" /> Feb 27
-                    </span>
+          <Reveal>
+            <div className="relative bg-gradient-to-br from-primary via-primary to-chart-4 rounded-3xl overflow-hidden shadow-2xl shadow-primary/25">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"
+              />
+              <div className="relative flex flex-col md:flex-row items-center gap-0">
+                {/* Text side */}
+                <div className="flex-1 p-8 md:p-14 text-primary-foreground space-y-5">
+                  <div className="inline-flex items-center gap-2 bg-primary-foreground/15 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold">
+                    <TrendingUp className="h-3 w-3" />
+                    Mobile · PWA · Offline
                   </div>
-                  {[
-                    { name: 'Amaka Eze', status: 'Present', color: 'teal' },
-                    { name: 'Biodun Adeko', status: 'Absent', color: 'red' },
-                    { name: 'Chisom Obi', status: 'Present', color: 'teal' },
-                    { name: 'David Lawal', status: 'Late', color: 'amber' },
-                  ].map((s) => (
-                    <div key={s.name} className="flex items-center gap-2 py-1.5 border-b border-slate-100 last:border-0">
-                      <div className="w-5 h-5 rounded-full bg-slate-100 flex-shrink-0" />
-                      <span className="text-xs text-slate-700 flex-1 font-medium">{s.name}</span>
-                      <span className={`text-xs font-semibold ${
-                        s.color === 'teal' ? 'text-teal-600' :
-                        s.color === 'red' ? 'text-red-500' : 'text-amber-600'
-                      }`}>
-                        {s.status}
+                  <h2 className="text-3xl sm:text-4xl font-black leading-tight tracking-tight text-balance">
+                    Works on any device.
+                    <br />
+                    Even without internet.
+                  </h2>
+                  <p className="text-primary-foreground/80 leading-relaxed max-w-md">
+                    Install TeachAssist on any phone or tablet as a Progressive Web App.
+                    Teachers can take attendance offline — it syncs automatically when back online.
+                  </p>
+                  <Button
+                    size="lg"
+                    className="bg-white text-primary hover:bg-white/90 font-semibold mt-2 shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                    asChild
+                  >
+                    <Link href="/signup">
+                      Try it free
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+
+                {/* Visual side */}
+                <div className="hidden md:flex flex-shrink-0 w-80 items-end justify-center bg-black/10 self-stretch px-8 pt-10">
+                  <div className="w-full bg-card text-card-foreground rounded-t-3xl p-4 shadow-2xl border border-white/20 border-b-0">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-6 h-6 bg-gradient-to-br from-primary to-chart-4 rounded-md flex items-center justify-center">
+                        <BookOpen className="w-3 h-3 text-primary-foreground" />
+                      </div>
+                      <span className="text-xs font-bold text-foreground/80">Attendance</span>
+                      <span className="ml-auto text-xs text-muted-foreground flex items-center gap-1">
+                        <Calendar className="w-3 h-3" /> Feb 27
                       </span>
                     </div>
-                  ))}
-                  <div className="mt-3 bg-blue-700 rounded-lg py-2 text-center text-xs text-white font-semibold">
-                    Save Attendance
+                    {[
+                      { name: 'Amaka Eze', status: 'Present', tone: 'text-success' },
+                      { name: 'Biodun Adeko', status: 'Absent', tone: 'text-destructive' },
+                      { name: 'Chisom Obi', status: 'Present', tone: 'text-success' },
+                      { name: 'David Lawal', status: 'Late', tone: 'text-warning' },
+                    ].map((s) => (
+                      <div key={s.name} className="flex items-center gap-2 py-2 border-b border-border/60 last:border-0">
+                        <div className="w-5 h-5 rounded-full bg-muted flex-shrink-0" />
+                        <span className="text-xs text-foreground/80 flex-1 font-medium">{s.name}</span>
+                        <span className={`text-xs font-semibold ${s.tone}`}>{s.status}</span>
+                      </div>
+                    ))}
+                    <div className="mt-3 bg-primary rounded-lg py-2 text-center text-xs text-primary-foreground font-semibold shadow-sm shadow-primary/25">
+                      Save Attendance
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ─── Testimonials ─── */}
-      <section className="py-24 lg:py-32 bg-slate-50 border-t border-slate-200">
+      <section className="py-24 lg:py-32 bg-muted/30 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <Reveal className="text-center mb-14">
             <div className="flex items-center justify-center gap-0.5 text-amber-400 mb-3">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="h-4 w-4 fill-current" />
               ))}
-              <span className="ml-3 text-slate-500 text-sm">4.9 from 500+ schools</span>
+              <span className="ml-3 text-muted-foreground text-sm">4.9 from 500+ schools</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground text-balance">
               Used by educators everywhere
             </h2>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {testimonials.map((t) => (
-              <div key={t.author} className="bg-white rounded-2xl p-6 border border-slate-200">
-                <div className="flex gap-0.5 text-amber-400 mb-4">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="text-slate-600 text-sm leading-relaxed mb-5">
-                  &ldquo;{t.quote}&rdquo;
-                </blockquote>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                    {t.initial}
+            {testimonials.map((t, i) => (
+              <Reveal key={t.author} delay={i * 100}>
+                <figure className="h-full bg-card rounded-3xl p-7 border border-border shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+                  <div className="flex gap-0.5 text-amber-400 mb-4">
+                    {Array.from({ length: 5 }).map((_, j) => (
+                      <Star key={j} className="h-3.5 w-3.5 fill-current" />
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-800">{t.author}</p>
-                    <p className="text-xs text-slate-400">{t.role}</p>
-                  </div>
-                </div>
-              </div>
+                  <blockquote className="text-foreground/80 text-sm leading-relaxed mb-6">
+                    &ldquo;{t.quote}&rdquo;
+                  </blockquote>
+                  <figcaption className="flex items-center gap-3">
+                    <div className="p-[2px] rounded-full bg-gradient-to-br from-primary to-chart-4">
+                      <div className="w-8 h-8 rounded-full bg-card flex items-center justify-center text-primary text-xs font-bold">
+                        {t.initial}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{t.author}</p>
+                      <p className="text-xs text-muted-foreground">{t.role}</p>
+                    </div>
+                  </figcaption>
+                </figure>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ─── CTA ─── */}
-      <section id="pricing" className="py-24 bg-white border-t border-slate-200">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 mb-4">
+      <section id="pricing" className="relative py-24 lg:py-32 bg-background border-t border-border overflow-hidden">
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute bottom-[-14rem] left-1/2 -translate-x-1/2 w-[60rem] h-[28rem] rounded-full bg-primary/10 blur-3xl" />
+        </div>
+        <Reveal className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-4 text-balance">
             Ready to get organised?
           </h2>
-          <p className="text-slate-500 text-lg mb-10 leading-relaxed">
+          <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
             Create your school, invite your team, and start managing — free, no credit card required.
           </p>
           <Button
             size="lg"
-            className="px-10 h-12 text-base font-semibold bg-blue-700 hover:bg-blue-800 text-white"
+            className="px-10 h-13 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
             asChild
           >
             <Link href="/signup">
@@ -473,7 +596,11 @@ export default function LandingPage() {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-        </div>
+          <p className="mt-6 text-sm text-muted-foreground flex items-center justify-center gap-1.5">
+            <GraduationCap className="h-4 w-4" />
+            Set up in under two minutes
+          </p>
+        </Reveal>
       </section>
     </div>
   )

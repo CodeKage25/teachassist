@@ -43,7 +43,7 @@ export function CreateClassroomDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <School className="h-5 w-5 text-blue-700" />
+            <School className="h-5 w-5 text-primary" />
             Create Classroom
           </DialogTitle>
           <DialogDescription>
@@ -75,7 +75,7 @@ export function CreateClassroomDialog({
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-blue-700 hover:bg-blue-800 cursor-pointer"
+              className="flex-1 bg-primary hover:bg-primary/90 cursor-pointer"
               disabled={loading}
             >
               {loading ? (

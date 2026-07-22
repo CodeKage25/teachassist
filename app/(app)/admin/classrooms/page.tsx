@@ -82,7 +82,7 @@ export default function ClassroomsPage() {
         description="Create and manage your school's classrooms"
         action={
           <Button
-            className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
             onClick={() => setDialogOpen(true)}
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -93,7 +93,7 @@ export default function ClassroomsPage() {
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <Loader2 className="w-8 h-8 text-blue-700 animate-spin" />
+          <Loader2 className="w-8 h-8 text-primary animate-spin" />
         </div>
       ) : classrooms.length === 0 ? (
         <EmptyState
@@ -101,7 +101,7 @@ export default function ClassroomsPage() {
           title="No classrooms yet"
           description="Create your first classroom to get started. You can then assign teachers and students."
           action={
-            <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer" onClick={() => setDialogOpen(true)}>
               <Plus className="h-4 w-4 mr-2" />
               Create Classroom
             </Button>

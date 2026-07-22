@@ -64,7 +64,7 @@ export function EnrollStudentDialog({
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-blue-700" />
+            <GraduationCap className="h-5 w-5 text-primary" />
             Enroll Student
           </DialogTitle>
           <DialogDescription>
@@ -86,7 +86,7 @@ export function EnrollStudentDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="age">Age <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+              <Label htmlFor="age">Age <span className="text-muted-foreground font-normal text-xs">(optional)</span></Label>
               <Input
                 id="age"
                 name="age"
@@ -112,11 +112,11 @@ export function EnrollStudentDialog({
             </div>
           </div>
 
-          <div className="border-t border-slate-100 pt-3">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Parent / Guardian</p>
+          <div className="border-t border-border/60 pt-3">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Parent / Guardian</p>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="parent_name">Parent name <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+                <Label htmlFor="parent_name">Parent name <span className="text-muted-foreground font-normal text-xs">(optional)</span></Label>
                 <Input
                   id="parent_name"
                   name="parent_name"
@@ -125,7 +125,7 @@ export function EnrollStudentDialog({
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="parent_phone">Phone <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+                <Label htmlFor="parent_phone">Phone <span className="text-muted-foreground font-normal text-xs">(optional)</span></Label>
                 <Input
                   id="parent_phone"
                   name="parent_phone"
@@ -138,7 +138,7 @@ export function EnrollStudentDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="bio">Notes <span className="text-slate-400 font-normal text-xs">(optional)</span></Label>
+            <Label htmlFor="bio">Notes <span className="text-muted-foreground font-normal text-xs">(optional)</span></Label>
             <Textarea
               id="bio"
               name="bio"
@@ -159,7 +159,7 @@ export function EnrollStudentDialog({
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+              className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
               disabled={loading}
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enroll Student'}

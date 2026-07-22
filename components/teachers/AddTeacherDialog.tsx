@@ -61,8 +61,8 @@ export function AddTeacherDialog({ open, onOpenChange }: AddTeacherDialogProps) 
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <div className="w-7 h-7 bg-teal-600 rounded-lg flex items-center justify-center">
-                <KeyRound className="h-3.5 w-3.5 text-white" />
+              <div className="w-7 h-7 bg-success rounded-lg flex items-center justify-center">
+                <KeyRound className="h-3.5 w-3.5 text-primary-foreground" />
               </div>
               Teacher account created
             </DialogTitle>
@@ -72,41 +72,41 @@ export function AddTeacherDialog({ open, onOpenChange }: AddTeacherDialogProps) 
           </DialogHeader>
 
           <div className="space-y-3 py-2">
-            <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 space-y-3">
+            <div className="rounded-xl bg-muted/50 border border-border p-4 space-y-3">
               <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Email</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Email</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-mono text-slate-900 flex-1 truncate">{credentials.email}</p>
+                  <p className="text-sm font-mono text-foreground flex-1 truncate">{credentials.email}</p>
                   <button
                     onClick={() => copyText(credentials.email, 'email')}
-                    className="flex-shrink-0 p-1.5 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
+                    className="flex-shrink-0 p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
                   >
-                    {copiedEmail ? <Check className="h-4 w-4 text-teal-600" /> : <Copy className="h-4 w-4 text-slate-500" />}
+                    {copiedEmail ? <Check className="h-4 w-4 text-success" /> : <Copy className="h-4 w-4 text-muted-foreground" />}
                   </button>
                 </div>
               </div>
-              <div className="border-t border-slate-200" />
+              <div className="border-t border-border" />
               <div>
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Password</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Password</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-mono text-slate-900 flex-1">{credentials.password}</p>
+                  <p className="text-sm font-mono text-foreground flex-1">{credentials.password}</p>
                   <button
                     onClick={() => copyText(credentials.password, 'password')}
-                    className="flex-shrink-0 p-1.5 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
+                    className="flex-shrink-0 p-1.5 rounded-lg hover:bg-muted transition-colors cursor-pointer"
                   >
-                    {copiedPassword ? <Check className="h-4 w-4 text-teal-600" /> : <Copy className="h-4 w-4 text-slate-500" />}
+                    {copiedPassword ? <Check className="h-4 w-4 text-success" /> : <Copy className="h-4 w-4 text-muted-foreground" />}
                   </button>
                 </div>
               </div>
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted-foreground">
               The teacher should change their password after first login.
             </p>
           </div>
 
           <Button
             onClick={handleClose}
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
           >
             Done
           </Button>
@@ -121,7 +121,7 @@ export function AddTeacherDialog({ open, onOpenChange }: AddTeacherDialogProps) 
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <UserPlus className="h-5 w-5 text-blue-700" />
+            <UserPlus className="h-5 w-5 text-primary" />
             Add Teacher
           </DialogTitle>
           <DialogDescription>
@@ -164,7 +164,7 @@ export function AddTeacherDialog({ open, onOpenChange }: AddTeacherDialogProps) 
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+              className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
               disabled={loading}
             >
               {loading ? (

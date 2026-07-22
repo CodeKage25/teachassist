@@ -29,15 +29,15 @@ export function AIInsightsWidget({ schoolId }: AIInsightsWidgetProps) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6">
+    <div className="bg-card rounded-2xl border border-border p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-700 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Sparkles className="h-4 w-4 text-white" />
+          <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
+            <Sparkles className="h-4 w-4 text-primary-foreground" />
           </div>
           <div>
-            <h2 className="font-bold text-sm text-slate-900">AI Attendance Insights</h2>
-            <p className="text-xs text-slate-400">Analyses the last 30 days of attendance data</p>
+            <h2 className="font-bold text-sm text-foreground">AI Attendance Insights</h2>
+            <p className="text-xs text-muted-foreground">Analyses the last 30 days of attendance data</p>
           </div>
         </div>
         <Button
@@ -45,7 +45,7 @@ export function AIInsightsWidget({ schoolId }: AIInsightsWidgetProps) {
           variant="outline"
           onClick={handleGenerate}
           disabled={loading}
-          className="h-8 text-slate-700 border-slate-300 hover:bg-slate-50 flex-shrink-0"
+          className="h-8 text-foreground/80 border-border hover:bg-muted/50 flex-shrink-0"
         >
           {loading ? (
             <RefreshCw className="h-3.5 w-3.5 animate-spin" />
@@ -63,19 +63,19 @@ export function AIInsightsWidget({ schoolId }: AIInsightsWidgetProps) {
       </div>
 
       {!generated && !loading && (
-        <p className="text-sm text-slate-400 leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Click &ldquo;Generate insights&rdquo; to get an AI analysis of your school&apos;s attendance
           patterns — including at-risk students and actionable recommendations.
         </p>
       )}
 
       {loading && (
-        <div className="flex items-center gap-3 text-sm text-slate-400">
+        <div className="flex items-center gap-3 text-sm text-muted-foreground">
           <div className="flex gap-1">
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce"
+                className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"
                 style={{ animationDelay: `${i * 0.15}s` }}
               />
             ))}
@@ -85,14 +85,14 @@ export function AIInsightsWidget({ schoolId }: AIInsightsWidgetProps) {
       )}
 
       {error && (
-        <div className="flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5">
+        <div className="flex items-start gap-2 text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2.5">
           <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
       )}
 
       {insight && !loading && (
-        <p className="text-sm leading-relaxed text-slate-700">{insight}</p>
+        <p className="text-sm leading-relaxed text-foreground/80">{insight}</p>
       )}
     </div>
   )

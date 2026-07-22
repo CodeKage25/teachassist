@@ -61,10 +61,10 @@ export function TeacherTable({ teachers }: TeacherTableProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-border overflow-hidden bg-white">
+      <div className="rounded-xl border border-border overflow-hidden bg-card">
         <Table>
           <TableHeader>
-            <TableRow className="bg-slate-50/50">
+            <TableRow className="bg-muted/30">
               <TableHead className="font-semibold">Teacher</TableHead>
               <TableHead className="font-semibold hidden sm:table-cell">Classroom</TableHead>
               <TableHead className="font-semibold hidden md:table-cell">Joined</TableHead>
@@ -74,11 +74,11 @@ export function TeacherTable({ teachers }: TeacherTableProps) {
           </TableHeader>
           <TableBody>
             {teachers.map((teacher) => (
-              <TableRow key={teacher.id} className="hover:bg-slate-50/50">
+              <TableRow key={teacher.id} className="hover:bg-muted/30">
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-semibold">
+                      <AvatarFallback className="bg-primary/15 text-primary text-xs font-semibold">
                         {getInitials(teacher.full_name)}
                       </AvatarFallback>
                     </Avatar>
@@ -101,8 +101,8 @@ export function TeacherTable({ teachers }: TeacherTableProps) {
                   <Badge
                     variant={teacher.is_active ? 'default' : 'secondary'}
                     className={teacher.is_active
-                      ? 'bg-green-100 text-green-700 hover:bg-green-100 border-0'
-                      : 'bg-slate-100 text-slate-500 border-0'
+                      ? 'bg-success/15 text-success hover:bg-success/15 border-0'
+                      : 'bg-muted text-muted-foreground border-0'
                     }
                   >
                     {teacher.is_active ? 'Active' : 'Inactive'}

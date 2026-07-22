@@ -108,7 +108,7 @@ export default function StudentsPage() {
         title="Students"
         description="Manage all enrolled students"
         action={
-          <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer" onClick={() => setDialogOpen(true)}>
             <UserPlus className="h-4 w-4 mr-2" />
             Add Student
           </Button>
@@ -117,7 +117,7 @@ export default function StudentsPage() {
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <Loader2 className="w-8 h-8 text-blue-700 animate-spin" />
+          <Loader2 className="w-8 h-8 text-primary animate-spin" />
         </div>
       ) : students.length === 0 ? (
         <EmptyState
@@ -125,17 +125,17 @@ export default function StudentsPage() {
           title="No students yet"
           description="Add your first student and assign them to a classroom."
           action={
-            <Button className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer" onClick={() => setDialogOpen(true)}>
               <UserPlus className="h-4 w-4 mr-2" />
               Add First Student
             </Button>
           }
         />
       ) : (
-        <div className="rounded-xl border border-border overflow-hidden bg-white">
+        <div className="rounded-xl border border-border overflow-hidden bg-card">
           <Table>
             <TableHeader>
-              <TableRow className="bg-slate-50/50">
+              <TableRow className="bg-muted/30">
                 <TableHead className="font-semibold">Name</TableHead>
                 <TableHead className="font-semibold hidden sm:table-cell">Classroom</TableHead>
                 <TableHead className="font-semibold hidden md:table-cell">Added</TableHead>
@@ -144,19 +144,19 @@ export default function StudentsPage() {
             </TableHeader>
             <TableBody>
               {students.map((student) => (
-                <TableRow key={student.id} className="hover:bg-slate-50/50">
+                <TableRow key={student.id} className="hover:bg-muted/30">
                   <TableCell>
                     <Link
                       href={`/admin/students/${student.id}`}
-                      className="font-medium text-sm hover:text-blue-700 transition-colors flex items-center gap-1.5"
+                      className="font-medium text-sm hover:text-primary transition-colors flex items-center gap-1.5"
                     >
                       {student.full_name}
-                      <ExternalLink className="h-3 w-3 text-slate-400" />
+                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
                     </Link>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {student.classroom ? (
-                      <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-0">
+                      <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
                         {student.classroom.name}
                       </Badge>
                     ) : (

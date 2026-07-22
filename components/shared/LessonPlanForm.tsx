@@ -81,10 +81,10 @@ export function LessonPlanForm() {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-border p-6 space-y-5 max-w-2xl">
+    <div className="bg-card rounded-2xl border border-border p-6 space-y-5 max-w-2xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="subject" className="text-sm font-medium text-slate-700">Subject *</Label>
+          <Label htmlFor="subject" className="text-sm font-medium text-foreground/80">Subject *</Label>
           <Input
             id="subject"
             placeholder="e.g. Mathematics"
@@ -94,7 +94,7 @@ export function LessonPlanForm() {
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="topic" className="text-sm font-medium text-slate-700">Topic *</Label>
+          <Label htmlFor="topic" className="text-sm font-medium text-foreground/80">Topic *</Label>
           <Input
             id="topic"
             placeholder="e.g. Introduction to Fractions"
@@ -104,7 +104,7 @@ export function LessonPlanForm() {
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="grade" className="text-sm font-medium text-slate-700">Grade Level *</Label>
+          <Label htmlFor="grade" className="text-sm font-medium text-foreground/80">Grade Level *</Label>
           <Input
             id="grade"
             placeholder="e.g. Grade 5 / Year 9"
@@ -114,7 +114,7 @@ export function LessonPlanForm() {
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="duration" className="text-sm font-medium text-slate-700">Duration</Label>
+          <Label htmlFor="duration" className="text-sm font-medium text-foreground/80">Duration</Label>
           <Input
             id="duration"
             placeholder="e.g. 45 minutes"
@@ -124,9 +124,9 @@ export function LessonPlanForm() {
           />
         </div>
         <div className="space-y-1.5 sm:col-span-2">
-          <Label htmlFor="objectives" className="text-sm font-medium text-slate-700">
+          <Label htmlFor="objectives" className="text-sm font-medium text-foreground/80">
             Specific Objectives{' '}
-            <span className="text-slate-400 font-normal text-xs">(optional)</span>
+            <span className="text-muted-foreground font-normal text-xs">(optional)</span>
           </Label>
           <Textarea
             id="objectives"
@@ -138,21 +138,21 @@ export function LessonPlanForm() {
         </div>
 
         <div className="space-y-1.5 sm:col-span-2">
-          <Label className="text-sm font-medium text-slate-700">
+          <Label className="text-sm font-medium text-foreground/80">
             Scheme of Work{' '}
-            <span className="text-slate-400 font-normal text-xs">(optional — PDF or TXT)</span>
+            <span className="text-muted-foreground font-normal text-xs">(optional — PDF or TXT)</span>
           </Label>
           {schemeFile ? (
-            <div className="flex items-center gap-2 h-10 px-3 rounded-lg border border-slate-200 bg-slate-50">
-              <FileText className="h-4 w-4 text-blue-600 flex-shrink-0" />
-              <span className="text-sm text-slate-700 flex-1 truncate">{schemeFile.name}</span>
+            <div className="flex items-center gap-2 h-10 px-3 rounded-lg border border-border bg-muted/50">
+              <FileText className="h-4 w-4 text-primary flex-shrink-0" />
+              <span className="text-sm text-foreground/80 flex-1 truncate">{schemeFile.name}</span>
               <button
                 type="button"
                 onClick={() => {
                   setSchemeFile(null)
                   if (fileInputRef.current) fileInputRef.current.value = ''
                 }}
-                className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -161,7 +161,7 @@ export function LessonPlanForm() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 h-10 px-3 w-full rounded-lg border border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50 transition-colors text-sm text-slate-500 hover:text-blue-600 cursor-pointer"
+              className="flex items-center gap-2 h-10 px-3 w-full rounded-lg border border-dashed border-border hover:border-primary/50 hover:bg-primary/10 transition-colors text-sm text-muted-foreground hover:text-primary cursor-pointer"
             >
               <Upload className="h-4 w-4" />
               Upload scheme of work file
@@ -183,7 +183,7 @@ export function LessonPlanForm() {
       <Button
         onClick={handleGenerate}
         disabled={loading || extracting}
-        className="bg-blue-700 hover:bg-blue-800 text-white w-full h-11 cursor-pointer"
+        className="bg-primary hover:bg-primary/90 text-primary-foreground w-full h-11 cursor-pointer"
       >
         {extracting ? (
           <><Loader2 className="h-4 w-4 animate-spin mr-2" />Reading file...</>
@@ -197,24 +197,24 @@ export function LessonPlanForm() {
       {plan && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-slate-700">Lesson plan ready</p>
+            <p className="text-sm font-semibold text-foreground/80">Lesson plan ready</p>
             <Button
               size="sm"
               variant="outline"
               onClick={handleCopy}
-              className="h-8 text-xs border-slate-300 text-slate-600 hover:bg-slate-50 cursor-pointer"
+              className="h-8 text-xs border-border text-muted-foreground hover:bg-muted/50 cursor-pointer"
             >
               {copied ? (
-                <Check className="h-3 w-3 mr-1 text-teal-600" />
+                <Check className="h-3 w-3 mr-1 text-success" />
               ) : (
                 <Copy className="h-3 w-3 mr-1" />
               )}
               {copied ? 'Copied!' : 'Copy'}
             </Button>
           </div>
-          <ScrollArea className="h-80 rounded-xl bg-slate-50 border border-slate-200">
+          <ScrollArea className="h-80 rounded-xl bg-muted/50 border border-border">
             <div className="p-4">
-              <pre className="text-xs leading-relaxed text-slate-700 whitespace-pre-wrap font-sans">
+              <pre className="text-xs leading-relaxed text-foreground/80 whitespace-pre-wrap font-sans">
                 {plan}
               </pre>
             </div>

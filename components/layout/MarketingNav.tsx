@@ -10,13 +10,13 @@ export function MarketingNav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-              <BookOpen className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-chart-4 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm shadow-primary/20">
+              <BookOpen className="w-4 h-4 text-primary-foreground" />
             </div>
             <span className="text-lg font-bold tracking-tight">TeachAssist</span>
           </Link>
@@ -45,7 +45,7 @@ export function MarketingNav() {
             </Button>
             <Button
               size="sm"
-              className="bg-blue-700 hover:bg-blue-800 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
               asChild
             >
               <Link href="/signup">Get started free</Link>
@@ -65,7 +65,7 @@ export function MarketingNav() {
       {/* Mobile menu */}
       <div
         className={cn(
-          'md:hidden border-t border-slate-200 bg-white transition-all duration-200 overflow-hidden',
+          'md:hidden border-t border-border bg-background transition-all duration-200 overflow-hidden',
           open ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
         )}
       >
@@ -87,7 +87,7 @@ export function MarketingNav() {
             <Button variant="outline" asChild>
               <Link href="/login">Sign in</Link>
             </Button>
-            <Button className="bg-blue-700 hover:bg-blue-800 text-white" asChild>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
               <Link href="/signup">Get started free</Link>
             </Button>
           </div>

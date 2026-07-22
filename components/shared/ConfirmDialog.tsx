@@ -54,7 +54,7 @@ export function ConfirmDialog({
             variant={variant}
             onClick={onConfirm}
             disabled={loading}
-            className={variant === 'destructive' ? 'cursor-pointer' : 'bg-blue-700 hover:bg-blue-800 cursor-pointer'}
+            className={variant === 'destructive' ? 'cursor-pointer' : 'bg-primary hover:bg-primary/90 cursor-pointer'}
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {confirmLabel}

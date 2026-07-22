@@ -65,7 +65,7 @@ export default async function TeacherStudentsPage() {
           {allStudents.map((student) => (
             <div
               key={student.id}
-              className="bg-white rounded-2xl border border-border p-5 space-y-3"
+              className="bg-card rounded-2xl border border-border p-5 space-y-3"
             >
               <div className="flex items-start gap-3">
                 {student.photo_url ? (
@@ -75,18 +75,18 @@ export default async function TeacherStudentsPage() {
                     className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                    <GraduationCap className="h-5 w-5 text-blue-700" />
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="h-5 w-5 text-primary" />
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="font-semibold text-slate-900 truncate">{student.full_name}</p>
+                  <p className="font-semibold text-foreground truncate">{student.full_name}</p>
                   {student.age && (
-                    <p className="text-xs text-slate-500 mt-0.5">Age {student.age}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Age {student.age}</p>
                   )}
                   {student.classroom && (
                     <Link href={`/teacher/classrooms/${student.classroom.id}`}>
-                      <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-0 text-xs mt-1 cursor-pointer">
+                      <Badge variant="secondary" className="bg-primary/10 text-primary border-0 text-xs mt-1 cursor-pointer">
                         <School className="h-3 w-3 mr-1" />
                         {student.classroom.name}
                       </Badge>
@@ -96,18 +96,18 @@ export default async function TeacherStudentsPage() {
               </div>
 
               {(student.parent_name || student.parent_phone) && (
-                <div className="border-t border-slate-100 pt-3 space-y-1.5">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Parent</p>
+                <div className="border-t border-border/60 pt-3 space-y-1.5">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Parent</p>
                   {student.parent_name && (
-                    <div className="flex items-center gap-1.5 text-sm text-slate-700">
-                      <User className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+                    <div className="flex items-center gap-1.5 text-sm text-foreground/80">
+                      <User className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
                       {student.parent_name}
                     </div>
                   )}
                   {student.parent_phone && (
-                    <div className="flex items-center gap-1.5 text-sm text-slate-700">
-                      <Phone className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
-                      <a href={`tel:${student.parent_phone}`} className="hover:text-blue-700 transition-colors">
+                    <div className="flex items-center gap-1.5 text-sm text-foreground/80">
+                      <Phone className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                      <a href={`tel:${student.parent_phone}`} className="hover:text-primary transition-colors">
                         {student.parent_phone}
                       </a>
                     </div>
@@ -116,7 +116,7 @@ export default async function TeacherStudentsPage() {
               )}
 
               {student.bio && (
-                <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 border-t border-slate-100 pt-3">
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 border-t border-border/60 pt-3">
                   {student.bio}
                 </p>
               )}

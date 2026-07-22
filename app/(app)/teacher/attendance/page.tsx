@@ -37,13 +37,13 @@ export default async function TeacherAttendancePage() {
               <Link
                 key={room.id}
                 href={`/teacher/classrooms/${room.id}/attendance`}
-                className="group bg-white rounded-2xl border border-border p-6 hover:border-blue-200 hover:shadow-md hover:shadow-blue-50 transition-all duration-200"
+                className="group bg-card rounded-2xl border border-border p-6 hover:border-primary/30 hover:shadow-md hover:shadow-primary/10 transition-all duration-200"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center group-hover:bg-teal-100 transition-colors">
-                    <ClipboardCheck className="h-5 w-5 text-teal-700" />
+                  <div className="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center group-hover:bg-success/15 transition-colors">
+                    <ClipboardCheck className="h-5 w-5 text-success" />
                   </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-700 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
                 <h3 className="font-bold text-lg mb-1">{room.name}</h3>
                 <div className="flex items-center gap-1.5 text-muted-foreground">

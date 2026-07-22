@@ -102,22 +102,22 @@ export function LessonPlanGenerator() {
         onClick={() => setOpen(true)}
         variant="outline"
         size="sm"
-        className="border-slate-300 text-slate-700 hover:bg-slate-50 flex-shrink-0 cursor-pointer"
+        className="border-border text-foreground/80 hover:bg-muted/50 flex-shrink-0 cursor-pointer"
       >
-        <Sparkles className="h-4 w-4 mr-2 text-blue-600" />
+        <Sparkles className="h-4 w-4 mr-2 text-primary" />
         AI Lesson Planner
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-slate-900">
-              <div className="w-7 h-7 bg-blue-700 rounded-lg flex items-center justify-center">
-                <Sparkles className="h-3.5 w-3.5 text-white" />
+            <DialogTitle className="flex items-center gap-2 text-foreground">
+              <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center">
+                <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
               </div>
               AI Lesson Plan Generator
             </DialogTitle>
-            <DialogDescription className="text-slate-500">
+            <DialogDescription className="text-muted-foreground">
               Fill in the details below and get a structured lesson plan in seconds.
             </DialogDescription>
           </DialogHeader>
@@ -125,7 +125,7 @@ export function LessonPlanGenerator() {
           <div className="flex-1 overflow-hidden flex flex-col gap-4 min-h-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label htmlFor="subject" className="text-xs font-semibold text-slate-700">Subject *</Label>
+                <Label htmlFor="subject" className="text-xs font-semibold text-foreground/80">Subject *</Label>
                 <Input
                   id="subject"
                   placeholder="e.g. Mathematics"
@@ -135,7 +135,7 @@ export function LessonPlanGenerator() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="topic" className="text-xs font-semibold text-slate-700">Topic *</Label>
+                <Label htmlFor="topic" className="text-xs font-semibold text-foreground/80">Topic *</Label>
                 <Input
                   id="topic"
                   placeholder="e.g. Introduction to Fractions"
@@ -145,7 +145,7 @@ export function LessonPlanGenerator() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="grade" className="text-xs font-semibold text-slate-700">Grade Level *</Label>
+                <Label htmlFor="grade" className="text-xs font-semibold text-foreground/80">Grade Level *</Label>
                 <Input
                   id="grade"
                   placeholder="e.g. Grade 5 / Year 9"
@@ -155,7 +155,7 @@ export function LessonPlanGenerator() {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="duration" className="text-xs font-semibold text-slate-700">Duration</Label>
+                <Label htmlFor="duration" className="text-xs font-semibold text-foreground/80">Duration</Label>
                 <Input
                   id="duration"
                   placeholder="e.g. 45 minutes"
@@ -165,9 +165,9 @@ export function LessonPlanGenerator() {
                 />
               </div>
               <div className="space-y-1.5 sm:col-span-2">
-                <Label htmlFor="objectives" className="text-xs font-semibold text-slate-700">
+                <Label htmlFor="objectives" className="text-xs font-semibold text-foreground/80">
                   Specific Objectives{' '}
-                  <span className="text-slate-400 font-normal">(optional)</span>
+                  <span className="text-muted-foreground font-normal">(optional)</span>
                 </Label>
                 <Textarea
                   id="objectives"
@@ -180,21 +180,21 @@ export function LessonPlanGenerator() {
 
               {/* Scheme of Work file upload */}
               <div className="space-y-1.5 sm:col-span-2">
-                <Label className="text-xs font-semibold text-slate-700">
+                <Label className="text-xs font-semibold text-foreground/80">
                   Scheme of Work{' '}
-                  <span className="text-slate-400 font-normal">(optional — PDF or TXT)</span>
+                  <span className="text-muted-foreground font-normal">(optional — PDF or TXT)</span>
                 </Label>
                 {schemeFile ? (
-                  <div className="flex items-center gap-2 h-9 px-3 rounded-lg border border-slate-200 bg-slate-50">
-                    <FileText className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                    <span className="text-sm text-slate-700 flex-1 truncate">{schemeFile.name}</span>
+                  <div className="flex items-center gap-2 h-9 px-3 rounded-lg border border-border bg-muted/50">
+                    <FileText className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-sm text-foreground/80 flex-1 truncate">{schemeFile.name}</span>
                     <button
                       type="button"
                       onClick={() => {
                         setSchemeFile(null)
                         if (fileInputRef.current) fileInputRef.current.value = ''
                       }}
-                      className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                      className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -203,7 +203,7 @@ export function LessonPlanGenerator() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-2 h-9 px-3 w-full rounded-lg border border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50 transition-colors text-sm text-slate-500 hover:text-blue-600 cursor-pointer"
+                    className="flex items-center gap-2 h-9 px-3 w-full rounded-lg border border-dashed border-border hover:border-primary/50 hover:bg-primary/10 transition-colors text-sm text-muted-foreground hover:text-primary cursor-pointer"
                   >
                     <Upload className="h-4 w-4" />
                     Upload scheme of work file
@@ -222,7 +222,7 @@ export function LessonPlanGenerator() {
             <Button
               onClick={handleGenerate}
               disabled={loading || extracting}
-              className="bg-blue-700 hover:bg-blue-800 text-white w-full cursor-pointer"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground w-full cursor-pointer"
             >
               {extracting ? (
                 <>
@@ -245,24 +245,24 @@ export function LessonPlanGenerator() {
             {plan && (
               <div className="flex-1 min-h-0 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-700">Lesson plan ready</p>
+                  <p className="text-sm font-semibold text-foreground/80">Lesson plan ready</p>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={handleCopy}
-                    className="h-7 text-xs border-slate-300 text-slate-600 hover:bg-slate-50 cursor-pointer"
+                    className="h-7 text-xs border-border text-muted-foreground hover:bg-muted/50 cursor-pointer"
                   >
                     {copied ? (
-                      <Check className="h-3 w-3 mr-1 text-teal-600" />
+                      <Check className="h-3 w-3 mr-1 text-success" />
                     ) : (
                       <Copy className="h-3 w-3 mr-1" />
                     )}
                     {copied ? 'Copied!' : 'Copy'}
                   </Button>
                 </div>
-                <ScrollArea className="flex-1 min-h-0 max-h-64 rounded-xl bg-slate-50 border border-slate-200">
+                <ScrollArea className="flex-1 min-h-0 max-h-64 rounded-xl bg-muted/50 border border-border">
                   <div className="p-4">
-                    <pre className="text-xs leading-relaxed text-slate-700 whitespace-pre-wrap font-sans">
+                    <pre className="text-xs leading-relaxed text-foreground/80 whitespace-pre-wrap font-sans">
                       {plan}
                     </pre>
                   </div>

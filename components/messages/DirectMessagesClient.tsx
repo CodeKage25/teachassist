@@ -103,30 +103,30 @@ export function DirectMessagesClient({
   }
 
   return (
-    <div className="flex flex-1 min-h-0 rounded-2xl border border-border overflow-hidden bg-white">
+    <div className="flex flex-1 min-h-0 rounded-2xl border border-border overflow-hidden bg-card">
       {/* Staff list */}
       <div className="w-64 flex-shrink-0 border-r border-border flex flex-col">
         <div className="px-4 py-3 border-b border-border">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Direct Messages</p>
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Direct Messages</p>
         </div>
         <div className="flex-1 overflow-y-auto">
           {otherStaff.length === 0 ? (
-            <p className="text-sm text-slate-400 text-center py-8 px-4">No other staff members yet.</p>
+            <p className="text-sm text-muted-foreground text-center py-8 px-4">No other staff members yet.</p>
           ) : (
             otherStaff.map((member) => (
               <button
                 key={member.id}
                 onClick={() => void handleSelectStaff(member)}
-                className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors cursor-pointer ${
-                  selectedStaff?.id === member.id ? 'bg-blue-50 border-r-2 border-blue-700' : ''
+                className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/50 transition-colors cursor-pointer ${
+                  selectedStaff?.id === member.id ? 'bg-primary/10 border-r-2 border-primary' : ''
                 }`}
               >
-                <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-semibold text-slate-600">{getInitials(member.full_name)}</span>
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-semibold text-muted-foreground">{getInitials(member.full_name)}</span>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-slate-900 truncate">{member.full_name}</p>
-                  <p className="text-xs text-slate-400 capitalize">{member.role}</p>
+                  <p className="text-sm font-medium text-foreground truncate">{member.full_name}</p>
+                  <p className="text-xs text-muted-foreground capitalize">{member.role}</p>
                 </div>
               </button>
             ))
@@ -140,12 +140,12 @@ export function DirectMessagesClient({
           <>
             {/* Header */}
             <div className="px-5 py-3 border-b border-border flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
-                <span className="text-xs font-semibold text-slate-600">{getInitials(selectedStaff.full_name)}</span>
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <span className="text-xs font-semibold text-muted-foreground">{getInitials(selectedStaff.full_name)}</span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-900">{selectedStaff.full_name}</p>
-                <p className="text-xs text-slate-400 capitalize">{selectedStaff.role}</p>
+                <p className="text-sm font-semibold text-foreground">{selectedStaff.full_name}</p>
+                <p className="text-xs text-muted-foreground capitalize">{selectedStaff.role}</p>
               </div>
             </div>
 
@@ -153,12 +153,12 @@ export function DirectMessagesClient({
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {loading ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="w-5 h-5 text-blue-700 animate-spin" />
+                  <Loader2 className="w-5 h-5 text-primary animate-spin" />
                 </div>
               ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                  <MessageSquare className="h-8 w-8 text-slate-300 mb-2" />
-                  <p className="text-sm text-slate-400">No messages yet. Say hello!</p>
+                  <MessageSquare className="h-8 w-8 text-muted-foreground mb-2" />
+                  <p className="text-sm text-muted-foreground">No messages yet. Say hello!</p>
                 </div>
               ) : (
                 messages.map((msg) => {
@@ -169,13 +169,13 @@ export function DirectMessagesClient({
                         <div
                           className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                             isMe
-                              ? 'bg-blue-700 text-white rounded-br-sm'
-                              : 'bg-slate-100 text-slate-900 rounded-bl-sm'
+                              ? 'bg-primary text-primary-foreground rounded-br-sm'
+                              : 'bg-muted text-foreground rounded-bl-sm'
                           }`}
                         >
                           {msg.content}
                         </div>
-                        <span className="text-[11px] text-slate-400 px-1">
+                        <span className="text-[11px] text-muted-foreground px-1">
                           {formatTime(msg.created_at)}
                         </span>
                       </div>
@@ -195,12 +195,12 @@ export function DirectMessagesClient({
                   onChange={(e) => setText(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() } }}
                   placeholder={`Message ${selectedStaff.full_name}...`}
-                  className="flex-1 h-10 px-4 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 h-10 px-4 rounded-xl border border-border text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                 />
                 <Button
                   onClick={handleSend}
                   disabled={!text.trim() || sending}
-                  className="h-10 w-10 p-0 bg-blue-700 hover:bg-blue-800 text-white flex-shrink-0 cursor-pointer"
+                  className="h-10 w-10 p-0 bg-primary hover:bg-primary/90 text-primary-foreground flex-shrink-0 cursor-pointer"
                 >
                   {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 </Button>
@@ -209,9 +209,9 @@ export function DirectMessagesClient({
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-            <MessageSquare className="h-10 w-10 text-slate-300 mb-3" />
-            <p className="text-sm font-medium text-slate-600">Select a staff member to start a private conversation</p>
-            <p className="text-xs text-slate-400 mt-1">Messages are only visible to the two of you</p>
+            <MessageSquare className="h-10 w-10 text-muted-foreground mb-3" />
+            <p className="text-sm font-medium text-muted-foreground">Select a staff member to start a private conversation</p>
+            <p className="text-xs text-muted-foreground mt-1">Messages are only visible to the two of you</p>
           </div>
         )}
       </div>

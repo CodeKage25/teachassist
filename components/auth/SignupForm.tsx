@@ -36,19 +36,19 @@ export function SignupForm() {
   return (
     <div className="space-y-7">
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-slate-900">Create your account</h1>
-        <p className="text-slate-500 text-sm mt-1">Set up your school on TeachAssist</p>
+        <h1 className="text-2xl font-black tracking-tight text-foreground">Create your account</h1>
+        <p className="text-muted-foreground text-sm mt-1">Set up your school on TeachAssist</p>
       </div>
 
       <form action={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-lg bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+          <div className="rounded-lg bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 text-sm">
             {error}
           </div>
         )}
 
         <div className="space-y-1.5">
-          <Label htmlFor="full_name" className="text-sm font-medium text-slate-700">
+          <Label htmlFor="full_name" className="text-sm font-medium text-foreground/80">
             Full name
           </Label>
           <Input
@@ -63,7 +63,7 @@ export function SignupForm() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-sm font-medium text-slate-700">
+          <Label htmlFor="email" className="text-sm font-medium text-foreground/80">
             Work email
           </Label>
           <Input
@@ -78,7 +78,7 @@ export function SignupForm() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="password" className="text-sm font-medium text-slate-700">
+          <Label htmlFor="password" className="text-sm font-medium text-foreground/80">
             Password
           </Label>
           <div className="relative">
@@ -96,7 +96,7 @@ export function SignupForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -104,7 +104,7 @@ export function SignupForm() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="confirm_password" className="text-sm font-medium text-slate-700">
+          <Label htmlFor="confirm_password" className="text-sm font-medium text-foreground/80">
             Confirm password
           </Label>
           <Input
@@ -121,22 +121,22 @@ export function SignupForm() {
 
         <Button
           type="submit"
-          className="w-full h-11 font-semibold bg-blue-700 hover:bg-blue-800 text-white mt-2"
+          className="w-full h-11 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground mt-2"
           disabled={loading}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Create account'}
         </Button>
 
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-muted-foreground">
           By signing up, you agree to our{' '}
-          <span className="underline cursor-pointer text-slate-500">Terms of Service</span> and{' '}
-          <span className="underline cursor-pointer text-slate-500">Privacy Policy</span>.
+          <span className="underline cursor-pointer text-muted-foreground">Terms of Service</span> and{' '}
+          <span className="underline cursor-pointer text-muted-foreground">Privacy Policy</span>.
         </p>
       </form>
 
-      <p className="text-center text-sm text-slate-500">
+      <p className="text-center text-sm text-muted-foreground">
         Already have an account?{' '}
-        <Link href="/login" className="font-semibold text-blue-700 hover:text-blue-800 transition-colors">
+        <Link href="/login" className="font-semibold text-primary hover:text-primary/80 transition-colors">
           Sign in
         </Link>
       </p>

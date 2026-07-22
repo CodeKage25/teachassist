@@ -29,7 +29,7 @@ export default async function AdminLayout({
   const sidebar = <AdminSidebar user={profile} school={school} />
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
+    <div className="flex h-screen bg-muted/50 overflow-hidden">
       {/* Desktop sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         {sidebar}
@@ -39,7 +39,7 @@ export default async function AdminLayout({
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Topbar sidebar={sidebar} />
         <main className="flex-1 overflow-y-auto">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 animate-page-in">
             {children}
           </div>
         </main>

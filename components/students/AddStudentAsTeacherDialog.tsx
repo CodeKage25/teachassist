@@ -46,7 +46,7 @@ export function AddStudentAsTeacherDialog({
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-blue-700" />
+            <GraduationCap className="h-5 w-5 text-primary" />
             Add Student
           </DialogTitle>
           <DialogDescription>
@@ -67,7 +67,7 @@ export function AddStudentAsTeacherDialog({
           </div>
           <div className="space-y-2">
             <Label htmlFor="age">
-              Age <span className="text-slate-400 font-normal text-xs">(optional)</span>
+              Age <span className="text-muted-foreground font-normal text-xs">(optional)</span>
             </Label>
             <Input
               id="age"
@@ -92,7 +92,7 @@ export function AddStudentAsTeacherDialog({
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+              className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
               disabled={loading}
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Add Student'}

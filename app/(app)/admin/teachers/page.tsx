@@ -67,7 +67,7 @@ export default function TeachersPage() {
         description="Manage your school's teaching staff"
         action={
           <Button
-            className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
             onClick={() => setDialogOpen(true)}
           >
             <UserPlus className="h-4 w-4 mr-2" />
@@ -78,7 +78,7 @@ export default function TeachersPage() {
 
       {loading ? (
         <div className="flex justify-center py-16">
-          <Loader2 className="w-8 h-8 text-blue-700 animate-spin" />
+          <Loader2 className="w-8 h-8 text-primary animate-spin" />
         </div>
       ) : teachers.length === 0 ? (
         <EmptyState
@@ -87,7 +87,7 @@ export default function TeachersPage() {
           description="Add your first teacher. Their login credentials will be created instantly."
           action={
             <Button
-              className="bg-blue-700 hover:bg-blue-800 text-white cursor-pointer"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
               onClick={() => setDialogOpen(true)}
             >
               <UserPlus className="h-4 w-4 mr-2" />
