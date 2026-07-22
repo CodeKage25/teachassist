@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { ChevronLeft, ChevronRight, Plus, X, Calendar, Clock, BookOpen, FileText, Users, MoreHorizontal } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, X, Calendar, Clock, BookOpen, FileText, Users, MoreHorizontal, Mail, Download, ExternalLink } from 'lucide-react'
 import { toast } from 'sonner'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -91,6 +91,70 @@ function toDateKey(year: number, month: number, day: number): string {
 function todayKey(): string {
   const d = new Date()
   return toDateKey(d.getFullYear(), d.getMonth(), d.getDate())
+}
+
+/* ─── Email & calendar linking ─── */
+
+function icsStamp(date: string, time: string, hourOffset = 0): string {
+  const [y, m, d] = date.split('-')
+  const [hh = '09', mm = '00'] = (time || '09:00').split(':')
+  const hour = String((parseInt(hh, 10) + hourOffset) % 24).padStart(2, '0')
+  return `${y}${m}${d}T${hour}${mm}00`
+}
+
+function eventSummaryText(evt: CalendarEvent): string {
+  const lines = [
+    `${evt.title}`,
+    `Date: ${formatDisplayDate(evt.date)}${evt.time ? ` at ${evt.time}` : ''}`,
+  ]
+  if (evt.classroom) lines.push(`Location: ${evt.classroom}`)
+  if (evt.description) lines.push('', evt.description)
+  lines.push('', 'Sent from TeachAssist')
+  return lines.join('\n')
+}
+
+function mailtoUrl(evt: CalendarEvent): string {
+  const subject = encodeURIComponent(`[${EVENT_COLORS[evt.type].label}] ${evt.title} — ${formatDisplayDate(evt.date)}`)
+  const body = encodeURIComponent(eventSummaryText(evt))
+  return `mailto:?subject=${subject}&body=${body}`
+}
+
+function googleCalendarUrl(evt: CalendarEvent): string {
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: evt.title,
+    dates: `${icsStamp(evt.date, evt.time)}/${icsStamp(evt.date, evt.time, 1)}`,
+    details: evt.description || 'Created in TeachAssist',
+    location: evt.classroom || '',
+  })
+  return `https://calendar.google.com/calendar/render?${params.toString()}`
+}
+
+function downloadICS(evt: CalendarEvent) {
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//TeachAssist//Calendar//EN',
+    'BEGIN:VEVENT',
+    `UID:${evt.id}@teachassist`,
+    `DTSTART:${icsStamp(evt.date, evt.time)}`,
+    `DTEND:${icsStamp(evt.date, evt.time, 1)}`,
+    `SUMMARY:${evt.title.replace(/\n/g, ' ')}`,
+    `DESCRIPTION:${(evt.description || '').replace(/\n/g, '\\n')}`,
+    evt.classroom ? `LOCATION:${evt.classroom}` : '',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ]
+    .filter(Boolean)
+    .join('\r\n')
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${evt.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.ics`
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 function formatDisplayDate(dateStr: string): string {
@@ -646,6 +710,40 @@ export function SmartCalendar() {
                       </p>
                     </div>
                   )}
+                </div>
+
+                {/* Email & calendar linking */}
+                <div className="rounded-xl border border-border bg-muted/30 p-3">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                    Share & sync
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button variant="outline" size="sm" className="gap-1.5" asChild>
+                      <a href={mailtoUrl(selectedEvent)}>
+                        <Mail className="h-3.5 w-3.5" />
+                        Email event
+                      </a>
+                    </Button>
+                    <Button variant="outline" size="sm" className="gap-1.5" asChild>
+                      <a
+                        href={googleCalendarUrl(selectedEvent)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Google Calendar
+                      </a>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1.5"
+                      onClick={() => downloadICS(selectedEvent)}
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      .ics file
+                    </Button>
+                  </div>
                 </div>
 
                 <DialogFooter className="gap-2">

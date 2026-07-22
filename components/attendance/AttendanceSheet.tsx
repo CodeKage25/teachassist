@@ -11,6 +11,7 @@ import type { AttendanceStatus } from '@/types/database'
 interface Student {
   id: string
   full_name: string
+  photo_url?: string | null
 }
 
 interface Props {
@@ -150,9 +151,25 @@ export function AttendanceSheet({
             >
               {/* Student info */}
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
+                <span className="w-6 text-xs font-semibold text-muted-foreground tabular flex-shrink-0">
                   {String(i + 1).padStart(2, '0')}
-                </div>
+                </span>
+                {student.photo_url ? (
+                  <img
+                    src={student.photo_url}
+                    alt={student.full_name}
+                    className="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow-xs"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-chart-4 flex items-center justify-center text-[10px] font-bold text-primary-foreground flex-shrink-0 shadow-xs">
+                    {student.full_name
+                      .split(' ')
+                      .map((n) => n.charAt(0))
+                      .slice(0, 2)
+                      .join('')
+                      .toUpperCase()}
+                  </div>
+                )}
                 <p className="font-medium text-sm truncate">{student.full_name}</p>
               </div>
 

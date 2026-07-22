@@ -409,7 +409,7 @@ export default function LandingPage() {
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <p className="text-primary text-sm font-bold uppercase tracking-widest mb-3">Features</p>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
-              Everything a school needs. Nothing it doesn&apos;t.
+              Everything a school needs.{' '}<span className="italic text-primary">Nothing it doesn&apos;t.</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
               Purpose-built tools for administrators and teachers — no bloat, no unnecessary complexity.
@@ -445,7 +445,7 @@ export default function LandingPage() {
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
             <p className="text-primary text-sm font-bold uppercase tracking-widest mb-3">How it works</p>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
-              From sign-up to running in minutes.
+              From sign-up to running{' '}<span className="italic text-primary">in minutes.</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
               No technical knowledge required. If you can send an email, you can set up TeachAssist.
@@ -488,10 +488,10 @@ export default function LandingPage() {
                     <TrendingUp className="h-3 w-3" />
                     Mobile · PWA · Offline
                   </div>
-                  <h2 className="text-3xl sm:text-4xl font-black leading-tight tracking-tight text-balance">
+                  <h2 className="font-display text-3xl sm:text-4xl font-semibold leading-tight tracking-tight text-balance">
                     Works on any device.
                     <br />
-                    Even without internet.
+                    <span className="italic">Even without internet.</span>
                   </h2>
                   <p className="text-primary-foreground/80 leading-relaxed max-w-md">
                     Install TeachAssist on any phone or tablet as a Progressive Web App.
@@ -553,7 +553,7 @@ export default function LandingPage() {
               <span className="ml-3 text-muted-foreground text-sm">4.9 from 500+ schools</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground text-balance">
-              Used by educators everywhere
+              Used by educators{' '}<span className="italic text-primary">everywhere</span>
             </h2>
           </Reveal>
 
@@ -566,7 +566,7 @@ export default function LandingPage() {
                       <Star key={j} className="h-3.5 w-3.5 fill-current" />
                     ))}
                   </div>
-                  <blockquote className="text-foreground/80 text-sm leading-relaxed mb-6">
+                  <blockquote className="font-display italic text-foreground/85 text-base leading-relaxed mb-6">
                     &ldquo;{t.quote}&rdquo;
                   </blockquote>
                   <figcaption className="flex items-center gap-3">
@@ -594,7 +594,7 @@ export default function LandingPage() {
         </div>
         <Reveal className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-4 text-balance">
-            Ready to get organised?
+            Ready to get{' '}<span className="italic text-primary">organised?</span>
           </h2>
           <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
             Create your school, invite your team, and start managing — free, no credit card required.

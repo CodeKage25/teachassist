@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { updateClassroom } from '@/lib/actions/classrooms'
 import { addStudent } from '@/lib/actions/students'
 import { toast } from 'sonner'
@@ -33,7 +34,7 @@ import { formatDate } from '@/lib/utils'
 
 interface Props {
   classroom: { id: string; name: string; teacher_id: string | null }
-  students: { id: string; full_name: string; created_at: string }[]
+  students: { id: string; full_name: string; created_at: string; photo_url?: string | null }[]
   teachers: { id: string; full_name: string }[]
 }
 
@@ -125,16 +126,38 @@ export function ClassroomDetailClient({ classroom, students, teachers }: Props) 
         ) : (
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/30">
-                <TableHead className="font-semibold">Name</TableHead>
-                <TableHead className="font-semibold hidden sm:table-cell">Enrolled</TableHead>
+              <TableRow className="bg-muted/40 hover:bg-muted/40">
+                <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Name</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hidden sm:table-cell">Enrolled</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {students.map((s) => (
-                <TableRow key={s.id} className="hover:bg-muted/30">
-                  <TableCell className="font-medium text-sm">{s.full_name}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground hidden sm:table-cell">
+                <TableRow key={s.id} className="group transition-colors duration-200 hover:bg-muted/40">
+                  <TableCell>
+                    <Link href={`/admin/students/${s.id}`} className="flex items-center gap-3">
+                      {s.photo_url ? (
+                        <img
+                          src={s.photo_url}
+                          alt={s.full_name}
+                          className="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow-xs transition-transform duration-200 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-chart-4 flex items-center justify-center text-[10px] font-bold text-primary-foreground flex-shrink-0 shadow-xs transition-transform duration-200 group-hover:scale-105">
+                          {s.full_name
+                            .split(' ')
+                            .map((n) => n.charAt(0))
+                            .slice(0, 2)
+                            .join('')
+                            .toUpperCase()}
+                        </div>
+                      )}
+                      <span className="font-medium text-sm group-hover:text-primary transition-colors">
+                        {s.full_name}
+                      </span>
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-sm text-muted-foreground hidden sm:table-cell tabular">
                     {formatDate(s.created_at)}
                   </TableCell>
                 </TableRow>
