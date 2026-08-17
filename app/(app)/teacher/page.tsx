@@ -39,7 +39,7 @@ export default async function TeacherOverviewPage() {
               {getGreeting()}, {profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋
             </h1>
             <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
-              Here's what's happening with your classes.
+              Here&apos;s what&apos;s happening with your classes.
             </p>
           </div>
           <LessonPlanGenerator />
