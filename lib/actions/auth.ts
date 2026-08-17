@@ -49,6 +49,7 @@ export async function signIn(formData: FormData) {
 
   if (profile?.role === 'admin' && !profile.school_id) redirect('/setup')
   if (profile?.role === 'admin') redirect('/admin')
+  if (profile?.role === 'parent') redirect('/parent')
   redirect('/teacher')
 }
 

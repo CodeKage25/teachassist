@@ -252,3 +252,101 @@ Keep it practical, engaging, and appropriate for the grade level. Use clear lang
     }
   }
 }
+
+// ─────────────────────────────────────────────────────────────
+// Kcolos — Reinforcement Report Generator
+// ─────────────────────────────────────────────────────────────
+
+export interface KcolosReportInput {
+  studentName: string
+  classroomName: string
+  term: string
+  results: {
+    subject: string
+    title: string
+    type: string
+    score: number
+    maxScore: number
+  }[]
+  attendance: { present: number; absent: number; late: number }
+}
+
+export interface KcolosReportDraft {
+  summary: string
+  strengths: string[]
+  focus_areas: {
+    area: string
+    observation: string
+    suggestion: string
+    home_support: string
+    resources: { type: 'youtube' | 'reading' | 'practice'; title: string; url: string }[]
+  }[]
+}
+
+export async function generateReinforcementReport(
+  input: KcolosReportInput
+): Promise<{ draft?: KcolosReportDraft; error?: string }> {
+  if (input.results.length === 0) {
+    return { error: 'No assessment results recorded for this student yet.' }
+  }
+
+  const systemPrompt = `You are Kcolos, an educational assistant that studies each student's performance and drafts differentiated reinforcement reports. Teachers review and edit everything you write before parents see it, so be specific and practical rather than generic. Always respond with valid JSON matching exactly:
+{
+  "summary": "string (3-4 sentence performance overview a parent can understand)",
+  "strengths": ["string (specific strength, tied to the data)"],
+  "focus_areas": [
+    {
+      "area": "string (subject or skill needing reinforcement)",
+      "observation": "string (what the data shows, 1 sentence)",
+      "suggestion": "string (what the TEACHER can do in class, 1-2 sentences)",
+      "home_support": "string (what the PARENT can do at home, 1-2 sentences, no jargon)",
+      "resources": [
+        { "type": "youtube", "title": "string", "url": "https://www.youtube.com/results?search_query=<url-encoded search>" },
+        { "type": "practice", "title": "string (a concrete practice activity)", "url": "" },
+        { "type": "reading", "title": "string (what to read/revise)", "url": "" }
+      ]
+    }
+  ]
+}
+Rules: 2-4 strengths, 1-3 focus areas (only where data justifies it). For youtube resources, ONLY use youtube.com/results search URLs — never invent specific video links. Keep tone warm, honest, and encouraging.`
+
+  const resultLines = input.results
+    .map(
+      (r) =>
+        `- ${r.subject} — ${r.title} (${r.type}): ${r.score}/${r.maxScore} (${Math.round((r.score / r.maxScore) * 100)}%)`
+    )
+    .join('\n')
+
+  const userPrompt = `Draft a reinforcement report for:
+Student: ${input.studentName}
+Class: ${input.classroomName}
+Term: ${input.term}
+
+ASSESSMENT RESULTS:
+${resultLines}
+
+ATTENDANCE THIS PERIOD: ${input.attendance.present} present, ${input.attendance.absent} absent, ${input.attendance.late} late`
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      response_format: { type: 'json_object' },
+      max_tokens: 1600,
+      temperature: 0.6,
+    })
+
+    const content = response.choices[0]?.message?.content
+    if (!content) return { error: 'No response from AI service.' }
+
+    const draft = JSON.parse(content) as KcolosReportDraft
+    return { draft }
+  } catch (err) {
+    return {
+      error: err instanceof Error ? err.message : 'AI service unavailable',
+    }
+  }
+}

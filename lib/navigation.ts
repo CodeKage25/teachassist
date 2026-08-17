@@ -9,6 +9,8 @@ import {
   ClipboardCheck,
   CalendarDays,
   Gamepad2,
+  ClipboardList,
+  FileText,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -66,11 +68,13 @@ export const teacherNavGroups: NavGroup[] = [
       { label: 'My Classrooms', href: '/teacher/classrooms', icon: School, exact: false },
       { label: 'My Students', href: '/teacher/students', icon: GraduationCap, exact: false },
       { label: 'Attendance', href: '/teacher/attendance', icon: ClipboardCheck, exact: false },
+      { label: 'Gradebook', href: '/teacher/gradebook', icon: ClipboardList, exact: false },
     ],
   },
   {
-    label: 'AI Tools',
+    label: 'Kcolos AI',
     items: [
+      { label: 'Reports', href: '/teacher/reports', icon: FileText, exact: false },
       { label: 'Lesson Plans', href: '/teacher/lesson-plan', icon: Sparkles, exact: false },
       { label: 'Quiz Games', href: '/teacher/games', icon: Gamepad2, exact: false },
     ],
@@ -84,6 +88,21 @@ export const teacherNavGroups: NavGroup[] = [
   },
 ]
 
+export const parentNavGroups: NavGroup[] = [
+  {
+    label: null,
+    items: [
+      { label: 'Overview', href: '/parent', icon: LayoutDashboard, exact: true },
+    ],
+  },
+  {
+    label: 'My Children',
+    items: [
+      { label: 'Reports', href: '/parent/reports', icon: FileText, exact: false },
+    ],
+  },
+]
+
 function flatten(groups: NavGroup[]): NavItem[] {
   return groups.flatMap((g) => g.items)
 }
@@ -91,10 +110,11 @@ function flatten(groups: NavGroup[]): NavItem[] {
 /** Flat lists, used by the command palette and mobile topbar title. */
 export const adminNavItems: NavItem[] = flatten(adminNavGroups)
 export const teacherNavItems: NavItem[] = flatten(teacherNavGroups)
+export const parentNavItems: NavItem[] = flatten(parentNavGroups)
 
 /** Resolve the current page's nav label from a pathname (longest match wins). */
 export function titleForPathname(pathname: string): string | null {
-  const all = [...adminNavItems, ...teacherNavItems]
+  const all = [...adminNavItems, ...teacherNavItems, ...parentNavItems]
   let best: NavItem | null = null
   for (const item of all) {
     const matches = item.exact

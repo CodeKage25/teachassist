@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { adminNavGroups, teacherNavGroups } from '@/lib/navigation'
+import { adminNavGroups, teacherNavGroups, parentNavGroups } from '@/lib/navigation'
 import { signOut } from '@/lib/actions/auth'
 import { cn } from '@/lib/utils'
 import {
@@ -25,7 +25,7 @@ interface Command {
 /** Fires the palette open from anywhere (e.g. the sidebar search button). */
 export const OPEN_COMMAND_PALETTE_EVENT = 'teachassist:open-command-palette'
 
-export function CommandPalette({ role }: { role: 'admin' | 'teacher' }) {
+export function CommandPalette({ role }: { role: 'admin' | 'teacher' | 'parent' }) {
   const router = useRouter()
   const { resolvedTheme, setTheme } = useTheme()
   const [open, setOpen] = useState(false)
@@ -34,7 +34,12 @@ export function CommandPalette({ role }: { role: 'admin' | 'teacher' }) {
   const listRef = useRef<HTMLDivElement>(null)
 
   const commands = useMemo<Command[]>(() => {
-    const groups = role === 'admin' ? adminNavGroups : teacherNavGroups
+    const groups =
+      role === 'admin'
+        ? adminNavGroups
+        : role === 'parent'
+          ? parentNavGroups
+          : teacherNavGroups
     return [
       ...groups.flatMap((group) =>
         group.items.map((item) => ({

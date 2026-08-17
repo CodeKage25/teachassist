@@ -62,15 +62,20 @@ export async function proxy(request: NextRequest) {
     .eq('id', user.id)
     .single()
 
+  const roleHome =
+    profile?.role === 'admin'
+      ? '/admin'
+      : profile?.role === 'parent'
+        ? '/parent'
+        : '/teacher'
+
   // Authenticated user on public route → redirect to dashboard
   if (isPublic) {
     const url = request.nextUrl.clone()
     if (profile?.role === 'admin' && !profile.school_id) {
       url.pathname = '/setup'
-    } else if (profile?.role === 'admin') {
-      url.pathname = '/admin'
     } else {
-      url.pathname = '/teacher'
+      url.pathname = roleHome
     }
     return NextResponse.redirect(url)
   }
@@ -87,16 +92,17 @@ export async function proxy(request: NextRequest) {
   }
 
   // Role-based route guards
-  if (path.startsWith('/admin') && profile?.role !== 'admin') {
-    const url = request.nextUrl.clone()
-    url.pathname = '/teacher'
-    return NextResponse.redirect(url)
+  const guards: Record<string, string> = {
+    '/admin': 'admin',
+    '/teacher': 'teacher',
+    '/parent': 'parent',
   }
-
-  if (path.startsWith('/teacher') && profile?.role !== 'teacher') {
-    const url = request.nextUrl.clone()
-    url.pathname = '/admin'
-    return NextResponse.redirect(url)
+  for (const [prefix, requiredRole] of Object.entries(guards)) {
+    if (path.startsWith(prefix) && profile?.role !== requiredRole) {
+      const url = request.nextUrl.clone()
+      url.pathname = roleHome
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse

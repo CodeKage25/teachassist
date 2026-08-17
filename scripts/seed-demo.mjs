@@ -169,9 +169,157 @@ async function main() {
   }
   console.log('  messages seeded')
 
+  // 9. Kcolos: parent account, guardian links, assessments, sample report
+  //    (requires supabase/migrations/005_kcolos.sql)
+  try {
+    await seedKcolos(school, teacher)
+  } catch (err) {
+    console.warn(
+      '\n  ⚠ Kcolos seed skipped — run supabase/migrations/005_kcolos.sql first.',
+      `(${err.message ?? err})`
+    )
+  }
+
   console.log('\nDone. Log in at /login with:')
   console.log(`  Admin:   ${ADMIN_EMAIL}  /  ${PASSWORD}`)
   console.log(`  Teacher: ${TEACHER_EMAIL}  /  ${PASSWORD}`)
+  console.log(`  Parent:  ${PARENT_EMAIL}  /  ${PASSWORD}`)
+}
+
+const PARENT_EMAIL = 'parent.demo@teachassist.app'
+const TERM = 'Term 3 2026'
+
+async function seedKcolos(school, teacher) {
+  const parent = await ensureUser(PARENT_EMAIL, {
+    full_name: 'Demo Parent',
+    role: 'parent',
+    school_id: school.id,
+  })
+  await db
+    .from('users')
+    .update({ full_name: 'Demo Parent', role: 'parent', school_id: school.id })
+    .eq('id', parent.id)
+  console.log(`  parent  ${PARENT_EMAIL} (${parent.id})`)
+
+  const { data: room } = await db
+    .from('classrooms')
+    .select('id, name')
+    .eq('school_id', school.id)
+    .eq('name', 'JSS 1A')
+    .single()
+  const { data: roomStudents } = await db
+    .from('students')
+    .select('id, full_name')
+    .eq('classroom_id', room.id)
+    .order('full_name')
+
+  // Link the parent to the first two students
+  const children = (roomStudents ?? []).slice(0, 2)
+  for (const [i, child] of children.entries()) {
+    const { error } = await db.from('student_guardians').upsert(
+      {
+        parent_id: parent.id,
+        student_id: child.id,
+        relationship: i === 0 ? 'Mother' : 'Guardian',
+      },
+      { onConflict: 'parent_id,student_id' }
+    )
+    if (error) throw error
+  }
+  console.log(`  guardians linked: ${children.map((c) => c.full_name).join(', ')}`)
+
+  // Assessments + results
+  const defs = [
+    { subject: 'Mathematics', title: 'First CA Test — Fractions', type: 'ca', max_score: 20 },
+    { subject: 'English', title: 'First CA Test — Comprehension', type: 'ca', max_score: 20 },
+    { subject: 'Mathematics', title: 'Mid-term Exam', type: 'exam', max_score: 100 },
+  ]
+  const scorePatterns = [
+    [17, 12, 15, 9, 18],
+    [14, 16, 11, 13, 19],
+    [82, 55, 71, 44, 90],
+  ]
+
+  for (const [di, def] of defs.entries()) {
+    let { data: assessment } = await db
+      .from('assessments')
+      .select('id')
+      .eq('classroom_id', room.id)
+      .eq('title', def.title)
+      .eq('term', TERM)
+      .maybeSingle()
+    if (!assessment) {
+      const { data, error } = await db
+        .from('assessments')
+        .insert({
+          school_id: school.id,
+          classroom_id: room.id,
+          subject: def.subject,
+          title: def.title,
+          type: def.type,
+          term: TERM,
+          max_score: def.max_score,
+          created_by: teacher.id,
+        })
+        .select('id')
+        .single()
+      if (error) throw error
+      assessment = data
+    }
+    const rows = (roomStudents ?? []).map((s, si) => ({
+      assessment_id: assessment.id,
+      student_id: s.id,
+      score: scorePatterns[di][si % scorePatterns[di].length],
+    }))
+    const { error } = await db
+      .from('assessment_results')
+      .upsert(rows, { onConflict: 'assessment_id,student_id' })
+    if (error) throw error
+  }
+  console.log(`  assessments seeded (${defs.length}) with results for ${room.name}`)
+
+  // One published sample report for the first child
+  const child = children[0]
+  if (child) {
+    const { error } = await db.from('student_reports').upsert(
+      {
+        school_id: school.id,
+        student_id: child.id,
+        classroom_id: room.id,
+        teacher_id: teacher.id,
+        term: TERM,
+        status: 'published',
+        summary: `${child.full_name} has had a strong term overall. Mathematics is a clear strength — consistent high scores in both the CA test and mid-term exam. English comprehension is solid but has room to grow with regular reading practice at home.`,
+        strengths: [
+          'Excellent grasp of fractions — scored 17/20 on the first CA test',
+          'Strong exam technique: 82% on the Mathematics mid-term',
+          'Consistent attendance and punctuality this term',
+        ],
+        focus_areas: [
+          {
+            area: 'English — Reading comprehension',
+            observation: 'Scored 14/20 on the comprehension CA, losing marks on inference questions.',
+            suggestion: 'Pair guided reading passages with short verbal quizzes on "why" and "how" questions.',
+            home_support: 'Read a short story together twice a week and ask two or three questions about why characters acted the way they did.',
+            resources: [
+              {
+                type: 'youtube',
+                title: 'Reading comprehension strategies for kids',
+                url: 'https://www.youtube.com/results?search_query=reading+comprehension+strategies+for+kids',
+              },
+              { type: 'practice', title: 'One short comprehension passage per weekend', url: '' },
+              { type: 'reading', title: 'Age-appropriate storybooks with question prompts', url: '' },
+            ],
+          },
+        ],
+        teacher_note: `${child.full_name.split(' ')[0]} is a joy to teach — with a little more reading at home, next term's results will be even stronger.`,
+        published_at: new Date().toISOString(),
+      },
+      { onConflict: 'student_id,term' }
+    )
+    if (error) throw error
+    console.log(`  published sample report for ${child.full_name} (${TERM})`)
+  }
 }
 
 main().catch((err) => {

@@ -1,8 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Phone, User, BookOpen } from 'lucide-react'
+import { ArrowLeft, Phone, User, BookOpen, Users } from 'lucide-react'
 import { StudentPhotoUpload } from '@/components/students/StudentPhotoUpload'
+import { InviteParentDialog } from '@/components/kcolos/InviteParentDialog'
+import { getGuardiansOfStudent } from '@/lib/queries/kcolos'
 import type { Classroom, Student } from '@/types/database'
 
 type StudentDetailRow = Student & {
@@ -29,6 +31,7 @@ export default async function StudentDetailPage({ params }: Props) {
 
   const student = data as unknown as StudentDetailRow
   const classroom = student.classrooms
+  const guardians = await getGuardiansOfStudent(id)
 
   return (
     <div className="max-w-2xl">
@@ -87,6 +90,34 @@ export default async function StudentDetailPage({ params }: Props) {
             </div>
           </div>
         )}
+
+        {/* Kcolos: linked parent accounts */}
+        <div className="border-t border-border/60 pt-5">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
+              <Users className="h-3.5 w-3.5" />
+              Parent accounts
+            </p>
+            <InviteParentDialog studentId={id} studentName={student.full_name} />
+          </div>
+          {guardians.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No parent account linked yet. Invite one so they can follow published reports.
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {guardians.map((g) => (
+                <div key={g.id} className="flex items-center gap-2 text-sm text-foreground/80">
+                  <User className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  {g.full_name}
+                  {g.relationship && (
+                    <span className="text-xs text-muted-foreground">({g.relationship})</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Notes / Bio */}
         {student.bio && (

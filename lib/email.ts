@@ -71,3 +71,74 @@ export async function sendTeacherWelcomeEmail({
 
   return { data }
 }
+
+export async function sendParentWelcomeEmail({
+  to,
+  parentName,
+  studentName,
+  schoolName,
+  email,
+  password,
+  loginUrl,
+}: {
+  to: string
+  parentName: string
+  studentName: string
+  schoolName: string
+  email: string
+  password: string
+  loginUrl: string
+}) {
+  if (!resend) {
+    console.warn('RESEND_API_KEY not set — skipping parent welcome email for', to)
+    return { skipped: true }
+  }
+
+  const { data, error } = await resend.emails.send({
+    from: 'TeachAssist <onboarding@resend.dev>',
+    to,
+    subject: `Follow ${studentName}'s progress at ${schoolName}`,
+    html: `
+<!DOCTYPE html>
+<html>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f6f2; margin: 0; padding: 0;">
+  <div style="max-width: 480px; margin: 40px auto; background: #fff; border-radius: 16px; border: 1px solid #e5e2d9; overflow: hidden;">
+    <div style="background: #0e6b52; padding: 28px 32px;">
+      <h1 style="color: #fff; margin: 0; font-size: 20px; font-weight: 700;">Welcome to ${schoolName}</h1>
+      <p style="color: #b9dccf; margin: 6px 0 0; font-size: 14px;">Your parent account is ready</p>
+    </div>
+    <div style="padding: 32px;">
+      <p style="color: #374151; font-size: 15px; margin: 0 0 24px;">Hi ${parentName},</p>
+      <p style="color: #374151; font-size: 15px; margin: 0 0 24px;">
+        ${schoolName} has invited you to follow ${studentName}'s learning journey on TeachAssist.
+        You'll receive termly performance reports with practical, teacher-reviewed suggestions
+        for how to support learning at home.
+      </p>
+      <div style="background: #f4f3ee; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+        <div style="margin-bottom: 14px;">
+          <p style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 4px;">Email</p>
+          <p style="color: #0f172a; font-family: monospace; font-size: 15px; margin: 0;">${email}</p>
+        </div>
+        <div style="border-top: 1px solid #e5e2d9; padding-top: 14px;">
+          <p style="color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 4px;">Password</p>
+          <p style="color: #0f172a; font-family: monospace; font-size: 15px; margin: 0;">${password}</p>
+        </div>
+      </div>
+      <a href="${loginUrl}" style="display: inline-block; background: #0e6b52; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; margin-bottom: 24px;">
+        View your child's progress →
+      </a>
+      <p style="color: #94a3b8; font-size: 13px; margin: 0;">
+        Please change your password after your first login for security.
+      </p>
+    </div>
+  </div>
+</body>
+</html>`,
+  })
+
+  if (error) {
+    console.error('Parent welcome email failed:', error)
+    return { error: error.message }
+  }
+  return { data }
+}
