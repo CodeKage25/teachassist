@@ -2,9 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { getSchool, getSchoolMetrics } from '@/lib/queries/school'
 import { MetricCard } from '@/components/shared/MetricCard'
 import { redirect } from 'next/navigation'
-import { Users, GraduationCap, School, MessageSquare } from 'lucide-react'
+import { Users, GraduationCap, School, MessageSquare, UserPlus } from 'lucide-react'
 import { getMessages } from '@/lib/queries/messages'
-import { formatDateTime } from '@/lib/utils'
+import { formatDateTime, getGreeting } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -20,7 +20,7 @@ export default async function AdminOverviewPage() {
 
   const { data: profile } = await supabase
     .from('users')
-    .select('school_id')
+    .select('school_id, full_name')
     .eq('id', user.id)
     .single()
 
@@ -49,14 +49,27 @@ export default async function AdminOverviewPage() {
           <div className="absolute -top-24 -right-16 w-80 h-80 rounded-full bg-white/10 blur-3xl animate-float-slow" />
           <div className="absolute inset-0 bg-noise opacity-[0.05]" />
         </div>
-        <div className="relative">
-          <p className="text-sm font-medium text-primary-foreground/70">{today}</p>
-          <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
-            Welcome back 👋
-          </h1>
-          <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
-            {school ? `${school.name} — here's what's happening at your school today.` : 'Admin Dashboard'}
-          </p>
+        <div className="relative flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <p className="text-sm font-medium text-primary-foreground/70">{today}</p>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
+              {getGreeting()}, {profile.full_name?.split(' ')[0] ?? 'there'} 👋
+            </h1>
+            <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
+              {school
+                ? `${school.name} — here's what's happening at your school today.`
+                : "Here's what's happening at your school today."}
+            </p>
+          </div>
+          <Button
+            asChild
+            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 border-0 shadow-md"
+          >
+            <Link href="/admin/teachers">
+              <UserPlus className="h-4 w-4" />
+              Invite teacher
+            </Link>
+          </Button>
         </div>
       </section>
 

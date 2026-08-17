@@ -4,6 +4,7 @@ import { EmptyState } from '@/components/shared/EmptyState'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { School, Users, ArrowRight } from 'lucide-react'
+import { getGreeting } from '@/lib/utils'
 import { LessonPlanGenerator } from '@/components/shared/LessonPlanGenerator'
 
 export default async function TeacherOverviewPage() {
@@ -35,10 +36,10 @@ export default async function TeacherOverviewPage() {
               })}
             </p>
             <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-1.5">
-              Hello, {profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋
+              {getGreeting()}, {profile?.full_name?.split(' ')[0] ?? 'Teacher'} 👋
             </h1>
             <p className="text-primary-foreground/80 mt-2 text-sm sm:text-base">
-              Here are your assigned classrooms.
+              Here's what's happening with your classes.
             </p>
           </div>
           <LessonPlanGenerator />

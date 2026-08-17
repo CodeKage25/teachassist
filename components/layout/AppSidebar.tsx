@@ -8,25 +8,19 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { OPEN_COMMAND_PALETTE_EVENT } from '@/components/layout/CommandPalette'
-import { LogOut, Search, type LucideIcon } from 'lucide-react'
+import { LogOut, Search } from 'lucide-react'
 import { LogoMark } from '@/components/brand/Logo'
+import type { NavGroup } from '@/lib/navigation'
 import type { UserProfile, School as SchoolType } from '@/types/database'
-
-export interface SidebarNavItem {
-  label: string
-  href: string
-  icon: LucideIcon
-  exact: boolean
-}
 
 interface AppSidebarProps {
   user: UserProfile
   school: SchoolType | null
-  navItems: SidebarNavItem[]
+  navGroups: NavGroup[]
   roleLabel: string
 }
 
-export function AppSidebar({ user, school, navItems, roleLabel }: AppSidebarProps) {
+export function AppSidebar({ user, school, navGroups, roleLabel }: AppSidebarProps) {
   const pathname = usePathname()
 
   function isActive(href: string, exact: boolean) {
@@ -61,37 +55,48 @@ export function AppSidebar({ user, school, navItems, roleLabel }: AppSidebarProp
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {navItems.map((item) => {
-          const active = isActive(item.href, item.exact)
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={active ? 'page' : undefined}
-              className={cn(
-                'group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
-                active
-                  ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-xs'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-              )}
-            >
-              <span
-                className={cn(
-                  'absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-primary transition-all duration-200',
-                  active ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-50'
-                )}
-              />
-              <item.icon
-                className={cn(
-                  'h-4.5 w-4.5 flex-shrink-0 transition-transform duration-200',
-                  active ? 'text-primary' : 'group-hover:scale-105'
-                )}
-              />
-              {item.label}
-            </Link>
-          )
-        })}
+      <nav className="flex-1 px-3 py-4 space-y-5 overflow-y-auto">
+        {navGroups.map((group, gi) => (
+          <div key={group.label ?? gi}>
+            {group.label && (
+              <p className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 select-none">
+                {group.label}
+              </p>
+            )}
+            <div className="space-y-1">
+              {group.items.map((item) => {
+                const active = isActive(item.href, item.exact)
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? 'page' : undefined}
+                    className={cn(
+                      'group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
+                      active
+                        ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-xs'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        'absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-primary transition-all duration-200',
+                        active ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-50'
+                      )}
+                    />
+                    <item.icon
+                      className={cn(
+                        'h-4.5 w-4.5 flex-shrink-0 transition-transform duration-200',
+                        active ? 'text-primary' : 'group-hover:scale-105'
+                      )}
+                    />
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* User footer */}

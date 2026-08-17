@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
-import { Sparkles, Loader2, Copy, Check, Upload, X, FileText } from 'lucide-react'
+import { Sparkles, Loader2, Copy, Check, Upload, X, FileText, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 
 export function LessonPlanGenerator() {
@@ -242,23 +242,54 @@ export function LessonPlanGenerator() {
               )}
             </Button>
 
-            {plan && (
+            {loading && (
+              <div
+                className="rounded-xl border border-border bg-muted/40 p-4 space-y-2.5"
+                role="status"
+                aria-label="Generating lesson plan"
+              >
+                <div className="flex items-center gap-2 text-xs font-medium text-primary">
+                  <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+                  Drafting your lesson plan…
+                </div>
+                {[100, 83, 91, 66].map((w, i) => (
+                  <div
+                    key={i}
+                    className="h-2.5 rounded-full bg-muted animate-pulse"
+                    style={{ width: `${w}%`, animationDelay: `${i * 150}ms` }}
+                  />
+                ))}
+              </div>
+            )}
+
+            {plan && !loading && (
               <div className="flex-1 min-h-0 flex flex-col gap-2">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <p className="text-sm font-semibold text-foreground/80">Lesson plan ready</p>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleCopy}
-                    className="h-7 text-xs border-border text-muted-foreground hover:bg-muted/50 cursor-pointer"
-                  >
-                    {copied ? (
-                      <Check className="h-3 w-3 mr-1 text-success" />
-                    ) : (
-                      <Copy className="h-3 w-3 mr-1" />
-                    )}
-                    {copied ? 'Copied!' : 'Copy'}
-                  </Button>
+                  <div className="flex items-center gap-1.5">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleGenerate}
+                      className="h-7 text-xs border-border text-muted-foreground hover:bg-muted/50 cursor-pointer"
+                    >
+                      <RefreshCw className="h-3 w-3 mr-1" />
+                      Regenerate
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleCopy}
+                      className="h-7 text-xs border-border text-muted-foreground hover:bg-muted/50 cursor-pointer"
+                    >
+                      {copied ? (
+                        <Check className="h-3 w-3 mr-1 text-success" />
+                      ) : (
+                        <Copy className="h-3 w-3 mr-1" />
+                      )}
+                      {copied ? 'Copied!' : 'Copy'}
+                    </Button>
+                  </div>
                 </div>
                 <ScrollArea className="flex-1 min-h-0 max-h-64 rounded-xl bg-muted/50 border border-border">
                   <div className="p-4">

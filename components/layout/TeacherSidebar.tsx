@@ -1,7 +1,7 @@
 'use client'
 
 import { AppSidebar } from '@/components/layout/AppSidebar'
-import { teacherNavItems } from '@/lib/navigation'
+import { teacherNavGroups } from '@/lib/navigation'
 import type { UserProfile, School as SchoolType } from '@/types/database'
 
 interface TeacherSidebarProps {
@@ -14,7 +14,7 @@ export function TeacherSidebar({ user, school }: TeacherSidebarProps) {
     <AppSidebar
       user={user}
       school={school}
-      navItems={teacherNavItems}
+      navGroups={teacherNavGroups}
       roleLabel="Teacher"
     />
   )

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { adminNavItems, teacherNavItems } from '@/lib/navigation'
+import { adminNavGroups, teacherNavGroups } from '@/lib/navigation'
 import { signOut } from '@/lib/actions/auth'
 import { cn } from '@/lib/utils'
 import {
@@ -34,14 +34,16 @@ export function CommandPalette({ role }: { role: 'admin' | 'teacher' }) {
   const listRef = useRef<HTMLDivElement>(null)
 
   const commands = useMemo<Command[]>(() => {
-    const nav = role === 'admin' ? adminNavItems : teacherNavItems
+    const groups = role === 'admin' ? adminNavGroups : teacherNavGroups
     return [
-      ...nav.map((item) => ({
-        label: item.label,
-        hint: 'Go to',
-        icon: item.icon,
-        run: () => router.push(item.href),
-      })),
+      ...groups.flatMap((group) =>
+        group.items.map((item) => ({
+          label: item.label,
+          hint: group.label ?? 'Go to',
+          icon: item.icon,
+          run: () => router.push(item.href),
+        }))
+      ),
       {
         label: 'Toggle theme',
         hint: 'Appearance',

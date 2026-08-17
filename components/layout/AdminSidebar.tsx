@@ -1,7 +1,7 @@
 'use client'
 
 import { AppSidebar } from '@/components/layout/AppSidebar'
-import { adminNavItems } from '@/lib/navigation'
+import { adminNavGroups } from '@/lib/navigation'
 import type { UserProfile, School as SchoolType } from '@/types/database'
 
 interface AdminSidebarProps {
@@ -14,7 +14,7 @@ export function AdminSidebar({ user, school }: AdminSidebarProps) {
     <AppSidebar
       user={user}
       school={school}
-      navItems={adminNavItems}
+      navGroups={adminNavGroups}
       roleLabel="Administrator"
     />
   )
